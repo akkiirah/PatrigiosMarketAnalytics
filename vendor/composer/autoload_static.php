@@ -20,6 +20,10 @@ class ComposerStaticInit28ae56f3f44230acd2ded0312e4f802e
         array (
             'Model\\' => 6,
         ),
+        'L' => 
+        array (
+            'Latte\\' => 6,
+        ),
         'E' => 
         array (
             'Engine\\' => 7,
@@ -46,6 +50,10 @@ class ComposerStaticInit28ae56f3f44230acd2ded0312e4f802e
         'Model\\' => 
         array (
             0 => __DIR__ . '/../..' . '/Model',
+        ),
+        'Latte\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/latte',
         ),
         'Engine\\' => 
         array (

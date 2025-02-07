@@ -10,6 +10,7 @@ return array(
     'Resources\\' => array($baseDir . '/Resources'),
     'Repository\\' => array($baseDir . '/Repository'),
     'Model\\' => array($baseDir . '/Model'),
+    'Latte\\' => array($vendorDir . '/latte'),
     'Engine\\' => array($baseDir . '/Engine'),
     'Controller\\' => array($baseDir . '/Controller'),
 );
