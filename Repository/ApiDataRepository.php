@@ -53,7 +53,6 @@ class ApiDataRepository extends AbstractDatabase
 
             foreach ($data as $key => $value) {
 
-
                 if ($value['name'] == 'Valencia Meal') {
                     $item = $value;
                 }
