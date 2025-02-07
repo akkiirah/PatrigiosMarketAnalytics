@@ -8,5 +8,9 @@ class Constants
     public const DIR_TEMPLATES = 'Resources/html/';
     public const DIR_CATEGORIES_JSON = 'Resources/json/categories.json';
 
-    public const API_URL = 'https://api.arsha.io/v2/eu/category?lang=en';
+    public const API_CATEGORY_URL = 'https://api.arsha.io/v2/eu/category?lang=en';
+    public const API_ITEM_DETAIL_URL = 'https://eu-trade.naeu.playblackdesert.com/Trademarket/GetWorldMarketSubList';
+
+    public const IMG_API_URL = 'https://bdocodex.com/';
+    public const IMG_URL = self::IMG_API_URL . 'en/item/';
 }

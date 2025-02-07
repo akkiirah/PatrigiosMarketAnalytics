@@ -19,14 +19,22 @@ class ItemController
 
     public function control(): void
     {
-        $item = $this->apiDataRepository->getSingleItem(35, 4);
+        $categoryData = [
+            ['mainCategory' => 35, 'subCategory' => 4],
+            ['mainCategory' => 30, 'subCategory' => 1],
+            ['mainCategory' => 25, 'subCategory' => 6]
+        ];
 
-        $this->render($item);
+        $itemNames = ['Teff Sandwich', 'Lion Meat', 'Fig Pie', 'Couscous', 'Valencia Meal', 'Date Palm Wine'];
+
+        $items = $this->apiDataRepository->getItems($categoryData, $itemNames);
+
+        $this->render($items);
     }
 
-    public function render(Item $param): void
+    public function render(array $param): void
     {
-        $params = ['item' => $param];
+        $params = ['items' => $param];
         $this->frontendViewhelper->renderItem($params);
     }
 }

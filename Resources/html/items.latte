@@ -1,0 +1,35 @@
+{block items}
+<div class="items-wrap">
+    {foreach $items as $item}
+        {include item}  
+    {/foreach}
+</div> 
+{/block}
+
+{block item}
+    <div class="item-wrap">
+        <div class="item-head">
+            <img src="{$item->getItemImage()}"/>
+            <h2 class="item-heading">[{$item->getItemId()}] - {$item->getItemName()}
+        </div>
+
+        <div class="item-body-wrap">
+            <div class="item-body">
+                <span class="item-info-desc">Basispreis: </span>
+                <span class="item-info-value">{$item->getItemBasePrice()|number_format(0, ',', '.')}</span>
+                <span class="item-info-desc">Zuletzt: </span>
+                <span class="item-info-value">{$item->getItemLastSalePrice()|number_format(0, ',', '.')}, {$item->getItemLastSaleTime()}</span>
+                <span class="item-info-desc">Vorrat: </span>
+                <span class="item-info-value">{$item->getItemCurrentStock()|number_format(0, ',', '.')}</span>
+            </div>
+            <div class="item-body">
+                <span class="item-info-desc">Minpreis: </span>
+                <span class="item-info-value">{$item->getItemHardCapMin()|number_format(0, ',', '.')}</span>
+                <span class="item-info-desc">Maxpreis: </span>
+                <span class="item-info-value">{$item->getItemHardCapMax()|number_format(0, ',', '.')}</span>
+                <span class="item-info-etc">Kategorie: </span>
+                <span class="item-info-value">{$item->getItemCategory()->getMainCategoryName()}/{$item->getItemCategory()->getSubCategoryName()}</span>
+            </div>
+        </div>
+    </div>
+{/block}

@@ -23,11 +23,11 @@ class Category
     }
     public function getMainCategoryName(): string
     {
-        return $this->subCategory;
+        return $this->mainCategoryName;
     }
     public function getSubCategoryName(): string
     {
-        return $this->subCategory;
+        return $this->subCategoryName;
     }
     public function setMainCategory(int $mainCategory): void
     {

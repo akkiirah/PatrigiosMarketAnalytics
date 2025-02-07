@@ -7,7 +7,12 @@ class Item
     protected string $itemName = '';
     protected int $itemId = 0;
     protected int $itemBasePrice = 0;
+    protected int $itemLastSalePrice = 0;
     protected int $itemCurrentStock = 0;
+    protected int $itemHardCapMin = 0;
+    protected int $itemHardCapMax = 0;
+    protected string $itemLastSaleTime = '';
+    protected string $itemImage = '';
     protected ?Category $itemCategory = null;
 
 
@@ -23,6 +28,10 @@ class Item
     {
         return $this->itemBasePrice;
     }
+    public function getItemLastSalePrice(): int
+    {
+        return $this->itemLastSalePrice;
+    }
     public function getItemCurrentStock(): int
     {
         return $this->itemCurrentStock;
@@ -30,6 +39,10 @@ class Item
     public function getItemCategory(): Category
     {
         return $this->itemCategory;
+    }
+    public function getItemImage(): string
+    {
+        return $this->itemImage;
     }
     public function setItemName(string $itemName): void
     {
@@ -50,5 +63,37 @@ class Item
     public function setItemCategory(Category $itemCategory): void
     {
         $this->itemCategory = $itemCategory;
+    }
+    public function setItemImage(string $itemImage): void
+    {
+        $this->itemImage = $itemImage;
+    }
+    public function getItemLastSaleTime(): string
+    {
+        return $this->itemLastSaleTime;
+    }
+    public function setItemLastSaleTime(string $itemLastSaleTime): void
+    {
+        $this->itemLastSaleTime = $itemLastSaleTime;
+    }
+    public function getItemHardCapMax(): int
+    {
+        return $this->itemHardCapMax;
+    }
+    public function setItemHardCapMax(int $itemHardCapMax): void
+    {
+        $this->itemHardCapMax = $itemHardCapMax;
+    }
+    public function getItemHardCapMin(): int
+    {
+        return $this->itemHardCapMin;
+    }
+    public function setItemHardCapMin(int $itemHardCapMin): void
+    {
+        $this->itemHardCapMin = $itemHardCapMin;
+    }
+    public function setItemLastSalePrice(int $itemLastSalePrice): void
+    {
+        $this->itemLastSalePrice = $itemLastSalePrice;
     }
 }

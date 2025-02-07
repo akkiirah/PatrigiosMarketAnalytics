@@ -1,0 +1,40 @@
+.items-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 1rem;
+}
+
+.item-wrap {
+    background-color: $clr-crust;
+    padding: e_clamp(20rem, 120rem, .5rem, 1.5rem);
+}
+
+.item-head {
+    display: flex;
+    align-items: center;
+    gap: e_clamp(20rem, 120rem, .25rem, .75rem);
+    padding-bottom: e_clamp(20rem, 120rem, .5rem, 1rem);
+    margin-bottom: e_clamp(20rem, 120rem, .5rem, 2rem);
+    border-bottom: .125rem solid $clr-yellow;
+}
+
+.item-body {
+    display: grid;
+    grid-template-columns: .5fr 1fr;
+
+    &:first-of-type {
+        margin-bottom: .5rem;
+    }
+}
+
+.item-info {}
+
+.item-info-desc {}
+
+.item-info-value {}
+
+.item-info-etc {}
+
+.item-info-etc {
+    .item-info {}
+}
