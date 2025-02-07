@@ -4,6 +4,17 @@ Ein Web-Projekt zur Speicherung und Analyse von Items, inklusive Preisentwicklun
 
 ## 📝 To-Do-Liste  
 
+### **🛠️ Authentifizierung & User-Sessions**  
+- [ ] **Login- & Session-System einrichten**  
+  - [ ] Nutzer können sich einloggen & bleiben eingeloggt  
+  - [ ] Gespeicherte Daten (z. B. angeheftete Items) sind user-spezifisch  
+- [ ] **Registrierung ermöglichen (falls notwendig)**  
+  - [ ] Nutzer können sich neu registrieren  
+  - [ ] Hashing der Passwörter (bcrypt o. Ä.)  
+- [ ] **Session-Handling für eingeloggte User**  
+  - [ ] Bei Logout werden Sessions gelöscht  
+  - [ ] Sicherheitsmaßnahmen (Token, CSRF-Schutz, etc.)  
+
 ### **📂 Datenbank & API**  
 - [ ] **Items in Datenbank speichern** (alle Daten außer Preisangaben)  
 - [ ] **Alle Items von der API abrufen und speichern**  
@@ -25,6 +36,15 @@ Ein Web-Projekt zur Speicherung und Analyse von Items, inklusive Preisentwicklun
   - [ ] Wie viele Items werden täglich verkauft?  
 - [ ] **Preisprognosen basierend auf der bisherigen Entwicklung**  
   - [ ] **Schätzung für Preisveränderungen in den nächsten Tagen** (nur sinnvoll mit genügend Daten)  
+
+### **🏠 Startseite & angeheftete Items**  
+- [ ] **Startseite für eingeloggte User**  
+  - [ ] Zeigt personalisierte Daten  
+  - [ ] Enthält eine Liste angehefteter Items  
+- [ ] **Items anheften & wieder entfernen können**  
+  - [ ] Nutzer können Items anpinnen  
+  - [ ] Angepinnte Items bleiben in der Datenbank gespeichert  
+  - [ ] Pro Nutzer individuelle angeheftete Items  
 
 ### **🔍 Suche & Navigation**  
 - [ ] **Suchfunktion zum direkten Finden von Items**  
@@ -64,4 +84,8 @@ Um die Code-Struktur **übersichtlich & wartbar** zu halten, werden **API-Daten 
  │
  ├── /Service
  │   ├── ApiService.php                 <-- Vermittelt zwischen API & lokaler DB
- │   ├── ItemService.php                 <-- Verarbeitet Daten für UI
+ │   ├── ItemService.php                <-- Verarbeitet Daten für UI
+ │   ├── UserService.php                <-- Logik für Logins, Registrierungen, Sessions
+ │
+ ├── /Controller
+ │   ├── AuthController.php             <-- Login, Logout, Registrierung
