@@ -1,0 +1,42 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    font-family: $font-family-1;
+    font-size: $font-size-base;
+    color: $clr-text;
+    background-color: $clr-base;
+}
+
+.max-width-layout {
+    margin-inline: auto;
+    padding-inline: e_clamp(20rem, 108rem, 1rem, 2.75rem);
+    max-width: 108rem;
+
+    @include respond_from(108rem) {}
+}
+
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header,
+footer {
+    background-color: $clr-crust;
+}
+
+.header-wrap,
+.footer-wrap,
+.content-wrap {
+    width: 100vw;
+    padding-block: 1rem;
+}
+
+.footer-wrap {
+    margin-top: auto;
+}

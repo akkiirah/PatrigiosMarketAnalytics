@@ -1,0 +1,16 @@
+{
+    "require": {
+        "latte/latte": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Repository\\": "Repository/",
+            "View\\": "View/",
+            "Controller\\": "Controller/",
+            "Engine\\": "Engine/",
+            "Model\\": "Model/",
+            "Resources\\": "Resources/",
+            "Latte\\": "vendor/latte/"
+        }
+    }
+}

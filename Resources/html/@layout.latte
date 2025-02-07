@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+        <link rel="stylesheet" href="/Resources/css/main.css" />
+        <title>{block title|stripHtml|trim}{/block} - My Webpage</title>    
+	</head>
+
+	<body>
+        <header class="header-wrap">
+            <div class="max-width-layout">
+                {block header}{/block}
+            </div>
+        </header>
+
+		<main class="content-wrap">
+            <div class="max-width-layout">
+			    {block content}{/block}
+            </div>
+		</main>
+
+		<footer class="footer-wrap">
+            <div class="max-width-layout">
+			    {block footer}{/block}
+            </div>
+		</footer>
+        <script src="/Resources/js/main.js"></script>
+	</body>
+</html>
