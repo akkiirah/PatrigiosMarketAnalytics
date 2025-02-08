@@ -6,7 +6,6 @@ use Config\Constants;
 
 class CacheService
 {
-
     public function saveImageToCache(string $imgUrl, int $itemId): ?string
     {
         $cacheDir = __DIR__ . '/..' . Constants::DIR_ICONS_CACHE;

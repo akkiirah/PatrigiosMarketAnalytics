@@ -27,7 +27,6 @@ class ItemController
             ['mainCategory' => 20, 'subCategory' => 1],
             ['mainCategory' => 25, 'subCategory' => 3]
         ];
-
         $itemNames = ['Teff Sandwich', 'Lion Meat', 'Fig Pie', 'Couscous', 'Valencia Meal', 'Date Palm Wine', 'Freekeh', 'Date Palm'];
 
         $items = $this->apiDataRepository->getItems($categoryData, $itemNames);
