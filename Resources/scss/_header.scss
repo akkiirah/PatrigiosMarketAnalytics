@@ -1,0 +1,32 @@
+$logo-height: 3rem;
+$logo-height-text: 2rem;
+
+.header-wrap {
+    height: $logo-height;
+    padding-block: .5rem;
+
+    .max-width-layout {
+        height: 100%;
+    }
+}
+
+
+
+.logo-wrap {
+    display: flex;
+    align-items: center;
+    gap: e_clamp(64rem, 120rem, .25rem, .75rem);
+    height: 100%;
+}
+
+.logo-img,
+.logo-img-text {
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    pointer-events: none;
+}
+
+.logo-img-text {
+    height: $logo-height-text;
+}
