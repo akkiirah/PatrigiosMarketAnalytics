@@ -11,6 +11,10 @@ class ComposerStaticInit28ae56f3f44230acd2ded0312e4f802e
         array (
             'View\\' => 5,
         ),
+        'S' => 
+        array (
+            'Service\\' => 8,
+        ),
         'R' => 
         array (
             'Resources\\' => 10,
@@ -24,13 +28,10 @@ class ComposerStaticInit28ae56f3f44230acd2ded0312e4f802e
         array (
             'Latte\\' => 6,
         ),
-        'E' => 
-        array (
-            'Engine\\' => 7,
-        ),
         'C' => 
         array (
             'Controller\\' => 11,
+            'Config\\' => 7,
         ),
     );
 
@@ -38,6 +39,10 @@ class ComposerStaticInit28ae56f3f44230acd2ded0312e4f802e
         'View\\' => 
         array (
             0 => __DIR__ . '/../..' . '/View',
+        ),
+        'Service\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/Service',
         ),
         'Resources\\' => 
         array (
@@ -55,13 +60,13 @@ class ComposerStaticInit28ae56f3f44230acd2ded0312e4f802e
         array (
             0 => __DIR__ . '/..' . '/latte',
         ),
-        'Engine\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/Engine',
-        ),
         'Controller\\' => 
         array (
             0 => __DIR__ . '/../..' . '/Controller',
+        ),
+        'Config\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/Config',
         ),
     );
 

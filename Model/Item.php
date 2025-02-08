@@ -44,6 +44,18 @@ class Item
     {
         return $this->itemImage;
     }
+    public function getItemLastSaleTime(): string
+    {
+        return $this->itemLastSaleTime;
+    }
+    public function getItemHardCapMax(): int
+    {
+        return $this->itemHardCapMax;
+    }
+    public function getItemHardCapMin(): int
+    {
+        return $this->itemHardCapMin;
+    }
     public function setItemName(string $itemName): void
     {
         $this->itemName = $itemName;
@@ -64,29 +76,17 @@ class Item
     {
         $this->itemCategory = $itemCategory;
     }
-    public function setItemImage(string $itemImage): void
+    public function setItemImage(?string $itemImage): void
     {
-        $this->itemImage = $itemImage;
-    }
-    public function getItemLastSaleTime(): string
-    {
-        return $this->itemLastSaleTime;
+        $this->itemImage = $itemImage ?? '';
     }
     public function setItemLastSaleTime(string $itemLastSaleTime): void
     {
         $this->itemLastSaleTime = $itemLastSaleTime;
     }
-    public function getItemHardCapMax(): int
-    {
-        return $this->itemHardCapMax;
-    }
     public function setItemHardCapMax(int $itemHardCapMax): void
     {
         $this->itemHardCapMax = $itemHardCapMax;
-    }
-    public function getItemHardCapMin(): int
-    {
-        return $this->itemHardCapMin;
     }
     public function setItemHardCapMin(int $itemHardCapMin): void
     {

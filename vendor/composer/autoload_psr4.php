@@ -7,10 +7,11 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'View\\' => array($baseDir . '/View'),
+    'Service\\' => array($baseDir . '/Service'),
     'Resources\\' => array($baseDir . '/Resources'),
     'Repository\\' => array($baseDir . '/Repository'),
     'Model\\' => array($baseDir . '/Model'),
     'Latte\\' => array($vendorDir . '/latte'),
-    'Engine\\' => array($baseDir . '/Engine'),
     'Controller\\' => array($baseDir . '/Controller'),
+    'Config\\' => array($baseDir . '/Config'),
 );

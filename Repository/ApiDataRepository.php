@@ -2,18 +2,21 @@
 
 namespace Repository;
 
-use Engine\Constants;
+use Config\Constants;
 use Model\ItemMapper;
-use Model\Item;
+use Service\CacheService;
 
 class ApiDataRepository extends AbstractDatabase
 {
     protected string $url = '';
     protected ?ItemMapper $itemMapper = null;
+    protected ?CacheService $cacheService = null;
 
     public function __construct()
     {
         $this->itemMapper = new ItemMapper();
+        $this->cacheService = new CacheService();
+        parent::__construct();
     }
 
     protected function fetchDataFromCategory(int $mCat, int $sCat): array
@@ -35,9 +38,8 @@ class ApiDataRepository extends AbstractDatabase
 
     public function getItems(array $categoryData, array $itemNames): array
     {
-        $items = []; // Array für gefundene Items
+        $items = [];
 
-        // Durch alle übergebenen Kategorie-Daten iterieren
         foreach ($categoryData as $category) {
             $mCat = $category['mainCategory'];
             $sCat = $category['subCategory'];
@@ -51,6 +53,7 @@ class ApiDataRepository extends AbstractDatabase
                         $item['itemImage'] = $this->fetchItemImageUrl($value['id']);
                         $itemMarketInfo = $this->fetchItemData($value['id']);
                         $itemObj = $this->itemMapper->createItemFromArray($item, $itemMarketInfo['resultMsg']);
+
                         $items[] = $itemObj;
                     }
                 }
@@ -60,10 +63,11 @@ class ApiDataRepository extends AbstractDatabase
         return $items;
     }
 
-
-
-    protected function fetchItemImageUrl(int $itemId): ?string
+    public function fetchItemImageUrl(int $itemId): ?string
     {
+        if ($this->cacheService->isImageInCache($itemId)) {
+            return Constants::DIR_ICONS_CACHE . $itemId . '.webp';
+        }
 
         $url = Constants::IMG_URL . $itemId;
 
@@ -87,12 +91,17 @@ class ApiDataRepository extends AbstractDatabase
         libxml_use_internal_errors(false);
 
         $xpath = new \DOMXPath($dom);
-        $imgNode = $xpath->query("//td[@class='icon_cell']/img");
+
+        $imgNode = $xpath->query("//img[contains(@class, 'item_icon')]");
 
         if ($imgNode->length > 0) {
-            return Constants::IMG_API_URL . $imgNode->item(0)->getAttribute('src');
+            $imgUrl = Constants::IMG_API_URL . $imgNode->item(0)->getAttribute('src');
+
+            return $this->cacheService->saveImageToCache($imgUrl, $itemId);
         }
 
         return null;
     }
+
+
 }

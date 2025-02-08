@@ -7,9 +7,10 @@
             "Repository\\": "Repository/",
             "View\\": "View/",
             "Controller\\": "Controller/",
-            "Engine\\": "Engine/",
+            "Config\\": "Config/",
             "Model\\": "Model/",
             "Resources\\": "Resources/",
+            "Service\\": "Service/",
             "Latte\\": "vendor/latte/"
         }
     }

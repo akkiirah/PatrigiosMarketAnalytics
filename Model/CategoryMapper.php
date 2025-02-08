@@ -2,7 +2,7 @@
 
 namespace Model;
 
-use Engine\Constants;
+use Config\Constants;
 
 class CategoryMapper
 {

@@ -2,9 +2,9 @@
 
 namespace View;
 
-use Engine\Constants;
+use Config\Constants;
 
-abstract class AbstractFrontendViewhelper
+abstract class AbstractViewRenderer
 {
     protected ?\Latte\Engine $latte = null;
     protected string $fileName = '';

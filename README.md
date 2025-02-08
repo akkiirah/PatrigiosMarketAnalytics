@@ -21,7 +21,7 @@ Ein Web-Projekt zur Speicherung und Analyse von Items, inklusive Preisentwicklun
   - [ ] Vorher Datenbank leeren, um eine frische Datenbasis zu haben  
 - [ ] **Preise pro Item anhand der ID abrufen und speichern**  
 - [ ] **Höchsten Vorbestellpreis und niedrigsten Verkäuferpreis speichern**  
-- [ ] **Bilder speichern** (als Text in der DB oder als Datei im Cache-Verzeichnis zur Ladezeit-Optimierung)  
+- [X] **Bilder speichern** (als Text in der DB oder als Datei im Cache-Verzeichnis zur Ladezeit-Optimierung)  
 - [ ] **ApiDataRepository überarbeiten**  
   - [ ] Verschiedene APIs benötigen eigene Repositories  
   - [ ] Prüfen, ob ein `ApiController` sinnvoll ist oder nicht  

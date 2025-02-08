@@ -14,9 +14,9 @@ abstract class AbstractDatabase
     {
         try {
             $dbhost = 'localhost';
-            $dbuser = ' ';
-            $dbpass = ' ';
-            $dbname = ' ';
+            $dbuser = 'root';
+            $dbpass = '';
+            $dbname = 'mysql';
 
             $this->pdo = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

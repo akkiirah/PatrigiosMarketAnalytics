@@ -2,7 +2,7 @@
 
 namespace View;
 
-class FrontendViewhelper extends AbstractFrontendViewhelper
+class LatteViewRenderer extends AbstractViewRenderer
 {
     public function renderItem(array $params): void
     {
