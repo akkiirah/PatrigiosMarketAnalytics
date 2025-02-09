@@ -3,21 +3,11 @@
 namespace Repository;
 
 use Config\Constants;
-use Model\ItemMapper;
-use Service\CacheService;
+
 
 class ApiDataRepository extends AbstractDatabase
 {
     protected string $url = '';
-    protected ?ItemMapper $itemMapper = null;
-    protected ?CacheService $cacheService = null;
-
-    public function __construct()
-    {
-        $this->itemMapper = new ItemMapper();
-        $this->cacheService = new CacheService();
-        parent::__construct();
-    }
 
     protected function fetchDataFromCategory(int $mCat, int $sCat): array
     {
@@ -26,17 +16,17 @@ class ApiDataRepository extends AbstractDatabase
         return $this->fetchData($url, $postData);
     }
 
-    protected function fetchItemData(int $mainKey): array
+    protected function fetchItemData(int $mainKey): string
     {
         $url = Constants::API_ITEM_DETAIL_URL;
         $postData = [
             'keyType' => 0,
             'mainKey' => $mainKey
         ];
-        return $this->fetchData($url, $postData);
+        return $this->fetchData($url, $postData)['resultMsg'];
     }
 
-    public function getItems(array $categoryData, array $itemNames): array
+    public function fetchItemsFromCategory(array $categoryData): array
     {
         $items = [];
 
@@ -45,18 +35,13 @@ class ApiDataRepository extends AbstractDatabase
             $sCat = $category['subCategory'];
 
             $data = $this->fetchDataFromCategory($mCat, $sCat);
+            foreach ($data as $key => $value) {
+                $data[$key]['marketInfo'] = $this->fetchItemData($data[$key]['id']);
+            }
 
-            if ($data !== null) {
-                foreach ($data as $value) {
-                    if (in_array($value['name'], $itemNames)) {
-                        $item = $value;
-                        $item['itemImage'] = $this->fetchItemImageUrl($value['id']);
-                        $itemMarketInfo = $this->fetchItemData($value['id']);
-                        $itemObj = $this->itemMapper->createItemFromArray($item, $itemMarketInfo['resultMsg']);
-
-                        $items[] = $itemObj;
-                    }
-                }
+            // Statt das ganze $data als Element zu pushen, fügen wir die Items einzeln hinzu:
+            foreach ($data as $item) {
+                $items[] = $item;
             }
         }
 
@@ -65,9 +50,7 @@ class ApiDataRepository extends AbstractDatabase
 
     public function fetchItemImageUrl(int $itemId): ?string
     {
-        if ($this->cacheService->isImageInCache($itemId)) {
-            return Constants::DIR_ICONS_CACHE . $itemId . '.webp';
-        }
+
 
         $url = Constants::IMG_URL . $itemId;
 
@@ -97,7 +80,7 @@ class ApiDataRepository extends AbstractDatabase
         if ($imgNode->length > 0) {
             $imgUrl = Constants::IMG_API_URL . $imgNode->item(0)->getAttribute('src');
 
-            return $this->cacheService->saveImageToCache($imgUrl, $itemId);
+            return $imgUrl;
         }
 
         return null;

@@ -11,8 +11,9 @@ class ItemMapper
         $this->categoryMapper = new CategoryMapper();
     }
 
-    public function createItemFromArray(array $dataArray, string $dataMarketArray = ''): Item
+    public function createItemFromArray(array $dataArray): Item
     {
+
         $category = $this->categoryMapper->createCategoryFromArray($dataArray);
 
         $item = new Item();
@@ -23,15 +24,12 @@ class ItemMapper
         $item->setItemImage($dataArray['itemImage']);
         $item->setItemCategory($category);
 
-        if ($dataMarketArray) {
-            $marketInfo = $this->createItemDataFromString($dataMarketArray);
+        $marketInfo = $this->createItemDataFromString($dataArray['marketInfo']);
 
-            $item->setItemHardCapMin($marketInfo['hardCapMin']);
-            $item->setItemHardCapMax($marketInfo['hardCapMax']);
-            $item->setItemLastSaleTime($marketInfo['lastSaleTime']);
-            $item->setItemLastSalePrice($marketInfo['lastSalePrice']);
-        }
-
+        $item->setItemHardCapMin($marketInfo['hardCapMin']);
+        $item->setItemHardCapMax($marketInfo['hardCapMax']);
+        $item->setItemLastSaleTime($marketInfo['lastSaleTime']);
+        $item->setItemLastSalePrice($marketInfo['lastSalePrice']);
 
         return $item;
     }
@@ -57,22 +55,16 @@ class ItemMapper
 
     private function getRelativeTime(int $timestamp): string
     {
-        // Berechne die Differenz zur aktuellen Zeit
         $currentTime = time();
         $timeDiff = $currentTime - $timestamp;
 
-        // Bestimmen, ob die Zeit in Sekunden oder Minuten oder Stunden angegeben werden soll
         if ($timeDiff < 60) {
-            // Weniger als eine Minute
             return "vor " . $timeDiff . " Sekunden";
         } elseif ($timeDiff < 3600) {
-            // Weniger als eine Stunde
             return "vor " . floor($timeDiff / 60) . " Minuten";
         } elseif ($timeDiff < 86400) {
-            // Weniger als ein Tag
             return "vor " . floor($timeDiff / 3600) . " Stunden";
         } else {
-            // Mehr als ein Tag
             return "vor " . floor($timeDiff / 86400) . " Tagen";
         }
     }
