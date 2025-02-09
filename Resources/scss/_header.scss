@@ -1,15 +1,17 @@
 $logo-height: 3rem;
 $logo-height-text: 2rem;
+$header-padding: .5rem;
+$header-height: $logo-height + $header-padding;
 
 .header-wrap {
     height: $logo-height;
-    padding-block: .5rem;
+    padding-block: $header-padding;
 
     .max-width-layout {
         height: 100%;
+        display: flex;
     }
 }
-
 
 
 .logo-wrap {
@@ -29,4 +31,45 @@ $logo-height-text: 2rem;
 
 .logo-img-text {
     height: $logo-height-text;
+}
+
+.menu {
+    padding-left: 2rem;
+    display: flex;
+}
+
+#menu-categories-content {
+    display: none;
+    position: absolute;
+    top: $header-height;
+    left: 0;
+    right: 0;
+    padding-block: e_clamp(20rem, 108rem, 1rem, 2.75rem);
+    padding-inline: e_clamp(20rem, 108rem, 1rem, 2.75rem);
+    backdrop-filter: blur(.75rem);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+}
+
+.main-category-wrap {
+    background-color: #1e1e2eaa;
+    padding: .5rem;
+}
+
+.main-category-button {
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    transition: color 250ms ease;
+    text-align: left;
+
+    &:focus,
+    &:hover {
+        color: $clr-yellow;
+    }
+}
+
+.sub-category-wrap {
+    background-color: #11111b55;
+    padding: .25rem;
 }

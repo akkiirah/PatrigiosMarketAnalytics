@@ -27,7 +27,7 @@ class ItemController
         // ];
         // $itemNames = ['Teff Sandwich', 'Lion Meat', 'Fig Pie', 'Couscous', 'Valencia Meal', 'Date Palm Wine', 'Freekeh', 'Date Palm'];        
         $categoryData = [
-            ['mainCategory' => 35, 'subCategory' => 4]
+            ['mainCategory' => 30, 'subCategory' => 1]
         ];
         $itemNames = ['Teff Sandwich'];
 
