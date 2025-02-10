@@ -28,6 +28,10 @@ class ComposerStaticInit28ae56f3f44230acd2ded0312e4f802e
         array (
             'Latte\\' => 6,
         ),
+        'E' => 
+        array (
+            'Engine\\' => 7,
+        ),
         'C' => 
         array (
             'Controller\\' => 11,
@@ -59,6 +63,10 @@ class ComposerStaticInit28ae56f3f44230acd2ded0312e4f802e
         'Latte\\' => 
         array (
             0 => __DIR__ . '/..' . '/latte',
+        ),
+        'Engine\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/Engine',
         ),
         'Controller\\' => 
         array (

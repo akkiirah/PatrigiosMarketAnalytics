@@ -6,6 +6,7 @@
         "psr-4": {
             "Repository\\": "Repository/",
             "View\\": "View/",
+            "Engine\\": "Engine/",
             "Controller\\": "Controller/",
             "Config\\": "Config/",
             "Model\\": "Model/",

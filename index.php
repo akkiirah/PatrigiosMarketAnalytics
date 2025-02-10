@@ -1,10 +1,9 @@
 <?php
-//header('Content-Type: application/json; charset=utf8');
 
 require 'vendor/autoload.php';
 
-use Controller\ItemController;
+use Engine\Routing;
 
-$controller = new ItemController();
+$routing = new Routing();
 
-$controller->control();
+$routing->route();

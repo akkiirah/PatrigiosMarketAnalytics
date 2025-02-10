@@ -1,3 +1,13 @@
+::-moz-selection {
+    color: $clr-yellow;
+    background: $clr-base;
+}
+
+::selection {
+    color: $clr-yellow;
+    background: $clr-crust;
+}
+
 * {
     padding: 0;
     margin: 0;
@@ -32,6 +42,7 @@ footer {
 
 .footer-wrap,
 .content-wrap {
+    margin-top: 4rem;
     width: 100vw;
     padding-block: 1rem;
 }

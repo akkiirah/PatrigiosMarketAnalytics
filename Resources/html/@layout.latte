@@ -7,11 +7,7 @@
 	</head>
 
 	<body>
-        <header class="header-wrap">
-            <div class="max-width-layout">
-                {block header}{/block}
-            </div>
-        </header>
+        {block header}{/block}
 
 		<main class="content-wrap">
             <div class="max-width-layout">
@@ -24,7 +20,6 @@
 			    {block footer}{/block}
             </div>
 		</footer>
-        <script src="/Resources/js/main.js"></script>
-        <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script>
+        <script type="module" src="/Resources/js/main.js"></script>
 	</body>
 </html>

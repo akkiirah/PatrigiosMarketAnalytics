@@ -16,20 +16,24 @@ class ItemController
         $this->frontendViewhelper = new LatteViewRenderer();
     }
 
-    public function control(): void
+    public function listAction($params): void
     {
-        // $categoryData = [
-        //     ['mainCategory' => 35, 'subCategory' => 4],
-        //     ['mainCategory' => 30, 'subCategory' => 1],
-        //     ['mainCategory' => 25, 'subCategory' => 6],
-        //     ['mainCategory' => 20, 'subCategory' => 1],
-        //     ['mainCategory' => 25, 'subCategory' => 3]
-        // ];
-        // $itemNames = ['Teff Sandwich', 'Lion Meat', 'Fig Pie', 'Couscous', 'Valencia Meal', 'Date Palm Wine', 'Freekeh', 'Date Palm'];        
-        $categoryData = [
+        $defaultCategoryData = [
             ['mainCategory' => 30, 'subCategory' => 1]
         ];
-        $itemNames = ['Teff Sandwich'];
+        if ($params && isset($params['category']) && is_array($params['category']) && count($params['category']) === 2) {
+            list($mainCategory, $subCategory) = $params['category'];
+
+            $mainCategory = is_numeric($mainCategory) ? (int) $mainCategory : $mainCategory;
+            $subCategory = is_numeric($subCategory) ? (int) $subCategory : $subCategory;
+
+            $categoryData = [
+                ['mainCategory' => $mainCategory, 'subCategory' => $subCategory]
+            ];
+        } else {
+            $categoryData = $defaultCategoryData;
+        }
+        //$itemNames = ['Black Stone', 'Concentrated Magical Black Gem', 'Memory Fragment', 'Caphras Stone'];
 
         $items = $this->itemService->getItemsFromCategory($categoryData);
 

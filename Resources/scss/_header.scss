@@ -4,8 +4,11 @@ $header-padding: .5rem;
 $header-height: $logo-height + $header-padding;
 
 .header-wrap {
+    z-index: 2;
     height: $logo-height;
     padding-block: $header-padding;
+    position: fixed;
+    width: 100%;
 
     .max-width-layout {
         height: 100%;
@@ -34,34 +37,141 @@ $header-height: $logo-height + $header-padding;
 }
 
 .menu {
-    padding-left: 2rem;
+    margin-left: auto;
     display: flex;
 }
 
 #menu-categories-content {
-    display: none;
-    position: absolute;
+    z-index: 1;
+    opacity: 0;
+    transform: translateY(-100%);
+    pointer-events: none;
+    position: fixed;
     top: $header-height;
     left: 0;
     right: 0;
     padding-block: e_clamp(20rem, 108rem, 1rem, 2.75rem);
     padding-inline: e_clamp(20rem, 108rem, 1rem, 2.75rem);
-    backdrop-filter: blur(.75rem);
+    background-color: $clr-mantle;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    transition: opacity 250ms ease, transform 250ms ease, height 250ms ease;
+
+    &.open {
+        transform: translateY(0);
+    }
 }
 
 .main-category-wrap {
-    background-color: #1e1e2eaa;
+    background-color: $clr-crust;
     padding: .5rem;
+
+    &:has(.sub-category-wrap.open) {
+        .main-category-button {
+            color: $clr-maroon;
+            background-color: $clr-base;
+
+            &::before {
+                transform: rotate(90deg);
+            }
+
+            &::after {
+                width: 100%;
+            }
+        }
+    }
+}
+
+#menu-categories-button {
+    position: relative;
+    background-color: transparent;
+    transition: width 250ms ease;
+    cursor: pointer;
+    border: none;
+    font-size: $font-size-1l;
+    text-transform: uppercase;
+    padding-right: 1.5rem;
+
+    &::before {
+        content: '';
+        position: absolute;
+        background-image: url(../assets/icons/chevron-icon.webp);
+        height: $font-size-base;
+        aspect-ratio: 1/1;
+        bottom: 0;
+        top: 1rem;
+        right: 0;
+        background-size: contain;
+        transform: rotate(180deg);
+        transition: transform 250ms ease;
+    }
+
+    span {
+        position: relative;
+        color: $clr-text;
+    }
+
+
+
+    &:hover,
+    &:focus-visible {
+        & span {
+            color: $clr-yellow;
+        }
+    }
+
+    &.open {
+
+        &::before {
+            transform: rotate(90deg);
+        }
+
+        & span {
+            color: $clr-yellow;
+        }
+    }
 }
 
 .main-category-button {
     width: 100%;
-    background-color: transparent;
+    background-color: $clr-crust;
     border: none;
-    transition: color 250ms ease;
+    transition: color 250ms ease, background-color 250ms ease;
     text-align: left;
+    color: $clr-text;
+    cursor: pointer;
+    font-size: $font-size-1l;
+    position: relative;
+    padding: .5rem;
+    padding-right: 1.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &::before {
+        content: '';
+        position: absolute;
+        background-image: url(../assets/icons/chevron-icon.webp);
+        height: $font-size-base;
+        aspect-ratio: 1/1;
+        bottom: 0;
+        top: 0.7rem;
+        right: .5rem;
+        background-size: contain;
+        transform: rotate(180deg);
+        transition: transform 250ms ease;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        height: .125rem;
+        width: 0;
+        background-color: $clr-maroon;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        transition: width 250ms ease;
+    }
 
     &:focus,
     &:hover {
@@ -70,6 +180,45 @@ $header-height: $logo-height + $header-padding;
 }
 
 .sub-category-wrap {
-    background-color: #11111b55;
-    padding: .25rem;
+    background-color: $clr-base;
+    padding-inline: .25rem;
+    padding-block: 0;
+    height: 0;
+    overflow: hidden;
+    transition: height 250ms ease, padding 250ms ease;
+
+    &.open {
+        height: 100%;
+        padding-block: .5rem;
+    }
+}
+
+.sub-category-link {
+    color: $clr-text;
+    cursor: pointer;
+    text-decoration: none;
+    line-height: 160%;
+    width: 100%;
+    transition: color 250ms ease, padding-left 250ms ease;
+    padding-left: 1rem;
+
+    &:focus,
+    &:hover {
+        color: $clr-yellow;
+        padding-left: 1.5rem;
+    }
+}
+
+.menu-overlay {
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: fixed;
+    backdrop-filter: blur(0rem);
+    transition: backdrop-filter 250ms ease;
+    pointer-events: none;
+
+    .menu-open & {
+        backdrop-filter: blur(.5rem);
+    }
 }

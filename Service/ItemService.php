@@ -47,7 +47,7 @@ class ItemService
 
     public function getAllItemsFromCategory(array $categoryData): array
     {
-        $data = $this->apiService->fetchItemsFromCategory($categoryData);
+        $data = $this->apiService->fetchItemsFromCategory(categoryData: $categoryData);
         $items = [];
 
         foreach ($data as $key => $item) {

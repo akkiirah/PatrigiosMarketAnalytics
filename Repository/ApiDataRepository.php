@@ -5,7 +5,7 @@ namespace Repository;
 use Config\Constants;
 
 
-class ApiDataRepository extends AbstractDatabase
+class ApiDataRepository extends AbstractApiRepository
 {
     protected string $url = '';
 
@@ -13,17 +13,20 @@ class ApiDataRepository extends AbstractDatabase
     {
         $url = Constants::API_CATEGORY_URL;
         $postData = ['mainCategory' => $mCat, 'subCategory' => $sCat];
-        return $this->fetchData($url, $postData);
+        return $this->fetchDataPost($url, $postData);
     }
 
-    protected function fetchItemData(int $mainKey): string
+    protected function fetchItemData(int $mainKey): array
     {
         $url = Constants::API_ITEM_DETAIL_URL;
-        $postData = [
-            'keyType' => 0,
-            'mainKey' => $mainKey
+        $recievedData = [];
+        $getData = [
+            'id' => $mainKey
         ];
-        return $this->fetchData($url, $postData)['resultMsg'];
+
+        $recievedData = $this->fetchDataGet($url, $getData);
+
+        return $recievedData;
     }
 
     public function fetchItemsFromCategory(array $categoryData): array
@@ -43,6 +46,8 @@ class ApiDataRepository extends AbstractDatabase
             foreach ($data as $item) {
                 $items[] = $item;
             }
+
+
         }
 
         return $items;
