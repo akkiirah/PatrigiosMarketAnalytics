@@ -1,5 +1,5 @@
 .items-wrap {
-    z-index: -1;
+    position: relative;
     display: flex;
     gap: 1rem;
     transition: opacity 250ms ease, transform 250ms ease;

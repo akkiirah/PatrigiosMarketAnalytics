@@ -4,7 +4,7 @@ $header-padding: .5rem;
 $header-height: $logo-height + $header-padding;
 
 .header-wrap {
-    z-index: 2;
+    z-index: 3;
     height: $logo-height;
     padding-block: $header-padding;
     position: fixed;
@@ -51,7 +51,7 @@ a.logo-wrap {
 }
 
 #menu-categories-content {
-    z-index: 1;
+    z-index: 2;
     opacity: 0;
     transform: translateY(-100%);
     pointer-events: none;
@@ -99,6 +99,7 @@ a.logo-wrap {
     font-size: $font-size-1l;
     text-transform: uppercase;
     padding-right: 1.5rem;
+    font-weight: 600;
 
     &::before {
         content: '';
@@ -226,6 +227,7 @@ a.logo-wrap {
     backdrop-filter: blur(0rem);
     transition: backdrop-filter 250ms ease;
     pointer-events: none;
+    z-index: 1;
 
     .menu-open & {
         backdrop-filter: blur(.5rem);

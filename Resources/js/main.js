@@ -53,6 +53,7 @@ function distributeItems(itemsWrap) {
 function initItemsList(itemsWrap) {
     setTimeout(() => {
         itemsWrap.classList.add('initialized');
+        header.scrollIntoView();
     }, 250);
 }
 
@@ -82,6 +83,7 @@ function refreshData(waitInSecs) {
                 let itemsWrap = document.querySelector('.items-wrap');
                 distributeItems(itemsWrap);
                 refreshData(waitInSecs);
+                window.addEventListener('resize', debounce(() => distributeItems(itemsWrap), 100));
                 observeToNotificate();
             })
             .catch(error => console.error('Fehler beim Laden der neuen Seite:', error));
@@ -144,6 +146,7 @@ function setupPagination() {
                     }
 
                     let itemsWrap = document.querySelector('.items-wrap');
+                    document.body.scrollTop = document.documentElement.scrollTop = 0;
                     initItemsList(itemsWrap);
                 })
                 .catch(error => console.error('Fehler beim Laden der neuen Seite:', error));

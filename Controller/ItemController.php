@@ -36,7 +36,7 @@ class ItemController
         $allItems = $this->itemService->getItemsFromCategory($categoryData);
 
         $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
-        $itemsPerPage = 20;
+        $itemsPerPage = 10;
         $offset = ($page - 1) * $itemsPerPage;
         $pagedItems = array_slice($allItems, $offset, $itemsPerPage);
 
