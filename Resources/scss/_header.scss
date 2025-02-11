@@ -24,6 +24,15 @@ $header-height: $logo-height + $header-padding;
     height: 100%;
 }
 
+a.logo-wrap {
+    transition: scale 250ms ease;
+
+    &:hover,
+    &:focus-visible {
+        scale: 1.1;
+    }
+}
+
 .logo-img,
 .logo-img-text {
     height: 100%;
@@ -85,7 +94,6 @@ $header-height: $logo-height + $header-padding;
 #menu-categories-button {
     position: relative;
     background-color: transparent;
-    transition: width 250ms ease;
     cursor: pointer;
     border: none;
     font-size: $font-size-1l;
@@ -109,6 +117,7 @@ $header-height: $logo-height + $header-padding;
     span {
         position: relative;
         color: $clr-text;
+        transition: color 250ms ease;
     }
 
 
@@ -120,7 +129,7 @@ $header-height: $logo-height + $header-padding;
         }
     }
 
-    &.open {
+    .menu-open & {
 
         &::before {
             transform: rotate(90deg);

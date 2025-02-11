@@ -1,0 +1,55 @@
+.heading {
+    margin-top: e_clamp(20rem, 108rem, 3rem, 6rem);
+    margin-bottom: e_clamp(20rem, 108rem, 1.25rem, 2.75rem);
+
+    h2 {
+        width: fit-content;
+        padding-bottom: e_clamp(20rem, 108rem, .25rem, .5rem);
+        position: relative;
+
+        .seperator {
+            font-family: $font-family-2;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            height: .25rem;
+            width: 100%;
+            background-color: $clr-yellow;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            transition: width 250ms ease;
+        }
+    }
+}
+
+.pagination {
+    margin-block: e_clamp(20rem, 108rem, 1rem, 2rem);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+
+    &.disabled {
+        display: none;
+    }
+
+    #currentPage {
+        font-weight: 600;
+        background-color: $clr-crust;
+        padding-block: e_clamp(20rem, 108rem, .5rem, 1.25rem);
+        padding-inline: e_clamp(20rem, 108rem, .75rem, 1.5rem);
+        line-height: 1.1;
+    }
+
+    .button {
+        &[disabled] {
+            color: $clr-text;
+            opacity: .5;
+            pointer-events: none;
+        }
+    }
+}

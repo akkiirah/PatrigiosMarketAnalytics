@@ -16,7 +16,7 @@ class ApiDataRepository extends AbstractApiRepository
         return $this->fetchDataPost($url, $postData);
     }
 
-    protected function fetchItemData(int $mainKey): array
+    public function fetchItemData(int $mainKey): array
     {
         $url = Constants::API_ITEM_DETAIL_URL;
         $recievedData = [];
@@ -29,7 +29,48 @@ class ApiDataRepository extends AbstractApiRepository
         return $recievedData;
     }
 
-    public function fetchItemsFromCategory(array $categoryData): array
+    public function fetchMultipleItemData(array $mainKeys): array
+    {
+        $url = Constants::API_ITEM_DETAIL_URL;
+        $results = [];
+
+        $multiHandle = curl_multi_init();
+        $curlHandles = [];
+
+        foreach ($mainKeys as $key) {
+            $urlWithParams = $url . '?' . http_build_query(['id' => $key]);
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $urlWithParams);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+            curl_multi_add_handle($multiHandle, $ch);
+            $curlHandles[$key] = $ch;
+        }
+
+        $running = null;
+        do {
+            $status = curl_multi_exec($multiHandle, $running);
+            if ($running) {
+                curl_multi_select($multiHandle);
+            }
+        } while ($running && $status === CURLM_OK);
+
+        foreach ($curlHandles as $key => $ch) {
+            $response = curl_multi_getcontent($ch);
+
+            $results[$key] = json_decode($response, true);
+
+            curl_multi_remove_handle($multiHandle, $ch);
+            curl_close($ch);
+        }
+
+        curl_multi_close($multiHandle);
+
+        return $results;
+    }
+
+    public function fetchItemsFromCategory(array $categoryData, bool $withMarketInfo = true): array
     {
         $items = [];
 
@@ -38,25 +79,22 @@ class ApiDataRepository extends AbstractApiRepository
             $sCat = $category['subCategory'];
 
             $data = $this->fetchDataFromCategory($mCat, $sCat);
-            foreach ($data as $key => $value) {
-                $data[$key]['marketInfo'] = $this->fetchItemData($data[$key]['id']);
+
+            if ($withMarketInfo) {
+
             }
 
-            // Statt das ganze $data als Element zu pushen, fügen wir die Items einzeln hinzu:
             foreach ($data as $item) {
                 $items[] = $item;
             }
-
-
         }
 
         return $items;
     }
 
+
     public function fetchItemImageUrl(int $itemId): ?string
     {
-
-
         $url = Constants::IMG_URL . $itemId;
 
         $ch = curl_init();
@@ -91,5 +129,65 @@ class ApiDataRepository extends AbstractApiRepository
         return null;
     }
 
+    public function fetchMultipleItemImageUrls(array $itemIds): array
+    {
+        $multiHandle = curl_multi_init();
+        $curlHandles = [];
+        $results = [];
+
+        foreach ($itemIds as $itemId) {
+            $url = Constants::IMG_URL . $itemId;
+
+            $ch = curl_init();
+            curl_setopt_array($ch, [
+                CURLOPT_URL => $url,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_FOLLOWLOCATION => true,
+            ]);
+
+            curl_multi_add_handle($multiHandle, $ch);
+            $curlHandles[$itemId] = $ch;
+        }
+
+        $running = null;
+        do {
+            $status = curl_multi_exec($multiHandle, $running);
+            if ($running) {
+                curl_multi_select($multiHandle);
+            }
+        } while ($running && $status === CURLM_OK);
+
+        foreach ($curlHandles as $itemId => $ch) {
+            $html = curl_multi_getcontent($ch);
+
+
+            $results[$itemId] = null;
+
+            if ($html) {
+                $dom = new \DOMDocument();
+
+                libxml_use_internal_errors(true);
+                $dom->loadHTML($html);
+                libxml_clear_errors();
+
+                $xpath = new \DOMXPath($dom);
+                $imgNode = $xpath->query("//img[contains(@class, 'item_icon')]");
+
+                if ($imgNode->length > 0) {
+                    $imgUrl = Constants::IMG_API_URL . $imgNode->item(0)->getAttribute('src');
+                    $results[$itemId] = $imgUrl;
+                }
+            }
+
+
+            curl_multi_remove_handle($multiHandle, $ch);
+            curl_close($ch);
+        }
+
+
+        curl_multi_close($multiHandle);
+
+        return $results;
+    }
 
 }

@@ -13,7 +13,7 @@ class Routing
     public function __construct()
     {
         $this->controller = isset($_GET['controller']) ? $_GET['controller'] : 'Item';
-        $this->action = isset($_GET['action']) ? $_GET['action'] : 'List';
+        $this->action = isset($_GET['action']) ? $_GET['action'] : 'Start';
         $this->params = isset($_GET['params']) ? $this->parseParams($_GET['params']) : [];
     }
 
@@ -27,10 +27,10 @@ class Routing
                 $controllerInstance = new $controller();
                 $controllerInstance->$action($this->params);
             } else {
-                echo 'nee';
+                echo 'hoppla ' . $action . ' exisitert nich';
             }
         } else {
-            echo 'nein';
+            echo 'hoppla ' . $controller . ' exisitert nich';
         }
     }
 

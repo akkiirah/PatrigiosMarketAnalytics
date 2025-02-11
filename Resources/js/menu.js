@@ -43,7 +43,7 @@ function createSubCategoryContainer(subCats, mainCatId) {
                 const subItemLink = document.createElement('a');
                 subItemLink.classList.add('sub-category-link');
                 subItemLink.textContent = subCatName;
-                subItemLink.href = '?controller=Item&action=list&params={category:' + mainCatId + '-' + subCatId + '}';
+                subItemLink.href = '?controller=Item&action=list&page=1&params={category:' + mainCatId + '-' + subCatId + '}';
                 subMenuDiv.appendChild(subItemLink);
                 subMenuDiv.appendChild(document.createElement('br'));
             }

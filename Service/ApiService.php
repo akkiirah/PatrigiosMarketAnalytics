@@ -13,14 +13,24 @@ class ApiService
         $this->apiDataRepository = new ApiDataRepository();
     }
 
-    public function fetchItemsFromCategory(array $categoryData): array
+    public function fetchItemsFromCategory(array $categoryData, bool $withMarketInfo): array
     {
-        $items = $this->apiDataRepository->fetchItemsFromCategory($categoryData);
+        $items = $this->apiDataRepository->fetchItemsFromCategory($categoryData, $withMarketInfo);
         return $items;
     }
-    public function fetchItemsImages(int $itemId): ?string
+    public function fetchItemsImages(array $itemIds): ?array
     {
-        $itemImage = $this->apiDataRepository->fetchItemImageUrl($itemId);
+        $itemImage = $this->apiDataRepository->fetchMultipleItemImageUrls($itemIds);
         return $itemImage;
+    }
+    public function fetchItemData(int $itemId): ?array
+    {
+        $marketInfo = $this->apiDataRepository->fetchItemData($itemId);
+        return $marketInfo;
+    }
+    public function fetchMultipleItemData(array $itemIds): ?array
+    {
+        $marketInfo = $this->apiDataRepository->fetchMultipleItemData($itemIds);
+        return $marketInfo;
     }
 }

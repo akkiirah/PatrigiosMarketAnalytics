@@ -1,16 +1,25 @@
 import { buildMenu } from './menu.js';
+let lastNotificationTime = {};
+const itemsWrap = document.querySelector('.items-wrap');
 
 window.addEventListener('DOMContentLoaded', function () {
 
-    const itemsWrap = document.querySelector('.items-wrap');
-
-    distributeItems(itemsWrap);
-    //refreshPage(60);
-
     loadCategories();
 
+    if (document.getElementById('itemsContainer') && document.getElementById('itemsContainer').classList.contains('list')) {
+        initItemsList(itemsWrap);
+        setupPagination();
+    }
 
-    window.addEventListener('resize', debounce(() => distributeItems(itemsWrap), 100));
+    if (document.getElementById('itemsContainer') && document.getElementById('itemsContainer').classList.contains('start')) {
+        distributeItems(itemsWrap);
+        window.addEventListener('resize', debounce(() => distributeItems(itemsWrap), 100));
+        refreshData(5);
+    }
+
+    Notification.requestPermission();
+
+    generateHomeLink();
 });
 
 function distributeItems(itemsWrap) {
@@ -38,6 +47,13 @@ function distributeItems(itemsWrap) {
     });
 
     columns.forEach(column => itemsWrap.appendChild(column));
+    initItemsList(itemsWrap)
+}
+
+function initItemsList(itemsWrap) {
+    setTimeout(() => {
+        itemsWrap.classList.add('initialized');
+    }, 250);
 }
 
 function debounce(func, wait) {
@@ -48,10 +64,28 @@ function debounce(func, wait) {
     };
 }
 
-function refreshPage(waitInSecs) {
+function refreshData(waitInSecs) {
     setTimeout(() => {
-        window.location.reload();
-    }, (1000 * wait));
+        fetch(new URLSearchParams(window.location.search))
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newContent = doc.querySelector('#itemsContainer');
+
+                if (newContent) {
+                    document.querySelector('#itemsContainer').innerHTML = newContent.innerHTML;
+                } else {
+                    console.error("Kein neuer Inhalt gefunden!");
+                }
+
+                let itemsWrap = document.querySelector('.items-wrap');
+                distributeItems(itemsWrap);
+                refreshData(waitInSecs);
+                observeToNotificate();
+            })
+            .catch(error => console.error('Fehler beim Laden der neuen Seite:', error));
+    }, (1000 * waitInSecs));
 }
 
 function loadCategories() {
@@ -68,4 +102,92 @@ function loadCategories() {
         .catch(error => {
             console.error('Fehler beim Laden der JSON-Datei:', error);
         });
+}
+
+function setupPagination() {
+    let prev = document.getElementById('prevButton');
+    let next = document.getElementById('nextButton');
+
+
+    if (prev.disabled && next.disabled) {
+        document.querySelector('.pagination').classList.add('disabled');
+    }
+
+    document.addEventListener('click', function (event) {
+        if (event.target.matches('#prevButton, #indexButton, #nextButton')) {
+            if (event.target.disabled) {
+                return;
+            }
+            event.preventDefault();
+            document.querySelector('.items-wrap').classList.remove('initialized');
+            const newPage = event.target.getAttribute('data-page');
+
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('page', newPage);
+            const queryString = urlParams.toString();
+            const decodedQueryString = decodeURIComponent(queryString);
+            const newUrl = window.location.pathname + '?' + decodedQueryString;
+
+            history.pushState(null, '', newUrl);
+
+            fetch(newUrl)
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const newContent = doc.querySelector('#itemsContainer');
+
+                    if (newContent) {
+                        document.querySelector('#itemsContainer').innerHTML = newContent.innerHTML;
+                    } else {
+                        console.error("Kein neuer Inhalt gefunden!");
+                    }
+
+                    let itemsWrap = document.querySelector('.items-wrap');
+                    initItemsList(itemsWrap);
+                })
+                .catch(error => console.error('Fehler beim Laden der neuen Seite:', error));
+        }
+    });
+}
+
+function generateHomeLink() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.size <= 0) {
+        return;
+    }
+
+    let imgDiv = document.querySelector('.logo-wrap');
+    let imgDivInner = imgDiv.innerHTML;
+    let imgA = document.createElement('a');
+    imgA.href = '/';
+    imgA.classList.add('logo-wrap');
+    imgA.innerHTML = imgDivInner;
+    imgDiv.parentNode.replaceChild(imgA, imgDiv);
+}
+
+function observeToNotificate() {
+    let items = document.querySelectorAll('.item-wrap');
+
+    items.forEach(item => {
+        let lastTimeEl = item.querySelector('.item-last-time');
+        if (lastTimeEl && lastTimeEl.innerHTML.includes('Sekunden')) {
+            if (Notification.permission === "granted") {
+                let itemText = item.querySelector('.item-heading').innerHTML;
+                let now = Date.now();
+
+                if (!lastNotificationTime[itemText] || (now - lastNotificationTime[itemText] > 60000)) {
+                    // Sende die Notification nur, wenn noch keine in den letzten 60 Sekunden gesendet wurde.
+                    const notification = new Notification("ITEM SOLD", {
+                        body: 'iwas wurde verkauft ' + itemText,
+                        data: { text: itemText }
+                    });
+
+                    // Aktualisiere den Zeitstempel für dieses Item
+                    lastNotificationTime[itemText] = now;
+                    console.log("ich sende nun!");
+                }
+            }
+        }
+    });
 }

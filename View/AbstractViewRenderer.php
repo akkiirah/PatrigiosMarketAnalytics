@@ -4,6 +4,7 @@ namespace View;
 
 use Config\Constants;
 
+
 abstract class AbstractViewRenderer
 {
     protected ?\Latte\Engine $latte = null;

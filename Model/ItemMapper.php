@@ -24,8 +24,11 @@ class ItemMapper
         $item->setItemImage($dataArray['itemImage']);
         $item->setItemCategory($category);
 
-        $marketInfo = $dataArray['marketInfo'];
+        return $item;
+    }
 
+    public function addMarketInfo(Item $item, array $marketInfo): Item
+    {
         $item->setItemHardCapMin($this->getMarketValueList($marketInfo, 'priceMin'));
         $item->setItemHardCapMax($this->getMarketValueList($marketInfo, 'priceMax'));
         $item->setItemLastSalePrice($this->getMarketValueList($marketInfo, 'lastSoldPrice'));
@@ -35,28 +38,9 @@ class ItemMapper
         return $item;
     }
 
-    private function getMarketValueList(array $marketInfo, string $key, $default = 0)
+    private function getMarketValueList(array $marketInfo, string $key, int $default = 0)
     {
         return $marketInfo[$key] ?? ($marketInfo[0][$key] ?? $default);
-    }
-
-    public function createItemDataFromString(string $dataString): array
-    {
-        $dataArray = explode('-', $dataString);
-
-        $hardCapMin = (int) $dataArray[6];
-        $hardCapMax = (int) $dataArray[7];
-        $lastSalePrice = (int) $dataArray[8];
-        $lastSaleTime = (int) $dataArray[9];
-
-
-
-        $data['hardCapMin'] = $hardCapMin;
-        $data['hardCapMax'] = $hardCapMax;
-        $data['lastSalePrice'] = $lastSalePrice;
-        $data['lastSaleTime'] = $relativeTime;
-
-        return $data;
     }
 
     private function getRelativeTime(int $timestamp): string

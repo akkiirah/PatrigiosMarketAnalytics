@@ -3,7 +3,20 @@
 {block content}
 
     {if $items}
+        <div class="heading">
+            {block title}
+                {if $action == 'listAction'}
+                    <h1>List-View of Items</h1>
+                {else}
+                    <h1>Homepage</h1>
+                {/if}
+            {/block}
+                {if $action == 'listAction'}
+                    <h2>{first($items)->getItemCategory()->getMainCategoryName()}&nbsp;<span class="seperator">=></span>&nbsp;{first($items)->getItemCategory()->getSubCategoryName()}</h2>
+                {else}
+                    <h2>Favorite Items</h2>
+                {/if}
+        </div>
         {block items /}
     {/if}
-
 {/block}

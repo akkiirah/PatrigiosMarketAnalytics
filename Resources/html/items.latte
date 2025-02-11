@@ -1,45 +1,110 @@
 {block items}
-<div class="items-wrap">
-    {foreach $items as $item}
-        {include item}  
-    {/foreach}
-</div> 
+<div id="itemsContainer" n:class="$action == 'listAction' ? list : start">
+
+    <div class="items-wrap">
+        {foreach $items as $item}
+            {include item}
+        {/foreach}
+    </div>
+    {if $action == 'listAction'}
+        <nav class="pagination">
+            <button class="button nav-button" id="prevButton" data-page="{$currentPage - 1}" {if $currentPage <= 1}disabled{/if}>
+                Prev
+            </button>
+            <span id="currentPage" disabled="disabled">
+                {$currentPage} / {$lastPage}
+            </span>
+            <button class="button nav-button" id="nextButton" data-page="{$nextPage}" {if !$hasMoreItems}disabled{/if}>
+                Next
+            </button>
+        </nav>
+    {/if}
+</div>
 {/block}
 
 {block item}
     <div class="item-wrap">
         <div class="item-head">
             <img src="{$item->getItemImage()}"/>
-            <h2 class="item-heading">[{$item->getItemId()}] - {$item->getItemName()}
+            <h2 class="item-heading">[{$item->getItemId()}] - {$item->getItemName()}</h2>
         </div>
-
         <div class="item-body-wrap">
-            <div class="item-body">
-                <span class="item-info-desc">Basispreis: </span>
-                <span class="item-info-value">{$item->getItemBasePrice()|number_format(0, ',', '.')}</span>
-                {if $item->getItemLastSalePrice() != 0}
-                    <span class="item-info-desc">Zuletzt: </span>
-                    <span class="item-info-value">{$item->getItemLastSalePrice()|number_format(0, ',', '.')}, {$item->getItemLastSaleTime()}</span>
-                    {else}
-                    <span class="item-info-desc">Zuletzt: </span>
-                    <span class="item-info-value">Noch nie... angeblich lol</span>
+                {if $action == 'listAction'}
+                    <div class="item-body">
+
+                        <div class="item-values">
+                            <span class="item-info-desc item-baseprice-desc">Basispreis: </span>
+                            <span class="item-info-value item-baseprice-value">{$item->getItemBasePrice()|number_format(0, ',', '.')}</span>
+                        </div>
+                        <div class="item-values">
+                            {if $item->getItemLastSalePrice() != 0}
+                                <span class="item-info-desc item-last-desc">Zuletzt: </span>
+                                <span class="item-info-value item-last-value" >
+                                    {$item->getItemLastSalePrice()|number_format(0, ',', '.')} , <p class="item-last-time">{$item->getItemLastSaleTime()}</p>
+                                </span>
+                            {else}
+                                <span class="item-info-desc item-last-desc">Zuletzt: </span>
+                                <span class="item-info-value item-last-value">Noch nie... angeblich lol</span>
+                            {/if}
+                        </div>
+                        <div class="item-values">
+                            <span class="item-info-desc item-stock-desc">Vorrat: </span>
+                            <span class="item-info-value item-stock-value">{$item->getItemCurrentStock()|number_format(0, ',', '.')}</span>
+                        </div>
+                    </div>
+                    <div class="item-body">
+                        <div class="item-values">
+                            {if $item->getItemHardCapMin() != 0}
+                                <span class="item-info-desc item-minprice-desc">Minpreis: </span>
+                                <span class="item-info-value item-minprice-value">{$item->getItemHardCapMin()|number_format(0, ',', '.')}</span>
+                            {/if}
+                        </div>
+                        <div class="item-values">
+                            {if $item->getItemHardCapMax() != 0}
+                                <span class="item-info-desc item-maxprice-desc">Maxpreis: </span>
+                                <span class="item-info-value item-maxprice-value">{$item->getItemHardCapMax()|number_format(0, ',', '.')}</span>
+                            {/if}
+                        </div>
+                        <div class="item-values">
+                            <span class="item-info-etc item-cat-desc">Kategorie: </span>
+                            <span class="item-info-value item-cat-value">
+                                {$item->getItemCategory()->getMainCategoryName()}/{$item->getItemCategory()->getSubCategoryName()}
+                            </span>
+                        </div>
+                    </div>
+                {else}
+                    <div class="item-body">
+
+                        <span class="item-info-desc item-baseprice-desc">Basispreis: </span>
+                        <span class="item-info-value item-baseprice-value">{$item->getItemBasePrice()|number_format(0, ',', '.')}</span>
+                        {if $item->getItemLastSalePrice() != 0}
+                            <span class="item-info-desc item-last-desc">Zuletzt: </span>
+                            <span class="item-info-value item-last-value">
+                                {$item->getItemLastSalePrice()|number_format(0, ',', '.')} , <p class="item-last-time">{$item->getItemLastSaleTime()}</p>
+                            </span>
+                        {else}
+                            <span class="item-info-desc item-last-desc">Zuletzt: </span>
+                            <span class="item-info-value item-last-value">Noch nie... angeblich lol</span>
+                        {/if}
+                        <span class="item-info-desc item-stock-desc">Vorrat: </span>
+                        <span class="item-info-value item-stock-value">{$item->getItemCurrentStock()|number_format(0, ',', '.')}</span>
+                    </div>
+                    <div class="item-body">
+                        {if $item->getItemHardCapMin() != 0}
+                            <span class="item-info-desc item-minprice-desc">Minpreis: </span>
+                            <span class="item-info-value item-minprice-value">{$item->getItemHardCapMin()|number_format(0, ',', '.')}</span>
+                        {/if}
+                        {if $item->getItemHardCapMax() != 0}
+                            <span class="item-info-desc item-maxprice-desc">Maxpreis: </span>
+                            <span class="item-info-value item-maxprice-desc">{$item->getItemHardCapMax()|number_format(0, ',', '.')}</span>
+                        {/if}
+                            <span class="item-info-etc item-cat-desc">Kategorie: </span>
+                            <span class="item-info-value item-cat-value">
+                            {$item->getItemCategory()->getMainCategoryName()}/{$item->getItemCategory()->getSubCategoryName()}
+                        </span>
+                    </div>
                 {/if}
-                
-                <span class="item-info-desc">Vorrat: </span>
-                <span class="item-info-value">{$item->getItemCurrentStock()|number_format(0, ',', '.')}</span>
-            </div>
-            <div class="item-body">
-                {if $item->getItemHardCapMin() != 0}
-                    <span class="item-info-desc">Minpreis: </span>
-                    <span class="item-info-value">{$item->getItemHardCapMin()|number_format(0, ',', '.')}</span>
-                {/if}
-                {if $item->getItemHardCapMax() != 0}
-                    <span class="item-info-desc">Maxpreis: </span>
-                    <span class="item-info-value">{$item->getItemHardCapMax()|number_format(0, ',', '.')}</span>
-                {/if}
-                <span class="item-info-etc">Kategorie: </span>
-                <span class="item-info-value">{$item->getItemCategory()->getMainCategoryName()}/{$item->getItemCategory()->getSubCategoryName()}</span>
-            </div>
+
         </div>
     </div>
 {/block}
