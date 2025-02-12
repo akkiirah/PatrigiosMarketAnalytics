@@ -51,6 +51,8 @@ a.logo-wrap {
 }
 
 #menu-categories-content {
+    $padding: e_clamp(20rem, 108rem, 1rem, 2.75rem);
+
     z-index: 2;
     opacity: 0;
     transform: translateY(-100%);
@@ -59,8 +61,9 @@ a.logo-wrap {
     top: $header-height;
     left: 0;
     right: 0;
-    padding-block: e_clamp(20rem, 108rem, 1rem, 2.75rem);
-    padding-inline: e_clamp(20rem, 108rem, 1rem, 2.75rem);
+    padding-block: $padding;
+    padding-inline: $padding;
+    max-width: calc(102.25rem - #{$padding} * 2);
     background-color: $clr-mantle;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
