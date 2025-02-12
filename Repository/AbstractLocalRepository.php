@@ -7,74 +7,65 @@ use PDOException;
 
 abstract class AbstractLocalRepository
 {
-    protected $pdo;
-    protected $sql;
+    protected ?PDO $pdo = null;
+    protected string $sql = '';
 
     public function __construct()
     {
-        // try {
-        //     $dbhost = 'localhost';
-        //     $dbuser = 'root';
-        //     $dbpass = '';
-        //     $dbname = 'mysql';
-        // 
-        //     $this->pdo = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);
-        //     $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        // 
-        // } catch (PDOException $ex) {
-        //     echo $ex->getMessage();
-        // }
+        try {
+            $dbhost = 'localhost';
+            $dbuser = 'root';
+            $dbpass = '';
+            $dbname = 'mysql';
+
+            $this->pdo = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);
+            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        } catch (PDOException $ex) {
+            echo $ex->getMessage();
+        }
     }
 
-    public function query(string $parameter, array $params = []): ?array
+    protected function executeStatement(string $sql, array $params = []): \PDOStatement
     {
-        $this->sql = $parameter;
+        $this->sql = $sql;
         $stmt = $this->pdo->prepare($this->sql);
+        $stmt->execute($params);
+        return $stmt;
+    }
 
-        if ($params) {
-            foreach ($params as $key => $value) {
-                $stmt->bindValue(":$key", $value);
-            }
-        }
-
-        $stmt->execute();
+    public function query(string $sql, array $params = []): ?array
+    {
+        $stmt = $this->executeStatement($sql, $params);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $row ? $row : null;
+        return $row ?: null;
     }
-    public function queryAll(string $parameter, array $params = []): ?array
+
+    public function queryAll(string $sql, array $params = []): ?array
     {
-        $this->sql = $parameter;
-        $stmt = $this->pdo->prepare($this->sql);
-
-        if ($params) {
-            foreach ($params as $key => $value) {
-                $stmt->bindValue(":$key", $value);
-            }
-        }
-
-        $stmt->execute();
-
+        $stmt = $this->executeStatement($sql, $params);
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
         return $rows ?: null;
     }
-    public function insert(string $parameter, array $params = []): ?int
+
+    public function insert(string $sql, array $params = []): ?int
     {
-        $this->sql = $parameter;
-        $stmt = $this->pdo->prepare($this->sql);
-
-        if ($params) {
-            foreach ($params as $key => $value) {
-                $stmt->bindValue(":$key", $value);
-            }
-        }
-
-        $stmt->execute();
-
+        $stmt = $this->executeStatement($sql, $params);
         if ($stmt->rowCount() > 0) {
-            return $this->pdo->lastInsertId();
+            return (int) $this->pdo->lastInsertId();
         }
-
         return null;
+    }
+
+    public function update(string $sql, array $params = []): int
+    {
+        $stmt = $this->executeStatement($sql, $params);
+        return $stmt->rowCount();
+    }
+
+    public function delete(string $sql, array $params = []): int
+    {
+        $stmt = $this->executeStatement($sql, $params);
+        return $stmt->rowCount();
     }
 }
