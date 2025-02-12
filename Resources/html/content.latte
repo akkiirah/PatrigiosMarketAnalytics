@@ -4,6 +4,7 @@
 
     {if $items}
         <div class="heading">
+            <div class="title">
             {block title}
                 {if $action == 'listAction'}
                     <h1>List-View of Items</h1>
@@ -16,7 +17,19 @@
                 {else}
                     <h2>Favorite Items</h2>
                 {/if}
+            </div>
+            {if $action == 'listAction'}
+                <div class="amount-select">
+                    <select class="button amount-button" id="amountButton">
+                        <option value="10" {if $itemsPerPage == 10}selected{/if}>10</option>
+                        <option value="20" {if $itemsPerPage == 20}selected{/if}>20</option>
+                        <option value="50" {if $itemsPerPage == 50}selected{/if}>50</option>
+                        <option value="100" {if $itemsPerPage == 100}selected{/if}>100</option>
+                    </select>
+                </div>
+            {/if}
         </div>
+            
         {block items /}
     {/if}
 {/block}

@@ -1,6 +1,6 @@
 .heading {
     margin-top: e_clamp(20rem, 108rem, 3rem, 6rem);
-    margin-bottom: e_clamp(20rem, 108rem, 1.25rem, 2.75rem);
+    margin-bottom: e_clamp(20rem, 108rem, 1.25rem, 3.75rem);
 
     h2 {
         width: fit-content;
@@ -9,6 +9,7 @@
 
         .seperator {
             font-family: $font-family-2;
+            color: $clr-yellow;
         }
 
         &::after {
@@ -21,6 +22,19 @@
             left: 0;
             right: 0;
             transition: width 250ms ease;
+        }
+    }
+
+    &:has(.amount-select) {
+        display: flex;
+        flex-direction: column;
+
+        @include respond_from(30rem) {
+            text-align: start;
+
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-end;
         }
     }
 }
@@ -51,5 +65,14 @@
             opacity: .5;
             pointer-events: none;
         }
+    }
+}
+
+.amount-button {
+    margin-top: 3rem;
+    display: block;
+
+    @include respond_from(30rem) {
+        margin-top: 0rem;
     }
 }
