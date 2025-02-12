@@ -34,9 +34,8 @@ export function initItemsList(itemsWrap) {
     }, 250);
 }
 
-export function refreshData(waitInSecs, itemsWrap) {
+export function refreshData(waitInSecs) {
     setTimeout(() => {
-
         fetch(new URLSearchParams(window.location.search))
             .then(response => response.text())
             .then(html => {
@@ -55,7 +54,35 @@ export function refreshData(waitInSecs, itemsWrap) {
                 distributeItems(newItemsWrap);
                 observeToNotificate();
 
-                refreshData(waitInSecs, newItemsWrap);
+                refreshData(waitInSecs);
+                window.addEventListener('resize', debounce(() => distributeItems(newItemsWrap), 100));
+            })
+            .catch(error => console.error('Fehler beim Laden der neuen Seite:', error));
+    }, 1000 * waitInSecs);
+}
+
+
+export function refreshData(waitInSecs) {
+    setTimeout(() => {
+        fetch(new URLSearchParams(window.location.search))
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newContent = doc.querySelector('#itemsContainer');
+
+                if (newContent) {
+                    document.querySelector('#itemsContainer').innerHTML = newContent.innerHTML;
+                } else {
+                    console.error("Kein neuer Inhalt gefunden!");
+                }
+
+                let newItemsWrap = document.querySelector('.items-wrap');
+
+                distributeItems(newItemsWrap);
+                observeToNotificate();
+
+                refreshData(waitInSecs);
                 window.addEventListener('resize', debounce(() => distributeItems(newItemsWrap), 100));
             })
             .catch(error => console.error('Fehler beim Laden der neuen Seite:', error));

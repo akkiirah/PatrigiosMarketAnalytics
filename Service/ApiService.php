@@ -4,16 +4,19 @@ namespace Service;
 
 use Repository\ApiAssetRepository;
 use Repository\ApiItemRepository;
+use Repository\ApiMarketDataRepository;
 
 class ApiService
 {
     protected ?ApiAssetRepository $apiAssetRepository = null;
     protected ?ApiItemRepository $apiItemRepository = null;
+    protected ?ApiMarketDataRepository $apiMarketDataRepository = null;
 
     public function __construct()
     {
         $this->apiAssetRepository = new ApiAssetRepository();
         $this->apiItemRepository = new ApiItemRepository();
+        $this->apiMarketDataRepository = new ApiMarketDataRepository();
     }
 
     public function fetchItemsFromCategory(array $categoryData): array
@@ -28,12 +31,17 @@ class ApiService
     }
     public function fetchItemData(int $itemId): ?array
     {
-        $marketInfo = $this->apiItemRepository->fetchItemData($itemId);
+        $marketInfo = $this->apiMarketDataRepository->fetchItemMarketData($itemId);
         return $marketInfo;
     }
     public function fetchMultipleItemData(array $itemIds): ?array
     {
-        $marketInfo = $this->apiItemRepository->fetchMultipleItemData($itemIds);
+        $marketInfo = $this->apiMarketDataRepository->fetchMultipleItemMarketData($itemIds);
         return $marketInfo;
+    }
+    public function fetchItemPriceHistory(int $itemId): ?array
+    {
+        $priceInfo = $this->apiMarketDataRepository->fetchItemPriceHistory($itemId);
+        return $priceInfo['resultMsg'];
     }
 }

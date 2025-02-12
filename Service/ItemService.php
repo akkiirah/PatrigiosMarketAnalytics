@@ -102,4 +102,13 @@ class ItemService
         }
         return $items;
     }
+
+    public function addPriceHistoryToItem(Item $item): Item
+    {
+        $itemId = $item->getItemId();
+        $priceData = $this->apiService->fetchItemPriceHistory($itemId);
+        $newItem = $this->itemMapper->addPriceHistoryInfo($item, $priceData);
+
+        return $item;
+    }
 }
