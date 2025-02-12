@@ -53,7 +53,9 @@
     }
 }
 
-.item-last-value {
+.item-last-value,
+.item-pricehistory-wrap,
+.item-baseprice-button-wrap {
     .stonks {
         color: $clr-green;
     }
@@ -81,8 +83,13 @@
         background-repeat: no-repeat;
         aspect-ratio: 1/1;
         padding: $font-size-3s;
-        transform: rotate(180deg);
-        transition: transform 250ms ease;
+        rotate: 180deg;
+        transition: scale 250ms ease, rotate 250ms ease;
+        margin-right: .5rem;
+
+        &.expanded {
+            rotate: 90deg;
+        }
 
         &:hover,
         &:focus-visible {
@@ -94,6 +101,28 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+    }
+
+    .item-pricehistory-wrap {
+        display: grid;
+        grid-template-columns: 1.5fr auto;
+        padding-inline: .5rem;
+        margin-inline: .5rem;
+        margin-left: 0;
+        font-family: $font-family-2;
+        background-color: $clr-base;
+        height: 0;
+        transition: padding 250ms ease, margin 250ms ease, height 250ms ease;
+        overflow: scroll;
+        line-height: 1.4;
+
+
+        &.expanded {
+            padding: .5rem;
+            margin: .5rem;
+            margin-left: 0;
+            height: 8rem;
+        }
     }
 }
 

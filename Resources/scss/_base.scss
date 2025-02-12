@@ -22,8 +22,8 @@ html {
 
 .max-width-layout {
     margin-inline: auto;
-    padding-inline: e_clamp(20rem, 98.25rem, 1rem, 9rem);
-    max-width: 98.25rem;
+    padding-inline: e_clamp(20rem, 102.25rem, 1rem, 9rem);
+    max-width: 102.25rem;
 
     @include respond_from(108rem) {}
 }

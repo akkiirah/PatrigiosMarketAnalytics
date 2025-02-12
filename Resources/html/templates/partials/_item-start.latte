@@ -8,12 +8,24 @@
             <span class="item-info-desc item-baseprice-desc">Basispreis: </span>
             <span class="item-info-value item-baseprice-value">
                 <div class="item-baseprice-button-wrap">
-                    {$item->getItemBasePrice()|number_format(0, ',', '.')}
-                    <button class="button price-button" id="priceButton"></button>
+                    <p n:class="$item->getItemPriceHistory()['vor_5'] < $item->getItemBasePrice() ? 'stonks' : ($item->getItemPriceHistory()['vor_5'] > $item->getItemBasePrice() ? 'stinks' : null)">
+                        {$item->getItemBasePrice()|number_format(0, ',', '.')} 
+                    </p>
+                    
+                    <button class="button price-button" id="priceButton" data-id="{$key+1}"></button>
                 </div>
-                {if $item->getItemLastSalePrice() != 0}
+                {if $item->getItemPriceHistory() != []}
                     <div class="item-info-value item-pricehistory-wrap">
-                        
+                        {for $day = 5; $day <= 90; $day += 5}
+                            <span class="item-info-value item-pricehistory-desc">Vor {$day} Tagen:</span>
+                            <p n:class="
+                                $item->getItemPriceHistory()['vor_' . $day] > $item->getItemBasePrice() 
+                                    ? 'stonks' 
+                                    : ($item->getItemPriceHistory()['vor_' . $day] < $item->getItemBasePrice() ? 'stinks' : null)
+                            ">
+                                {$item->getItemPriceHistory()['vor_' . $day]|number_format(0, ',', '.')}
+                            </p>
+                        {/for}
                     </div>
                 {/if}
             </span>

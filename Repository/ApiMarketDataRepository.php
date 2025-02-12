@@ -13,9 +13,8 @@ class ApiMarketDataRepository extends AbstractApiRepository
         return $this->fetchData($url, $getData);
     }
 
-    public function fetchMultipleItemMarketData(array $mainKeys): array
+    public function fetchMultipleItemData(string $url, array $mainKeys): array
     {
-        $url = Constants::API_ITEM_DETAIL_URL;
         $results = [];
 
         $multiHandle = curl_multi_init();
@@ -51,10 +50,17 @@ class ApiMarketDataRepository extends AbstractApiRepository
 
         return $results;
     }
-    public function fetchItemPriceHistory(int $mainKey): array
+
+    public function fetchMultipleItemMarketData(array $mainKeys): array
+    {
+        $url = Constants::API_ITEM_DETAIL_URL;
+        $results = $this->fetchMultipleItemData($url, $mainKeys);
+        return $results;
+    }
+    public function fetchMultipleItemPriceData(array $mainKeys): array
     {
         $url = Constants::API_ITEM_PRICE_HISTORY_URL;
-        $getData = ['id' => $mainKey];
-        return $this->fetchData($url, $getData);
+        $results = $this->fetchMultipleItemData($url, $mainKeys);
+        return $results;
     }
 }

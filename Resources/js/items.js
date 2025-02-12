@@ -36,6 +36,14 @@ export function initItemsList(itemsWrap) {
 
 export function refreshData(waitInSecs) {
     setTimeout(() => {
+        const expandedItems = [];
+        document.querySelectorAll('#priceButton.expanded').forEach(btn => {
+            const id = btn.getAttribute('data-id');
+            if (id) {
+                expandedItems.push(id);
+            }
+        });
+
         fetch(new URLSearchParams(window.location.search))
             .then(response => response.text())
             .then(html => {
@@ -54,6 +62,17 @@ export function refreshData(waitInSecs) {
                 distributeItems(newItemsWrap);
                 observeToNotificate();
 
+                expandedItems.forEach(id => {
+                    const btn = document.querySelector(`#priceButton[data-id="${id}"]`);
+                    if (btn) {
+                        btn.classList.add('expanded');
+                        const priceWrap = btn.parentElement.nextElementSibling;
+                        if (priceWrap) {
+                            priceWrap.classList.add('expanded');
+                        }
+                    }
+                });
+
                 refreshData(waitInSecs);
                 window.addEventListener('resize', debounce(() => distributeItems(newItemsWrap), 100));
             })
@@ -62,27 +81,15 @@ export function refreshData(waitInSecs) {
 }
 
 
-export function updatePriceHistory() {
-    fetch(new URLSearchParams(window.location.search))
-        .then(response => response.text())
-        .then(html => {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            const newContent = doc.querySelector('#itemsContainer');
-
-            if (newContent) {
-                document.querySelector('#itemsContainer').innerHTML = newContent.innerHTML;
-            } else {
-                console.error("Kein neuer Inhalt gefunden!");
+export function showPriceHistory() {
+    document.addEventListener("click", (event) => {
+        const target = event.target;
+        if (target && target.matches('#priceButton')) {
+            target.classList.toggle('expanded');
+            const priceWrap = target.parentElement.nextElementSibling;
+            if (priceWrap) {
+                priceWrap.classList.toggle('expanded');
             }
-
-            let newItemsWrap = document.querySelector('.items-wrap');
-
-            distributeItems(newItemsWrap);
-            observeToNotificate();
-
-            refreshData(waitInSecs);
-            window.addEventListener('resize', debounce(() => distributeItems(newItemsWrap), 100));
-        })
-        .catch(error => console.error('Fehler beim Laden der neuen Seite:', error));
+        }
+    });
 }

@@ -103,12 +103,22 @@ class ItemService
         return $items;
     }
 
-    public function addPriceHistoryToItem(Item $item): Item
+    public function addPriceHistoryToItems(array $items): array
     {
-        $itemId = $item->getItemId();
-        $priceData = $this->apiService->fetchItemPriceHistory($itemId);
-        $newItem = $this->itemMapper->addPriceHistoryInfo($item, $priceData);
+        foreach ($items as $key => $item) {
+            $itemIds[] = $item->getItemId();
+        }
 
-        return $item;
+        $marketData = $this->apiService->fetchMultipleItemPriceHistory($itemIds);
+
+
+
+
+        foreach ($items as $key => $item) {
+            $itemMarketData = $marketData[$item->getItemId()]['resultMsg'];
+            $newItems[] = $this->itemMapper->addPriceHistoryInfo($item, $itemMarketData);
+        }
+
+        return $newItems;
     }
 }

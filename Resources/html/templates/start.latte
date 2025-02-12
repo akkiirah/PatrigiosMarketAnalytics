@@ -13,8 +13,8 @@
     </div>
     <div id="itemsContainer" class="start">
         <div class="items-wrap">
-            {foreach $items as $item}
-                {include 'partials/_item-start.latte' item => $item}
+            {foreach $items as $key => $item}
+                {include 'partials/_item-start.latte' item => $item, key => $key}
             {/foreach}
         </div>
     </div>

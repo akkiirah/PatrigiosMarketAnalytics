@@ -1,5 +1,5 @@
 import { loadCategories } from './categories.js';
-import { initItemsList, distributeItems, refreshData } from './items.js';
+import { initItemsList, distributeItems, refreshData, showPriceHistory } from './items.js';
 import { setupPagination, setupAmount } from './pagination.js';
 import { generateHomeLink } from './homeLink.js';
 import { debounce } from './utils.js';
@@ -21,6 +21,7 @@ export function initApp() {
             distributeItems(itemsWrap);
             window.addEventListener('resize', debounce(() => distributeItems(itemsWrap), 100));
             refreshData(5, itemsWrap);
+            showPriceHistory();
         }
 
         Notification.requestPermission();

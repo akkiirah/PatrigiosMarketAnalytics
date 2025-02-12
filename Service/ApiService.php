@@ -39,9 +39,9 @@ class ApiService
         $marketInfo = $this->apiMarketDataRepository->fetchMultipleItemMarketData($itemIds);
         return $marketInfo;
     }
-    public function fetchItemPriceHistory(int $itemId): ?array
+    public function fetchMultipleItemPriceHistory(array $itemIds): ?array
     {
-        $priceInfo = $this->apiMarketDataRepository->fetchItemPriceHistory($itemId);
-        return $priceInfo['resultMsg'];
+        $priceInfo = $this->apiMarketDataRepository->fetchMultipleItemPriceData($itemIds);
+        return $priceInfo;
     }
 }

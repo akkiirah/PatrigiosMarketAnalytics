@@ -14,6 +14,7 @@ class Item
     protected string $itemLastSaleTime = '';
     protected string $itemImage = '';
     protected ?Category $itemCategory = null;
+    protected array $itemPriceHistory = [];
 
 
     public function getItemName(): string
@@ -56,6 +57,10 @@ class Item
     {
         return $this->itemHardCapMin;
     }
+    public function getItemPriceHistory(): array
+    {
+        return $this->itemPriceHistory;
+    }
     public function setItemName(string $itemName): void
     {
         $this->itemName = $itemName;
@@ -95,5 +100,9 @@ class Item
     public function setItemLastSalePrice(int $itemLastSalePrice): void
     {
         $this->itemLastSalePrice = $itemLastSalePrice;
+    }
+    public function setItemPriceHistory(array $itemPriceHistory): void
+    {
+        $this->itemPriceHistory = $itemPriceHistory;
     }
 }

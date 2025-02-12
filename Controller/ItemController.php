@@ -57,6 +57,7 @@ class ItemController
         ];
 
         $allItems = $this->fetchAndPrepareItems($categoryData, $itemNames);
+        $allItems = $this->itemService->addPriceHistoryToItems($allItems);
 
         $templateParams = [
             'items' => $allItems,
@@ -82,4 +83,6 @@ class ItemController
         $allItems = $this->itemService->getItemsFromCategory($categoryData, $itemNames);
         return $this->itemService->addMarketInfoToItems($allItems);
     }
+
+
 }
