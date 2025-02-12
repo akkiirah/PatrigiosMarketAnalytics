@@ -5,7 +5,7 @@ namespace Config;
 class Constants
 {
     public const DIR_CACHE = 'Cache/templates';
-    public const DIR_TEMPLATES = 'Resources/html/';
+    public const DIR_TEMPLATES = 'Resources/html/templates/';
     public const DIR_CATEGORIES_JSON = 'Resources/json/categories.json';
     public const DIR_ICONS_CACHE = '/Cache/icons/';
     public const DIR_ICONS_PLACEHOLDER = '/Resources/assets/placeholder/item-placeholder.webp';

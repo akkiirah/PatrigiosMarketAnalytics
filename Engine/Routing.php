@@ -39,7 +39,6 @@ class Routing
         }
     }
 
-
     private function parseParams($paramsStr): array
     {
         $paramsStr = trim($paramsStr, '{}');
@@ -67,6 +66,4 @@ class Routing
         }
         return $result;
     }
-
-
 }

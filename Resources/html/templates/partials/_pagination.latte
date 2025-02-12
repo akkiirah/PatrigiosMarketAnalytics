@@ -1,0 +1,11 @@
+<nav class="pagination">
+    <button class="button nav-button" id="prevButton" data-page="{$currentPage - 1}" {if $currentPage <= 1}disabled{/if}>
+        Prev
+    </button>
+    <span id="currentPage" disabled="disabled">
+        {$currentPage} / {$lastPage}
+    </span>
+    <button class="button nav-button" id="nextButton" data-page="{$nextPage}" {if !$hasMoreItems}disabled{/if}>
+        Next
+    </button>
+</nav>

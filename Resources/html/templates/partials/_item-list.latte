@@ -1,0 +1,31 @@
+<div class="item-wrap">
+    <div class="item-body">
+        <img src="{$item->getItemImage()}" alt="Item Image" />
+        <h2 class="item-heading">[{$item->getItemId()}] - {$item->getItemName()}</h2>
+        <div class="item-values">
+            <span class="item-info-desc item-baseprice-desc">Basispreis: </span>
+            <span class="item-info-desc item-baseprice-desc">Letzter Preis: </span>
+            <span class="item-info-desc item-baseprice-desc">Zeitpunkt: </span>
+            <span class="item-info-desc item-baseprice-desc">Vorrat: </span>
+            <span class="item-info-value item-baseprice-value">
+                {$item->getItemBasePrice()|number_format(0, ',', '.')}
+            </span>
+            {if $item->getItemLastSalePrice() != 0}
+                <span class="item-info-value item-last-value">
+                    <p n:class="$item->getItemLastSalePrice() > $item->getItemBasePrice() ? 'stonks' : ($item->getItemLastSalePrice() < $item->getItemBasePrice() ? 'stinks' : null)">
+                        {$item->getItemLastSalePrice()|number_format(0, ',', '.')}
+                    </p>
+                </span>
+                <span class="item-info-value item-last-time-value">
+                    {$item->getItemLastSaleTime()}
+                </span>
+            {else}
+                <span class="item-info-value item-last-value">-</span>
+                <span class="item-info-value item-last-time-value">-</span>
+            {/if}
+            <span class="item-info-value item-stock-value">
+                {$item->getItemCurrentStock()|number_format(0, ',', '.')}
+            </span>
+        </div>
+    </div>
+</div>

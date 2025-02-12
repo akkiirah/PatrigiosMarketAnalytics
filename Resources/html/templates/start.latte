@@ -1,0 +1,25 @@
+{extends '../@layout.latte'}
+
+{block title}
+    Homepage - Favorite Items
+{/block}
+
+{block content}
+    <div class="heading">
+        <div class="title">
+            <h1>Homepage</h1>
+            <h2>Favorite Items</h2>
+        </div>
+    </div>
+    <div id="itemsContainer" class="start">
+        <div class="items-wrap">
+            {foreach $items as $item}
+                {include 'partials/_item-start.latte' item => $item}
+            {/foreach}
+        </div>
+    </div>
+{/block}
+
+{block footer}
+    {include 'partials/footer.latte'}
+{/block}

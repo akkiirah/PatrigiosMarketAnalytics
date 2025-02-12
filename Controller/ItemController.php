@@ -33,7 +33,7 @@ class ItemController
         $paginationData['items'] = $this->itemService->addMarketInfoToItems($paginationData['items']);
 
         $templateParams = array_merge(['action' => __FUNCTION__], $paginationData);
-        $this->render($templateParams);
+        $this->frontendViewhelper->renderList($templateParams);
     }
 
     public function startAction(array $params): void
@@ -63,12 +63,7 @@ class ItemController
             'action' => __FUNCTION__
         ];
 
-        $this->render($templateParams);
-    }
-
-    public function render(array $params): void
-    {
-        $this->frontendViewhelper->renderItem($params);
+        $this->frontendViewhelper->renderStart($templateParams);
     }
 
     protected function parseCategory(array $params, array $defaultCategoryData): array

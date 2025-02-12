@@ -8,7 +8,9 @@ use Config\Constants;
 abstract class AbstractViewRenderer
 {
     protected ?\Latte\Engine $latte = null;
-    protected string $fileName = '';
+    protected string $fileStart = '';
+    protected string $fileList = '';
+    protected string $fileDetail = '';
 
     public function __construct()
     {
@@ -17,6 +19,8 @@ abstract class AbstractViewRenderer
             return number_format($value, $decimals, $decimalSeparator, $thousandSeparator);
         });
         $this->latte->setTempDirectory(Constants::DIR_CACHE);
-        $this->fileName = Constants::DIR_TEMPLATES . 'template.latte';
+        $this->fileStart = Constants::DIR_TEMPLATES . 'start.latte';
+        $this->fileList = Constants::DIR_TEMPLATES . 'list.latte';
+        $this->fileDetail = Constants::DIR_TEMPLATES . 'detail.latte';
     }
 }

@@ -1,0 +1,24 @@
+{extends '../@layout.latte'}
+
+{block title}
+    Detail-View of Item
+{/block}
+
+{block content}
+    <div class="heading">
+        <div class="title">
+            <h1>Detail-View</h1>
+        </div>
+    </div>
+    <div id="itemsContainer" class="detail">
+        <div class="items-wrap">
+            {foreach $items as $item}
+                {include 'partials/_item-detail.latte' item => $item}
+            {/foreach}
+        </div>
+    </div>
+{/block}
+
+{block footer}
+    {include 'footer.latte'}
+{/block}

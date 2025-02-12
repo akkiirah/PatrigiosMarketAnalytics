@@ -1,0 +1,39 @@
+{extends '../@layout.latte'}
+
+{block title}
+    List-View of Items
+{/block}
+
+{block content}
+    <div class="heading">
+        <div class="title">
+            <h1>List-View of Items</h1>
+            <h2>{first($items)->getItemCategory()->getMainCategoryName()} &nbsp;&rarr;&nbsp; {first($items)->getItemCategory()->getSubCategoryName()}</h2>
+        </div>
+        <div class="amount-select">
+            <select class="button amount-button" id="amountButton">
+                <option value="10" {if $itemsPerPage == 10}selected{/if}>10</option>
+                <option value="20" {if $itemsPerPage == 20}selected{/if}>20</option>
+                <option value="50" {if $itemsPerPage == 50}selected{/if}>50</option>
+                <option value="100" {if $itemsPerPage == 100}selected{/if}>100</option>
+            </select>
+        </div>
+    </div>
+    <div id="itemsContainer" class="list">
+        <div class="items-wrap">
+            {foreach $items as $item}
+                {include 'partials/_item-list.latte' item => $item}
+            {/foreach}
+        </div>
+        {include 'partials/_pagination.latte'
+            currentPage => $currentPage,
+            lastPage => $lastPage,
+            nextPage => $nextPage,
+            hasMoreItems => $hasMoreItems
+        }
+    </div>
+{/block}
+
+{block footer}
+    {include 'footer.latte'}
+{/block}

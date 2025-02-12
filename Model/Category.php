@@ -10,7 +10,6 @@ class Category
     protected int $subCategory = 0;
     protected string $mainCategoryName = '';
     protected string $subCategoryName = '';
-    protected array $categoryNames = [];
 
 
     public function getMainCategory(): int
