@@ -4,22 +4,21 @@ namespace Repository;
 
 abstract class AbstractApiRepository
 {
-
-    public function fetchDataPost(string $url, array $postData = []): array
+    public function fetchData(string $url, array $getData = []): array
     {
-        return $this->requestData($url, $postData, 'POST');
+        if (!empty($getData)) {
+            $queryString = http_build_query($getData);
+            $separator = (strpos($url, '?') === false) ? '?' : '&';
+            $url .= $separator . $queryString;
+        }
+
+        return $this->requestData($url);
     }
 
-    public function fetchDataGet(string $url, array $getData = []): array
-    {
-        return $this->requestData($url, $getData, 'GET');
-    }
-
-    protected function requestData(string $url, array $data = [], string $method = 'GET'): array
+    protected function requestData(string $url): array
     {
         $ch = curl_init();
 
-        // Basis-CURL-Optionen
         $options = [
             CURLOPT_URL => $url,
             CURLOPT_RETURNTRANSFER => true,
@@ -32,25 +31,9 @@ abstract class AbstractApiRepository
             ]
         ];
 
-        // GET-Anfrage: Falls Daten vorhanden sind, als Query-String anhängen
-        if (strtoupper($method) === 'GET' && !empty($data)) {
-            $queryString = http_build_query($data);
-            // Prüfen, ob die URL bereits Parameter enthält
-            $separator = (strpos($url, '?') === false) ? '?' : '&';
-            $options[CURLOPT_URL] .= $separator . $queryString;
-        }
-
-        // POST-Anfrage: Optionen setzen
-        if (strtoupper($method) === 'POST') {
-            $options[CURLOPT_POST] = true;
-            $options[CURLOPT_CUSTOMREQUEST] = 'POST';
-            $options[CURLOPT_POSTFIELDS] = json_encode($data);
-        }
-
         curl_setopt_array($ch, $options);
         $response = curl_exec($ch);
 
-        // Fehlerbehandlung bei cURL-Fehlern
         if (curl_errno($ch)) {
             $error = curl_error($ch);
             curl_close($ch);

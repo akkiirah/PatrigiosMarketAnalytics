@@ -61,11 +61,7 @@ class ItemService
 
     public function getAllItemsFromCategory(array $categoryData): array
     {
-        // Ohne MarketInfo holen
-        $data = $this->apiService->fetchItemsFromCategory(
-            $categoryData,
-            false
-        );
+        $data = $this->apiService->fetchItemsFromCategory($categoryData);
         $items = [];
 
         $nonCachedItems = [];
@@ -73,39 +69,32 @@ class ItemService
             $itemId = $item['id'];
 
             if ($this->cacheService->isImageInCache($itemId)) {
-                // Bild aus dem Cache verwenden
+
                 $item['itemImage'] = Constants::DIR_ICONS_CACHE . $itemId . '.webp';
             } else {
-                // Für diesen Item wird später ein Request gestartet – merke Dir den Index
+
                 $nonCachedItems[$itemId] = $key;
             }
         }
-        unset($item); // Referenz löschen
+        unset($item);
 
-        // Schritt 2: Für alle Items, die nicht im Cache liegen, parallele HTTP-Requests starten
         if (!empty($nonCachedItems)) {
-            // Alle betroffenen Item-IDs ermitteln
             $nonCachedIds = array_keys($nonCachedItems);
 
-            // Mit Multi‑cURL die Bilder abrufen – diese Methode gibt ein Array zurück: [itemId => imgUrl|null]
             $fetchedImages = $this->apiService->fetchItemsImages($nonCachedIds);
 
-            // Ergebnisse durchgehen
             foreach ($fetchedImages as $itemId => $imgUrl) {
                 if ($imgUrl) {
-                    // Bild im Cache speichern, wenn ein Bild zurückgegeben wurde
                     $this->cacheService->saveImageToCache($imgUrl, $itemId);
                 } else {
-                    // Falls kein Bild gefunden wurde, den Platzhalter nutzen
                     $imgUrl = Constants::DIR_ICONS_PLACEHOLDER;
                 }
-                // Das Ergebnis an der entsprechenden Stelle im ursprünglichen Array zuweisen
+
                 $key = $nonCachedItems[$itemId];
                 $data[$key]['itemImage'] = $imgUrl;
             }
         }
 
-        // Schritt 3: Alle Items in die finalen Item-Objekte umwandeln
         $items = [];
         foreach ($data as $item) {
             $itemObj = $this->itemMapper->createItemFromArray($item);

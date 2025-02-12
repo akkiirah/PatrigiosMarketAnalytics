@@ -2,35 +2,38 @@
 
 namespace Service;
 
-use Repository\ApiDataRepository;
+use Repository\ApiAssetRepository;
+use Repository\ApiItemRepository;
 
 class ApiService
 {
-    protected ?ApiDataRepository $apiDataRepository = null;
+    protected ?ApiAssetRepository $apiAssetRepository = null;
+    protected ?ApiItemRepository $apiItemRepository = null;
 
     public function __construct()
     {
-        $this->apiDataRepository = new ApiDataRepository();
+        $this->apiAssetRepository = new ApiAssetRepository();
+        $this->apiItemRepository = new ApiItemRepository();
     }
 
-    public function fetchItemsFromCategory(array $categoryData, bool $withMarketInfo): array
+    public function fetchItemsFromCategory(array $categoryData): array
     {
-        $items = $this->apiDataRepository->fetchItemsFromCategory($categoryData, $withMarketInfo);
+        $items = $this->apiItemRepository->fetchItemsFromCategory($categoryData);
         return $items;
     }
     public function fetchItemsImages(array $itemIds): ?array
     {
-        $itemImage = $this->apiDataRepository->fetchMultipleItemImageUrls($itemIds);
+        $itemImage = $this->apiAssetRepository->fetchMultipleItemImageUrls($itemIds);
         return $itemImage;
     }
     public function fetchItemData(int $itemId): ?array
     {
-        $marketInfo = $this->apiDataRepository->fetchItemData($itemId);
+        $marketInfo = $this->apiItemRepository->fetchItemData($itemId);
         return $marketInfo;
     }
     public function fetchMultipleItemData(array $itemIds): ?array
     {
-        $marketInfo = $this->apiDataRepository->fetchMultipleItemData($itemIds);
+        $marketInfo = $this->apiItemRepository->fetchMultipleItemData($itemIds);
         return $marketInfo;
     }
 }

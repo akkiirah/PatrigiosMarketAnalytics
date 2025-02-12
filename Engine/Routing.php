@@ -22,7 +22,6 @@ class Routing
         $controller = 'Controller\\' . $this->controller . 'Controller';
         $action = $this->action . 'Action';
 
-        // Falls der Query-Parameter "params" gesetzt ist, parsen
         $params = [];
         if (isset($_GET['params'])) {
             $params = $this->parseParams($_GET['params']);

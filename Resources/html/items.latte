@@ -56,21 +56,17 @@
 
                             {if $item->getItemLastSalePrice() != 0}
                             <span class="item-info-value item-last-value">
-                            <p n:class="$item->getItemLastSalePrice() > $item->getItemBasePrice() ? 'stonks' : ($item->getItemLastSalePrice() < $item->getItemBasePrice() ? 'stinks' : null)">
-                                {$item->getItemLastSalePrice()|number_format(0, ',', '.')}
-                            </p>
+                                <p n:class="$item->getItemLastSalePrice() > $item->getItemBasePrice() ? 'stonks' : ($item->getItemLastSalePrice() < $item->getItemBasePrice() ? 'stinks' : null)">
+                                    {$item->getItemLastSalePrice()|number_format(0, ',', '.')}
+                                </p>
+                            </span>
+                            <span class="item-info-value item-last-time-value" >
+                                {$item->getItemLastSaleTime()}
                             </span>
                             {else}
                                 <span class="item-info-value item-last-value" >
                                     -
                                 </span>
-                            {/if}
-
-                            {if $item->getItemLastSaleTime() != 0}
-                            <span class="item-info-value item-last-time-value" >
-                                {$item->getItemLastSaleTime()}
-                            </span>
-                            {else}
                                 <span class="item-info-value item-last-time-value" >
                                     -
                                 </span>

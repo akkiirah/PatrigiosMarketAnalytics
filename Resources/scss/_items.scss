@@ -72,6 +72,11 @@
         align-items: center;
         gap: e_clamp(20rem, 120rem, .5rem, 1.5rem);
 
+        img {
+            height: 2.5rem;
+            aspect-ratio: 1/1;
+        }
+
         @include respond_from(64rem) {
             flex-direction: row;
         }

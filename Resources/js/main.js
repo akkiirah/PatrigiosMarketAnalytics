@@ -166,17 +166,13 @@ function setupPagination() {
 function setupAmount() {
     const amountSelect = document.getElementById('amountButton');
 
-    // Eventlistener für Änderungen (change) registrieren
     amountSelect.addEventListener('change', function (event) {
         event.preventDefault();
         document.querySelector('.items-wrap').classList.remove('initialized');
 
-        // Den neuen Wert aus dem select-Element holen
         const newAmount = event.target.value;
-
         const urlParams = new URLSearchParams(window.location.search);
         let paramsStr = urlParams.get('params') || '{}';
-        // Entferne die umschließenden geschweiften Klammern
         paramsStr = paramsStr.substring(1, paramsStr.length - 1);
 
         let paramsObj = {};
@@ -187,16 +183,13 @@ function setupAmount() {
             }
         });
 
-        // Update: Setze den neuen "amount"-Wert
         paramsObj['amount'] = newAmount;
 
-        // Baue den neuen params-String zusammen
         let newParamsStr = '{' + Object.entries(paramsObj)
             .map(([key, value]) => `${key}:${value}`)
             .join(',') + '}';
 
         urlParams.set('params', newParamsStr);
-        // Lösche eventuelle separate Parameter, falls sie noch vorhanden sind
         urlParams.delete('page');
         urlParams.delete('amount');
 
@@ -252,13 +245,12 @@ function observeToNotificate() {
                 let now = Date.now();
 
                 if (!lastNotificationTime[itemText] || (now - lastNotificationTime[itemText] > 60000)) {
-                    // Sende die Notification nur, wenn noch keine in den letzten 60 Sekunden gesendet wurde.
                     const notification = new Notification("ITEM SOLD", {
                         body: 'iwas wurde verkauft ' + itemText,
                         data: { text: itemText }
                     });
 
-                    // Aktualisiere den Zeitstempel für dieses Item
+
                     lastNotificationTime[itemText] = now;
                     console.log("ich sende nun!");
                 }
