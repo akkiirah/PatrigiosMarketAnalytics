@@ -16,6 +16,7 @@ Ein Web-Projekt zur Speicherung und Analyse von Items, inklusive Preisentwicklun
   - [ ] Sicherheitsmaßnahmen (Token, CSRF-Schutz, etc.)  
 
 ### **📂 Datenbank & API**  
+- [ ] **CHECKEN OB MULTICURL ÜBERHAUPT NOTWENDIG IST WEIL [HIER](https://documenter.getpostman.com/view/4028519/TzK2bEVg#1c15b03d-a58b-4c0b-859c-5da9f74d6679) "If multiple ids are given..."**  
 - [ ] **Items in Datenbank speichern** (alle Daten außer Preisangaben)  
 - [ ] **Alle Items von der API abrufen und speichern**  
   - [ ] Vorher Datenbank leeren, um eine frische Datenbasis zu haben  
