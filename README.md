@@ -22,15 +22,13 @@ Ein Web-Projekt zur Speicherung und Analyse von Items, inklusive Preisentwicklun
 - [ ] **Preise pro Item anhand der ID abrufen und speichern**  
 - [ ] **Höchsten Vorbestellpreis und niedrigsten Verkäuferpreis speichern**  
 - [X] **Bilder speichern** (als Text in der DB oder als Datei im Cache-Verzeichnis zur Ladezeit-Optimierung)  
-- [ ] **ApiDataRepository überarbeiten**  
-  - [ ] Verschiedene APIs benötigen eigene Repositories  
-  - [ ] Prüfen, ob ein `ApiController` sinnvoll ist oder nicht  
+- [X] **ApiDataRepository überarbeiten**  
+  - [X] Überarbeitung -> Verschiedene APIs in eigene Repositories  
 
 ### **📊 Preisberechnung & Anzeige**  
-- [ ] Dropdown für Preisübersicht mit folgenden Werten:  
-  - [ ] **Durchschnitt der letzten 7 Tage**  
-  - [ ] **Durchschnitt der letzten 14 Tage**  
-  - [ ] **Durchschnitt der letzten 31 Tage**  
+- [ ] Dropdown für Preisübersicht:  
+  - [X] **Auf der Startseite**  
+  - [ ] **Auf Detailseiten**  
 - [ ] **Täglichen Item-Throughput ermitteln**  
   - [ ] Wie viele Items werden täglich eingestellt?  
   - [ ] Wie viele Items werden täglich verkauft?  
@@ -40,7 +38,7 @@ Ein Web-Projekt zur Speicherung und Analyse von Items, inklusive Preisentwicklun
 ### **🏠 Startseite & angeheftete Items**  
 - [ ] **Startseite für eingeloggte User**  
   - [ ] Zeigt personalisierte Daten  
-  - [ ] Enthält eine Liste angehefteter Items  
+  - [X] Enthält eine Liste angehefteter Items  
 - [ ] **Items anheften & wieder entfernen können**  
   - [ ] Nutzer können Items anpinnen  
   - [ ] Angepinnte Items bleiben in der Datenbank gespeichert  
@@ -51,7 +49,7 @@ Ein Web-Projekt zur Speicherung und Analyse von Items, inklusive Preisentwicklun
 - [ ] **Hauptmenü mit Kategorien zur besseren Übersicht**  
 
 ### **🔔 Benachrichtigungen**  
-- [ ] **Benachrichtigungssystem einrichten**  
+- [X] **Benachrichtigungssystem einrichten**  
 - [ ] **Einstellbare Benachrichtigungen für jedes Item**  
   - [ ] **Glocken-Symbol auf Item-Seite**  
   - [ ] **Popup/Banner zur Auswahl der Kriterien für Benachrichtigungen (Preis, Verfügbarkeit, etc.)**  
@@ -61,31 +59,10 @@ Ein Web-Projekt zur Speicherung und Analyse von Items, inklusive Preisentwicklun
   - [ ] Preisentwicklung grafisch darstellen  
 
 ### **🔄 Automatische Updates & AJAX**  
-- [ ] **API jede Minute abrufen**  
-- [ ] **Daten automatisch aktualisieren (AJAX, kein Reload nötig)**  
+- [X] **API alle paar Sekunden abrufen**  
+- [X] **Daten automatisch aktualisieren**  
 
 ---
 
-## **🔧 Architektur & Struktur**  
-
-### **📂 Repository-Struktur (Trennung API & Datenbank)**  
-Um die Code-Struktur **übersichtlich & wartbar** zu halten, werden **API-Daten und die lokale Datenbank getrennt behandelt**.  
-**Die Repositories sind nur für das Abrufen von Daten verantwortlich**, die eigentliche Logik kommt in die Services.  
-
-```txt
-/src
- ├── /Repository
- │   ├── MarketItemRepository.php       <-- Holt Item-Daten aus der API
- │   ├── MarketPriceRepository.php      <-- Holt Preis-Daten aus der API
- │   ├── MarketTrendingRepository.php   <-- Holt Trends aus der API
- │   ├── LocalDatabaseRepository.php    <-- Verwaltet die lokale DB (Item-Speicherung)
- │   ├── AbstractApiRepository.php      <-- Basis für API-Repositories
- │   ├── AbstractDatabaseRepository.php <-- Basis für DB-Repositories
- │
- ├── /Service
- │   ├── ApiService.php                 <-- Vermittelt zwischen API & lokaler DB
- │   ├── ItemService.php                <-- Verarbeitet Daten für UI
- │   ├── UserService.php                <-- Logik für Logins, Registrierungen, Sessions
- │
- ├── /Controller
- │   ├── AuthController.php             <-- Login, Logout, Registrierung
+### **🔧 Architektur & Struktur**  
+- [X] **Refactoring der einzelnen Klassen und Dateien**  
