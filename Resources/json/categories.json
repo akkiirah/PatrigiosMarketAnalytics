@@ -36,7 +36,13 @@
             "14": "Shamshir",
             "15": "Morning Star",
             "16": "Kyve",
-            "17": "Serenaca"
+            "17": "Serenaca",
+            "18": "Slayer",
+            "19": "Swallowtail Fan",
+            "20": "Foxspirit Charm",
+            "21": "Hammers",
+            "22": "Hwando",
+            "23": "Revolvers"
         },
         "5": {
             "1": "Shield",
@@ -53,7 +59,13 @@
             "12": "Vitclari",
             "13": "Haladie",
             "14": "Quoratum",
-            "15": "Mareca"
+            "15": "Mareca",
+            "16": "Shard",
+            "17": "Do Stave",
+            "18": "Binyeo Knife",
+            "19": "Gravity Cores",
+            "20": "Gombangdae",
+            "21": "Shotgun"
         },
         "10": {
             "1": "Great Sword",
@@ -76,7 +88,14 @@
             "19": "Jordun",
             "20": "Dual Glaives",
             "21": "Sting",
-            "22": "Kibelius"
+            "22": "Kibelius",
+            "23": "Patraca",
+            "24": "Trion",
+            "25": "Soul Tome",
+            "26": "Foxtail Fans",
+            "27": "Sledgehammer",
+            "28": "Enlightened Blade",
+            "29": "Lil' Devil"
         },
         "15": {
             "1": "Helmet",
@@ -104,7 +123,8 @@
         },
         "30": {
             "1": "Black Stone",
-            "2": "Upgrade"
+            "2": "Upgrade",
+            "3": "Reforge"
         },
         "35": {
             "1": "Offensive Elixir",
