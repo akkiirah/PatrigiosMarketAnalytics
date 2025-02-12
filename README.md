@@ -62,7 +62,5 @@ Ein Web-Projekt zur Speicherung und Analyse von Items, inklusive Preisentwicklun
 - [X] **API alle paar Sekunden abrufen**  
 - [X] **Daten automatisch aktualisieren**  
 
----
-
 ### **🔧 Architektur & Struktur**  
 - [X] **Refactoring der einzelnen Klassen und Dateien**  
