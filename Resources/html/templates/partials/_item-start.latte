@@ -7,14 +7,16 @@
         <div class="item-body">
             <span class="item-info-desc item-baseprice-desc">Basispreis: </span>
             <span class="item-info-value item-baseprice-value">
-                {$item->getItemBasePrice()|number_format(0, ',', '.')}
-                <button class="button price-button" id="priceButton"></button>
+                <div class="item-baseprice-button-wrap">
+                    {$item->getItemBasePrice()|number_format(0, ',', '.')}
+                    <button class="button price-button" id="priceButton"></button>
+                </div>
                 {if $item->getItemLastSalePrice() != 0}
                     <div class="item-info-value item-pricehistory-wrap">
                         
                     </div>
                 {/if}
-            </div>
+            </span>
             {if $item->getItemLastSalePrice() != 0}
                 <span class="item-info-desc item-last-desc">Zuletzt: </span>
                 <span class="item-info-value item-last-value">

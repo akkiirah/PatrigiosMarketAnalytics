@@ -62,29 +62,27 @@ export function refreshData(waitInSecs) {
 }
 
 
-export function refreshData(waitInSecs) {
-    setTimeout(() => {
-        fetch(new URLSearchParams(window.location.search))
-            .then(response => response.text())
-            .then(html => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const newContent = doc.querySelector('#itemsContainer');
+export function updatePriceHistory() {
+    fetch(new URLSearchParams(window.location.search))
+        .then(response => response.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const newContent = doc.querySelector('#itemsContainer');
 
-                if (newContent) {
-                    document.querySelector('#itemsContainer').innerHTML = newContent.innerHTML;
-                } else {
-                    console.error("Kein neuer Inhalt gefunden!");
-                }
+            if (newContent) {
+                document.querySelector('#itemsContainer').innerHTML = newContent.innerHTML;
+            } else {
+                console.error("Kein neuer Inhalt gefunden!");
+            }
 
-                let newItemsWrap = document.querySelector('.items-wrap');
+            let newItemsWrap = document.querySelector('.items-wrap');
 
-                distributeItems(newItemsWrap);
-                observeToNotificate();
+            distributeItems(newItemsWrap);
+            observeToNotificate();
 
-                refreshData(waitInSecs);
-                window.addEventListener('resize', debounce(() => distributeItems(newItemsWrap), 100));
-            })
-            .catch(error => console.error('Fehler beim Laden der neuen Seite:', error));
-    }, 1000 * waitInSecs);
+            refreshData(waitInSecs);
+            window.addEventListener('resize', debounce(() => distributeItems(newItemsWrap), 100));
+        })
+        .catch(error => console.error('Fehler beim Laden der neuen Seite:', error));
 }
