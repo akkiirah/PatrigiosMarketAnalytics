@@ -16,7 +16,8 @@
         "65": "Mount",
         "70": "Ship",
         "75": "Wagon",
-        "80": "Furniture"
+        "80": "Furniture",
+        "85": "Artifact/Lightstone"
     },
     "subCategories": {
         "1": {
@@ -149,10 +150,10 @@
             "10": "Other Tools"
         },
         "45": {
-            "1": "Destruction",
-            "2": "Protection",
-            "3": "Life",
-            "4": "Spirit Stone"
+            "1": "Attack Crystal",
+            "2": "Defense Crystal",
+            "3": "Functional Crystal",
+            "4": "Combined Crystal"
         },
         "50": {
             "1": "Main Weapon",
@@ -227,6 +228,14 @@
             "7": "Wall/Curtain",
             "8": "Decoration",
             "9": "Others"
+        },
+        "85": {
+            "1": "Lightstone of Fire",
+            "2": "Lightstone of Earth",
+            "3": "Lightstone of Wind",
+            "4": "Lightstone of Flora",
+            "5": "Special Lightstone",
+            "6": "Artifact"
         }
     }
 }

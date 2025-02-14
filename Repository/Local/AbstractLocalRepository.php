@@ -12,10 +12,25 @@ abstract class AbstractLocalRepository
 
     public function __construct()
     {
+        // DDEV
+        // try {
+        //     $dbhost = 'db';
+        //     $dbuser = 'root';
+        //     $dbpass = 'root';
+        //     $dbname = 'db';
+        // 
+        //     $this->pdo = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);
+        //     $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        // 
+        // } catch (PDOException $ex) {
+        //     echo $ex->getMessage();
+        // }
+
+        // XAMPP
         try {
-            $dbhost = 'db';
+            $dbhost = 'localhost';
             $dbuser = 'root';
-            $dbpass = 'root';
+            $dbpass = '';
             $dbname = 'db';
 
             $this->pdo = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);
@@ -24,20 +39,6 @@ abstract class AbstractLocalRepository
         } catch (PDOException $ex) {
             echo $ex->getMessage();
         }
-
-        // XAMPP
-        // try {
-        //     $dbhost = 'localhost';
-        //     $dbuser = 'root';
-        //     $dbpass = '';
-        //     $dbname = 'mysql';
-        // 
-        //     $this->pdo = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);
-        //     $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        // 
-        // } catch (PDOException $ex) {
-        //     echo $ex->getMessage();
-        // }
     }
 
     protected function executeStatement(string $sql, array $params = []): \PDOStatement

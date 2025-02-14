@@ -20,13 +20,20 @@ class ItemRepository extends AbstractLocalRepository
             $items[] = $response ? $response : null;
         }
 
-        $flattened = [];
-        foreach ($items as $subArray) {
-            foreach ($subArray as $element) {
-                $flattened[] = $element;
+        if (!empty($items) && isset($items[0]) && is_array($items[0])) {
+            $flattened = [];
+            foreach ($items as $subArray) {
+                if (is_array($subArray)) {
+                    foreach ($subArray as $element) {
+                        $flattened[] = $element;
+                    }
+                } else {
+                    $flattened[] = $subArray;
+                }
             }
+        } else {
+            $flattened = $items;
         }
-
 
         return $flattened;
     }

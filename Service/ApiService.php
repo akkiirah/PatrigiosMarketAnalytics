@@ -44,7 +44,7 @@ class ApiService
 
         $local = $this->itemRepository->getItemsByCategoryData($categoryData);
 
-        if ($local[0]) {
+        if (isset($local[0])) {
             $items = $local;
         } else {
             $items = $this->apiItemRepository->fetchItemsFromCategory($categoryData);
