@@ -1,6 +1,6 @@
 <?php
 
-namespace Repository;
+namespace Repository\Local;
 
 use PDO;
 use PDOException;

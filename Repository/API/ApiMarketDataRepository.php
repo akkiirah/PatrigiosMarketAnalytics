@@ -1,6 +1,6 @@
 <?php
 
-namespace Repository;
+namespace Repository\API;
 
 use Config\Constants;
 

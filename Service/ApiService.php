@@ -2,9 +2,9 @@
 
 namespace Service;
 
-use Repository\ApiAssetRepository;
-use Repository\ApiItemRepository;
-use Repository\ApiMarketDataRepository;
+use Repository\API\ApiAssetRepository;
+use Repository\API\ApiItemRepository;
+use Repository\API\ApiMarketDataRepository;
 
 class ApiService
 {

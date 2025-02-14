@@ -10,7 +10,8 @@
             "Controller\\": "Controller/",
             "Config\\": "Config/",
             "Model\\": "Model/",
-            "Resources\\": "Resources/",
+            "Resources\\API\\": "Resources/API/",
+            "Resources\\Local\\": "Resources/Local/",
             "Service\\": "Service/",
             "Latte\\": "vendor/latte/"
         }
