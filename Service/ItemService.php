@@ -99,6 +99,8 @@ class ItemService
         foreach ($data as $item) {
             $itemObj = $this->itemMapper->createItemFromArray($item);
             $items[] = $itemObj;
+
+            $this->saveItemInDatabase($itemObj);
         }
         return $items;
     }
@@ -120,5 +122,19 @@ class ItemService
         }
 
         return $newItems;
+    }
+
+    public function saveItemInDatabase(Item $item): void
+    {
+        $itemData =
+            [
+                'id' => $item->getItemId(),
+                'name' => $item->getItemName(),
+                'image' => $item->getItemImage(),
+                'categoryMain' => $item->getItemCategory()->getMainCategory(),
+                'categorySub' => $item->getItemCategory()->getSubCategory()
+            ];
+
+        $this->apiService->saveItemInDatabase($itemData);
     }
 }

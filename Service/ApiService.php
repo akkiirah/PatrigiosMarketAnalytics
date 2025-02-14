@@ -6,22 +6,50 @@ use Repository\API\ApiAssetRepository;
 use Repository\API\ApiItemRepository;
 use Repository\API\ApiMarketDataRepository;
 
+use Repository\Local\FavoriteItemRepository;
+use Repository\Local\ItemRepository;
+use Repository\Local\PriceHistoryRepository;
+use Repository\Local\UserNotificationRepository;
+use Repository\Local\UserRepository;
+
 class ApiService
 {
     protected ?ApiAssetRepository $apiAssetRepository = null;
     protected ?ApiItemRepository $apiItemRepository = null;
     protected ?ApiMarketDataRepository $apiMarketDataRepository = null;
 
+    protected ?FavoriteItemRepository $favoriteItemRepository = null;
+    protected ?ItemRepository $itemRepository = null;
+    protected ?PriceHistoryRepository $priceHistoryRepository = null;
+    protected ?UserNotificationRepository $userNotificationRepository = null;
+    protected ?UserRepository $userRepository = null;
+
     public function __construct()
     {
         $this->apiAssetRepository = new ApiAssetRepository();
         $this->apiItemRepository = new ApiItemRepository();
         $this->apiMarketDataRepository = new ApiMarketDataRepository();
+
+        $this->favoriteItemRepository = new FavoriteItemRepository();
+        $this->itemRepository = new ItemRepository();
+        $this->priceHistoryRepository = new PriceHistoryRepository();
+        $this->userNotificationRepository = new UserNotificationRepository();
+        $this->userRepository = new UserRepository();
     }
 
     public function fetchItemsFromCategory(array $categoryData): array
     {
-        $items = $this->apiItemRepository->fetchItemsFromCategory($categoryData);
+        $items = [];
+        $local = [];
+
+        $local = $this->itemRepository->getItemsByCategoryData($categoryData);
+
+        if ($local[0]) {
+            $items = $local;
+        } else {
+            $items = $this->apiItemRepository->fetchItemsFromCategory($categoryData);
+        }
+
         return $items;
     }
     public function fetchItemsImages(array $itemIds): ?array
@@ -43,5 +71,10 @@ class ApiService
     {
         $priceInfo = $this->apiMarketDataRepository->fetchMultipleItemPriceData($itemIds);
         return $priceInfo;
+    }
+
+    public function saveItemInDatabase(array $itemData): void
+    {
+        $this->itemRepository->insertItem($itemData);
     }
 }

@@ -19,8 +19,7 @@ class ItemMapper
         $item = new Item();
         $item->setItemId($dataArray['id']);
         $item->setItemName($dataArray['name']);
-        $item->setItemBasePrice($dataArray['basePrice']);
-        $item->setItemCurrentStock($dataArray['currentStock']);
+
         $item->setItemImage($dataArray['itemImage']);
         $item->setItemCategory($category);
 
@@ -29,6 +28,8 @@ class ItemMapper
 
     public function addMarketInfo(Item $item, array $marketInfo): Item
     {
+        $item->setItemBasePrice($this->getMarketValueList($marketInfo, 'basePrice'));
+        $item->setItemCurrentStock($this->getMarketValueList($marketInfo, 'currentStock'));
         $item->setItemHardCapMin($this->getMarketValueList($marketInfo, 'priceMin'));
         $item->setItemHardCapMax($this->getMarketValueList($marketInfo, 'priceMax'));
         $item->setItemLastSalePrice($this->getMarketValueList($marketInfo, 'lastSoldPrice'));
