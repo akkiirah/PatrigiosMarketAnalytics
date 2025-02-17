@@ -1,11 +1,30 @@
+let lastNotificationTime = {};
+
+const NotificationConditionEnum = {
+    TIME: {
+        property: "itemLastTime",
+
+        check: (value, threshold) => value.includes(threshold),
+        message: (itemId, threshold) =>
+            `Item wurde verkauft`
+    },
+    LOW_STOCK: {
+        property: "itemStock",
+        // Prüft, ob der Lagerbestand kleiner als der übergebene Threshold (z. B. 100) ist
+        check: (value, threshold) => parseInt(value, 10) < threshold,
+        message: (itemId, threshold) =>
+            `Niedriger Lagerbestand für Item (unter ${threshold})`
+    }
+};
+
 const notificationConfigs = {
     "9218": {
-        property: "itemStock",
-        condition: (value) => parseInt(value, 10) < 100
+        condition: NotificationConditionEnum.LOW_STOCK,
+        threshold: 100000
     },
     "4998": {
-        property: "itemLastTime",
-        condition: (value) => value.includes("Sekunden")
+        condition: NotificationConditionEnum.TIME,
+        threshold: "Sekunden"
     }
 };
 
@@ -17,16 +36,16 @@ export function observeToNotificate() {
 
         if (data && data.itemId && notificationConfigs[data.itemId]) {
             let config = notificationConfigs[data.itemId];
-            let value = data[config.property];
+            let value = data[config.condition.property];
 
-            if (value && config.condition(value)) {
+            if (value && config.condition.check(value, config.threshold)) {
                 if (Notification.permission === "granted") {
-                    let itemText = item.querySelector('.item-heading').innerHTML;
+                    let itemText = data.itemName;
                     let now = Date.now();
 
                     if (!lastNotificationTime[itemText] || (now - lastNotificationTime[itemText] > 60000)) {
                         new Notification(itemText, {
-                            body: `Bedingung erfüllt für Item ${data.itemId}`,
+                            body: config.condition.message(data.itemId, config.threshold),
                             data: { text: itemText }
                         });
                         lastNotificationTime[itemText] = now;
