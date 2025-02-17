@@ -1,4 +1,4 @@
-<div class="item-wrap">
+<div class="item-wrap" data-item-id="{$item->getItemId()}" data-item-name="{$item->getItemName()}" data-item-base="{$item->getItemBasePrice()}" data-item-last="{$item->getItemLastSalePrice()}" data-item-stock="{$item->getItemCurrentStock()}">
     <div class="item-body">
         <img src="{$item->getItemImage()}" alt="Item Image" />
         <h2 class="item-heading">[{$item->getItemId()}] - {$item->getItemName()}</h2>

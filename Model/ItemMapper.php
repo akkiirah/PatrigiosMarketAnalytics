@@ -13,11 +13,11 @@ class ItemMapper
 
     public function createItemFromArray(array $dataArray): Item
     {
-
         $category = $this->categoryMapper->createCategoryFromArray($dataArray);
 
         $item = new Item();
         $item->setItemId($dataArray['id']);
+        $item->setItemSid($dataArray['sid']);
         $item->setItemName($dataArray['name']);
 
         $item->setItemImage($dataArray['itemImage']);
@@ -46,7 +46,7 @@ class ItemMapper
 
         $priceHistory = [];
 
-        for ($tage = 5; $tage <= 90; $tage += 5) {
+        for ($tage = 1; $tage <= 90; $tage += 1) {
             $index = 90 - $tage;
 
             if (isset($prices[$index])) {

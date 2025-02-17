@@ -31,6 +31,7 @@ class ItemController
 
         $paginationData = $this->paginationService->paginate($allItems, $page, $itemsPerPage);
         $paginationData['items'] = $this->itemService->addMarketInfoToItems($paginationData['items']);
+        $paginationData['items'] = $this->itemService->addPriceHistoryToItems($paginationData['items']);
 
         $templateParams = array_merge(['action' => __FUNCTION__], $paginationData);
         $this->frontendViewhelper->renderList($templateParams);

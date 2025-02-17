@@ -12,10 +12,12 @@ class PriceHistoryRepository extends AbstractLocalRepository
         return $this->queryAll($sql, ['itemId' => $itemId]);
     }
 
-    public function insertPriceHistory(array $data): ?int
+    public function insertOrUpdatePriceHistory(array $data): ?int
     {
-        $sql = "INSERT INTO item_price_history (itemId, price, historyDate) 
-                VALUES (:itemId, :price, :historyDate)";
+        $sql = "INSERT INTO item_price_history (itemId, price, historyDate)
+                VALUES (:itemId, :price, :historyDate)
+                ON DUPLICATE KEY UPDATE price = VALUES(price)";
+
         return $this->insert($sql, $data);
     }
 }

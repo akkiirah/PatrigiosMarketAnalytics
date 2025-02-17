@@ -6,6 +6,7 @@ class Item
 {
     protected string $itemName = '';
     protected int $itemId = 0;
+    protected ?int $itemSid = 0;
     protected int $itemBasePrice = 0;
     protected int $itemLastSalePrice = 0;
     protected int $itemCurrentStock = 0;
@@ -24,6 +25,10 @@ class Item
     public function getItemId(): int
     {
         return $this->itemId;
+    }
+    public function getItemSid(): ?int
+    {
+        return $this->itemSid;
     }
     public function getItemBasePrice(): int
     {
@@ -68,6 +73,10 @@ class Item
     public function setItemId(int $itemId): void
     {
         $this->itemId = $itemId;
+    }
+    public function setItemSid(?int $itemSid): void
+    {
+        $this->itemSid = $itemSid;
     }
     public function setItemBasePrice(int $itemBasePrice): void
     {

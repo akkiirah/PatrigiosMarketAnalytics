@@ -113,12 +113,10 @@ class ItemService
 
         $marketData = $this->apiService->fetchMultipleItemPriceHistory($itemIds);
 
-
-
-
         foreach ($items as $key => $item) {
             $itemMarketData = $marketData[$item->getItemId()]['resultMsg'];
             $newItems[] = $this->itemMapper->addPriceHistoryInfo($item, $itemMarketData);
+            $this->savePriceHistory($item);
         }
 
         return $newItems;
@@ -129,6 +127,7 @@ class ItemService
         $itemData =
             [
                 'id' => $item->getItemId(),
+                'sid' => $item->getItemSid(),
                 'name' => $item->getItemName(),
                 'image' => $item->getItemImage(),
                 'categoryMain' => $item->getItemCategory()->getMainCategory(),
@@ -136,5 +135,23 @@ class ItemService
             ];
 
         $this->apiService->saveItemInDatabase($itemData);
+    }
+
+    public function savePriceHistory(Item $item): void
+    {
+        $priceHistory = $item->getItemPriceHistory();
+
+        foreach ($priceHistory as $key => $price) {
+            $daysAgo = (int) str_replace('vor_', '', $key);
+            $historyDate = date('Y-m-d', strtotime("-{$daysAgo} days"));
+
+            $itemData = [
+                'itemId' => $item->getItemId(),
+                'price' => $price,
+                'historyDate' => $historyDate
+            ];
+
+            $this->apiService->savePriceHistory($itemData);
+        }
     }
 }

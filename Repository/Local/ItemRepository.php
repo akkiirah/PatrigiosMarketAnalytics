@@ -46,17 +46,16 @@ class ItemRepository extends AbstractLocalRepository
 
     public function insertItem(array $data): ?int
     {
-        $sql = "INSERT IGNORE INTO item (id, name, image, categoryMain, categorySub) 
-                VALUES (:id, :name, :image, :categoryMain, :categorySub)";
+        $sql = "INSERT INTO item (id, sid, name, image, categoryMain, categorySub) 
+                VALUES (:id, :sid, :name, :image, :categoryMain, :categorySub)";
         return $this->insert($sql, $data);
     }
 
-    public function updateItem(int $id, array $data): int
+    public function updateItem(array $data): int
     {
         $sql = "UPDATE item 
-                SET name = :name, image = :image, categoryId = :categoryId 
+                SET sid = :sid, name = :name, image = :image, categoryMain = :categoryMain, categorySub = :categorySub
                 WHERE id = :id";
-        $data['id'] = $id;
         return $this->update($sql, $data);
     }
 

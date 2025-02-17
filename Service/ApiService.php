@@ -75,6 +75,20 @@ class ApiService
 
     public function saveItemInDatabase(array $itemData): void
     {
-        $this->itemRepository->insertItem($itemData);
+        try {
+            $this->itemRepository->insertItem($itemData);
+        } catch (\PDOException $ex) {
+            if (isset($ex->errorInfo[1]) && $ex->errorInfo[1] == 1062) {
+                $this->itemRepository->updateItem($itemData);
+            } else {
+                throw $ex;
+            }
+        }
     }
+
+    public function savePriceHistory(array $itemData): void
+    {
+        $this->priceHistoryRepository->insertOrUpdatePriceHistory($itemData);
+    }
+
 }
