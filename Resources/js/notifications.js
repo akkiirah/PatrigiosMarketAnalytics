@@ -20,7 +20,7 @@ const NotificationConditionEnum = {
 const notificationConfigs = {
     "9218": {
         condition: NotificationConditionEnum.LOW_STOCK,
-        threshold: 100000
+        threshold: 100
     },
     "4998": {
         condition: NotificationConditionEnum.TIME,

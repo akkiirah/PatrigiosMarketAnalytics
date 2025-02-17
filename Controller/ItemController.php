@@ -68,6 +68,29 @@ class ItemController
         $this->frontendViewhelper->renderStart($templateParams);
     }
 
+    public function importAction(array $params): void
+    {
+        $successful = $this->itemService->updateMissingIdsInPriceHistory();
+        $msg = $successful ? '<p>Import abgeschlossen. Seite wird in 70 Sekunden neu geladen.</p>' : '<p>Seite wird in 70 Sekunden neu geladen.</p>';
+
+        echo '<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Import abgeschlossen</title>
+            <script>
+                setTimeout(function() {
+                    window.location.reload();
+                }, 1000 * 70);
+            </script>
+        </head>
+        <body>
+        ' . $msg . '
+        </body>
+        </html>';
+
+    }
+
     protected function parseCategory(array $params, array $defaultCategoryData): array
     {
         if (isset($params['category']) && is_array($params['category']) && count($params['category']) === 2) {
@@ -84,6 +107,4 @@ class ItemController
         $allItems = $this->itemService->getItemsFromCategory($categoryData, $itemNames);
         return $this->itemService->addMarketInfoToItems($allItems);
     }
-
-
 }

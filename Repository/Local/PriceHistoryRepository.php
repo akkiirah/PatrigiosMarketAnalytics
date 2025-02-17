@@ -20,4 +20,14 @@ class PriceHistoryRepository extends AbstractLocalRepository
 
         return $this->insert($sql, $data);
     }
+    public function getMissingIds(): ?array
+    {
+        $sql = "SELECT i.id 
+                FROM item i 
+                LEFT JOIN item_price_history iph ON i.id = iph.itemId 
+                WHERE iph.itemId IS NULL 
+                LIMIT 100";
+
+        return $this->queryAll($sql);
+    }
 }

@@ -30,6 +30,50 @@ class ItemService
             return $items;
         }
     }
+
+    public function getAllItems(): array
+    {
+        $itemsArr = $this->apiService->getAllItems();
+
+        foreach ($itemsArr as $key => &$item) {
+            $itemId = $item['id'];
+
+            if ($this->cacheService->isImageInCache($itemId)) {
+
+                $item['itemImage'] = Constants::DIR_ICONS_CACHE . $itemId . '.webp';
+            } else {
+
+                $nonCachedItems[$itemId] = $key;
+            }
+        }
+        unset($item);
+
+        if (!empty($nonCachedItems)) {
+            $nonCachedIds = array_keys($nonCachedItems);
+
+            $fetchedImages = $this->apiService->fetchItemsImages($nonCachedIds);
+
+            foreach ($fetchedImages as $itemId => $imgUrl) {
+                if ($imgUrl) {
+                    $this->cacheService->saveImageToCache($imgUrl, $itemId);
+                } else {
+                    $imgUrl = Constants::DIR_ICONS_PLACEHOLDER;
+                }
+
+                $key = $nonCachedItems[$itemId];
+                $data[$key]['itemImage'] = $imgUrl;
+            }
+        }
+
+        $items = [];
+        foreach ($itemsArr as $item) {
+            $itemObj = $this->itemMapper->createItemFromArray($item);
+            $items[$itemObj->getItemId()] = $itemObj;
+        }
+
+        return $items;
+    }
+
     public function addMarketInfoToItems(array $items): array
     {
         foreach ($items as $key => $item) {
@@ -39,7 +83,8 @@ class ItemService
         $marketData = $this->apiService->fetchMultipleItemData($itemIds);
 
         foreach ($items as $key => $item) {
-            $newItems[] = $this->itemMapper->addMarketInfo($item, $marketData[$item->getItemId()]);
+
+            $newItems[] = $this->itemMapper->addMarketInfo($item, $marketData[$key]);
         }
 
         return $newItems;
@@ -114,7 +159,7 @@ class ItemService
         $marketData = $this->apiService->fetchMultipleItemPriceHistory($itemIds);
 
         foreach ($items as $key => $item) {
-            $itemMarketData = $marketData[$item->getItemId()]['resultMsg'];
+            $itemMarketData = $marketData[$key]['resultMsg'];
             $newItems[] = $this->itemMapper->addPriceHistoryInfo($item, $itemMarketData);
             $this->savePriceHistory($item);
         }
@@ -136,6 +181,33 @@ class ItemService
 
         $this->apiService->saveItemInDatabase($itemData);
     }
+    public function updateMissingIdsInPriceHistory(): bool
+    {
+        $missing = $this->apiService->fetchMissingIdsInPriceHistory();
+        $allItems = $this->getAllItems();
+        $marketData = $this->apiService->fetchMultipleItemPriceHistory($missing);
+
+        if (!empty($marketData)) {
+            foreach ($missing as $index => $missingEntry) {
+                $missingId = $missingEntry['id'];
+                if (!isset($allItems[$missingId])) {
+                    continue;
+                }
+                $item = $allItems[$missingId];
+                if (isset($marketData[$index])) {
+                    $itemMarketData = $marketData[$index]['resultMsg'];
+                    $newItems[] = $this->itemMapper->addPriceHistoryInfo($item, $itemMarketData);
+                    $this->savePriceHistory($item);
+                } else {
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     public function savePriceHistory(Item $item): void
     {

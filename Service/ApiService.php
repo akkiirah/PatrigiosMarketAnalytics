@@ -72,6 +72,11 @@ class ApiService
         $priceInfo = $this->apiMarketDataRepository->fetchMultipleItemPriceData($itemIds);
         return $priceInfo;
     }
+    public function fetchMissingIdsInPriceHistory(): ?array
+    {
+        $missingIds = $this->priceHistoryRepository->getMissingIds();
+        return $missingIds;
+    }
 
     public function saveItemInDatabase(array $itemData): void
     {
@@ -85,6 +90,13 @@ class ApiService
             }
         }
     }
+
+    public function getAllItems(): array
+    {
+        $items = $this->itemRepository->getAllItems();
+        return $items;
+    }
+
 
     public function savePriceHistory(array $itemData): void
     {
