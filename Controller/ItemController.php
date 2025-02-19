@@ -41,7 +41,7 @@ class ItemController
     {
         $itemIds = [9218, 9220, 9303, 9305, 9463, 9464, 9609, 9610];
 
-        $allItems = $this->itemService->getItemsFromID($itemIds);
+        $allItems = $this->itemService->getItemsByIds($itemIds);
         $allItems = $this->itemService->addMarketInfoToItems($allItems);
         $allItems = $this->itemService->addPriceHistoryToItems($allItems);
 

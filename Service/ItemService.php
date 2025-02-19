@@ -1,5 +1,4 @@
 <?php
-
 namespace Service;
 
 use Config\Constants;
@@ -9,269 +8,184 @@ use Model\Item;
 
 class ItemService
 {
-    protected ?ApiService $apiService = null;
-    protected ?ItemMapper $itemMapper = null;
-    protected ?CacheService $cacheService = null;
+    protected ApiService $apiService;
+    protected ItemMapper $itemMapper;
+    protected CacheService $cacheService;
 
-    public function __construct()
-    {
-        $this->apiService = new ApiService();
-        $this->itemMapper = new ItemMapper();
-        $this->cacheService = new CacheService();
+    public function __construct(
+        ?ApiService $apiService = null,
+        ?ItemMapper $itemMapper = null,
+        ?CacheService $cacheService = null
+    ) {
+        $this->apiService = $apiService ?? new ApiService();
+        $this->itemMapper = $itemMapper ?? new ItemMapper();
+        $this->cacheService = $cacheService ?? new CacheService();
     }
 
+    /**
+     * Liefert Items aus einer Kategorie.
+     */
     public function getItemsFromCategory(array $categoryData): array
     {
-        $items = $this->getAllItemsFromCategory($categoryData);
-        return $items;
-    }
+        // Abruf der Rohdaten (DB oder API) über den ApiService
+        $rawData = $this->apiService->getItemsByCategory($categoryData);
 
-    public function getItemsFromID(array $itemIds): array
-    {
-        $itemsArr = $this->apiService->getItemsFromID($itemIds);
-
-        foreach ($itemsArr as $key => &$item) {
-            $itemId = $item['id'];
-
-            if ($this->cacheService->isImageInCache($itemId)) {
-
-                $item['itemImage'] = Constants::DIR_ICONS_CACHE . $itemId . '.webp';
-            } else {
-
-                $nonCachedItems[$itemId] = $key;
-            }
-        }
-        unset($item);
-
-        if (!empty($nonCachedItems)) {
-            $nonCachedIds = array_keys($nonCachedItems);
-
-            $fetchedImages = $this->apiService->fetchItemsImages($nonCachedIds);
-
-            foreach ($fetchedImages as $itemId => $imgUrl) {
-                if ($imgUrl) {
-                    $this->cacheService->saveImageToCache($imgUrl, $itemId);
-                } else {
-                    $imgUrl = Constants::DIR_ICONS_PLACEHOLDER;
-                }
-
-                $key = $nonCachedItems[$itemId];
-                $data[$key]['itemImage'] = $imgUrl;
-            }
-        }
+        // Bilddaten verarbeiten (Cache prüfen, fehlende Bilder via API holen)
+        $rawData = $this->processItemImages($rawData);
 
         $items = [];
-        foreach ($itemsArr as $item) {
-            $itemObj = $this->itemMapper->createItemFromArray($item);
-            $items[$itemObj->getItemId()] = $itemObj;
-        }
+        foreach ($rawData as $rawItem) {
+            $item = $this->itemMapper->createItemFromArray($rawItem);
+            $items[] = $item;
 
-        return $items;
-    }
-
-    public function getAllItems(): array
-    {
-        $itemsArr = $this->apiService->getAllItems();
-
-        foreach ($itemsArr as $key => &$item) {
-            $itemId = $item['id'];
-
-            if ($this->cacheService->isImageInCache($itemId)) {
-
-                $item['itemImage'] = Constants::DIR_ICONS_CACHE . $itemId . '.webp';
-            } else {
-
-                $nonCachedItems[$itemId] = $key;
-            }
-        }
-        unset($item);
-
-        if (!empty($nonCachedItems)) {
-            $nonCachedIds = array_keys($nonCachedItems);
-
-            $fetchedImages = $this->apiService->fetchItemsImages($nonCachedIds);
-
-            foreach ($fetchedImages as $itemId => $imgUrl) {
-                if ($imgUrl) {
-                    $this->cacheService->saveImageToCache($imgUrl, $itemId);
-                } else {
-                    $imgUrl = Constants::DIR_ICONS_PLACEHOLDER;
-                }
-
-                $key = $nonCachedItems[$itemId];
-                $data[$key]['itemImage'] = $imgUrl;
-            }
-        }
-
-        $items = [];
-        foreach ($itemsArr as $item) {
-            $itemObj = $this->itemMapper->createItemFromArray($item);
-            $items[$itemObj->getItemId()] = $itemObj;
-        }
-
-        return $items;
-    }
-
-    public function addMarketInfoToItems(array $items): array
-    {
-        foreach ($items as $key => $item) {
-            $itemIds[] = $item->getItemId();
-        }
-
-        $marketData = $this->apiService->fetchMultipleItemData($itemIds);
-
-        foreach ($items as $item) {
-            $itemId = $item->getItemId();
-
-            $marketInfoForItem = $marketData[$itemId] ?? null;
-
-            $newItems[] = $this->itemMapper->addMarketInfo($item, $marketInfoForItem);
-        }
-
-        return $newItems;
-    }
-
-    // Only temporary since later you'll get Items by ID instead of searching through categories
-    public function getSpecificItemsFromCategory(array $items, array $itemNames): array
-    {
-        $itemsFiltered = [];
-
-        foreach ($items as $item) {
-            if (in_array($item->getItemName(), $itemNames)) {
-
-                $itemsFiltered[] = $item;
-            }
-        }
-        return $itemsFiltered;
-    }
-
-    public function getAllItemsFromCategory(array $categoryData): array
-    {
-        $data = $this->apiService->fetchItemsFromCategory($categoryData);
-        $items = [];
-
-        $nonCachedItems = [];
-        foreach ($data as $key => &$item) {
-            $itemId = $item['id'];
-
-            if ($this->cacheService->isImageInCache($itemId)) {
-
-                $item['itemImage'] = Constants::DIR_ICONS_CACHE . $itemId . '.webp';
-            } else {
-
-                $nonCachedItems[$itemId] = $key;
-            }
-        }
-        unset($item);
-
-        if (!empty($nonCachedItems)) {
-            $nonCachedIds = array_keys($nonCachedItems);
-
-            $fetchedImages = $this->apiService->fetchItemsImages($nonCachedIds);
-
-            foreach ($fetchedImages as $itemId => $imgUrl) {
-                if ($imgUrl) {
-                    $this->cacheService->saveImageToCache($imgUrl, $itemId);
-                } else {
-                    $imgUrl = Constants::DIR_ICONS_PLACEHOLDER;
-                }
-
-                $key = $nonCachedItems[$itemId];
-                $data[$key]['itemImage'] = $imgUrl;
-            }
-        }
-
-        $items = [];
-        foreach ($data as $item) {
-            $itemObj = $this->itemMapper->createItemFromArray($item);
-            $items[] = $itemObj;
-
-            $this->saveItemInDatabase($itemObj);
-        }
-        return $items;
-    }
-
-    public function addPriceHistoryToItems(array $items): array
-    {
-        $itemIds = [];
-        foreach ($items as $item) {
-            $itemIds[] = $item->getItemId();
-        }
-
-        $marketData = $this->apiService->fetchMultipleItemPriceHistory($itemIds);
-
-
-
-        $newItems = [];
-        foreach ($items as $item) {
-            $itemId = $item->getItemId();
-            // Sicherstellen, dass es zu diesem Item Daten gibt
-            $itemMarketData = isset($marketData[$itemId]) ? $marketData[$itemId] : [];
-            $newItems[] = $this->itemMapper->addPriceHistoryInfo($item, $itemMarketData);
-            $this->savePriceHistory($item);
-        }
-
-        return $newItems;
-    }
-
-
-    public function saveItemInDatabase(Item $item): void
-    {
-        $itemData =
-            [
+            // Optional: Item-Daten in der DB persistieren
+            $this->apiService->saveItemInDatabase([
                 'id' => $item->getItemId(),
                 'sid' => $item->getItemSid(),
                 'name' => $item->getItemName(),
                 'image' => $item->getItemImage(),
                 'categoryMain' => $item->getItemCategory()->getMainCategory(),
                 'categorySub' => $item->getItemCategory()->getSubCategory()
-            ];
-
-        $this->apiService->saveItemInDatabase($itemData);
+            ]);
+        }
+        return $items;
     }
-    public function updateMissingIdsInPriceHistory(): bool
-    {
-        $missing = $this->apiService->fetchMissingIdsInPriceHistory();
-        $allItems = $this->getAllItems();
-        $marketData = $this->apiService->fetchMultipleItemPriceHistory($missing);
 
-        if (!empty($marketData)) {
-            foreach ($missing as $index => $missingEntry) {
-                $missingId = $missingEntry['id'];
-                if (!isset($allItems[$missingId])) {
-                    continue;
-                }
-                $item = $allItems[$missingId];
-                if (isset($marketData[$index])) {
-                    $itemMarketData = $marketData[$index]['resultMsg'];
-                    $newItems[] = $this->itemMapper->addPriceHistoryInfo($item, $itemMarketData);
-                    $this->savePriceHistory($item);
-                } else {
-                    return false;
-                }
-            }
+    /**
+     * Liefert Items anhand einer Liste von IDs.
+     */
+    public function getItemsByIds(array $itemIds): array
+    {
+        $rawData = $this->apiService->getItemsByIds($itemIds);
+        $rawData = $this->processItemImages($rawData);
+
+        $items = [];
+        foreach ($rawData as $rawItem) {
+            $item = $this->itemMapper->createItemFromArray($rawItem);
+            $items[$item->getItemId()] = $item;
+        }
+        return $items;
+    }
+
+    /**
+     * Liefert alle Items.
+     */
+    public function getAllItems(): array
+    {
+        $rawData = $this->apiService->getAllItems();
+        $rawData = $this->processItemImages($rawData);
+
+        $items = [];
+        foreach ($rawData as $rawItem) {
+            $item = $this->itemMapper->createItemFromArray($rawItem);
+            $items[$item->getItemId()] = $item;
+        }
+        return $items;
+    }
+
+    /**
+     * Fügt den Items Marktdaten hinzu.
+     */
+    public function addMarketInfoToItems(array $items): array
+    {
+        $itemIds = array_map(fn(Item $item) => $item->getItemId(), $items);
+        $marketData = $this->apiService->getMarketData($itemIds);
+
+        $newItems = [];
+        foreach ($items as $item) {
+            $itemId = $item->getItemId();
+            $newItems[] = $this->itemMapper->addMarketInfo($item, $marketData[$itemId] ?? null);
+        }
+        return $newItems;
+    }
+
+    /**
+     * Fügt den Items Preishistorie-Daten hinzu und speichert diese.
+     */
+    public function addPriceHistoryToItems(array $items): array
+    {
+        $itemIds = array_map(fn(Item $item) => $item->getItemId(), $items);
+        $priceHistoryData = $this->apiService->getPriceHistoryData($itemIds);
+
+        $newItems = [];
+        foreach ($items as $item) {
+            $itemId = $item->getItemId();
+            $newItem = $this->itemMapper->addPriceHistoryInfo($item, $priceHistoryData[$itemId] ?? []);
+            $this->apiService->savePriceHistory($newItem);
+            $newItems[] = $newItem;
+        }
+        return $newItems;
+    }
+
+    /**
+     * Filtert die Items nach Namen.
+     */
+    public function getSpecificItems(array $items, array $itemNames): array
+    {
+        return array_filter($items, function (Item $item) use ($itemNames) {
+            return in_array($item->getItemName(), $itemNames, true);
+        });
+    }
+
+    /**
+     * Aktualisiert fehlende Preishistorien.
+     */
+    public function updateMissingPriceHistory(): bool
+    {
+        $missing = $this->apiService->getMissingPriceHistoryIds();
+        if (empty($missing)) {
             return true;
-        } else {
-            return false;
         }
+
+        $allItems = $this->getAllItems();
+        $priceHistoryData = $this->apiService->getPriceHistoryData(
+            array_map(fn($entry) => $entry['id'], $missing)
+        );
+
+        foreach ($missing as $missingEntry) {
+            $missingId = $missingEntry['id'];
+            if (!isset($allItems[$missingId])) {
+                continue;
+            }
+            $item = $allItems[$missingId];
+            $newItem = $this->itemMapper->addPriceHistoryInfo($item, $priceHistoryData[$missingId] ?? []);
+            $this->apiService->savePriceHistory($newItem);
+        }
+        return true;
     }
 
-
-    public function savePriceHistory(Item $item): void
+    /**
+     * Überprüft für jedes Item, ob das Bild bereits im Cache liegt; falls nicht,
+     * wird über den ApiService das Bild geladen und im Cache gespeichert.
+     */
+    private function processItemImages(array $data): array
     {
-        $priceHistory = $item->getItemPriceHistory();
+        $nonCachedItems = [];
 
-        foreach ($priceHistory as $key => $price) {
-            $daysAgo = (int) str_replace('vor_', '', $key);
-            $historyDate = date('Y-m-d', strtotime("-{$daysAgo} days"));
-
-            $itemData = [
-                'itemId' => $item->getItemId(),
-                'price' => $price,
-                'historyDate' => $historyDate
-            ];
-
-            $this->apiService->savePriceHistory($itemData);
+        foreach ($data as $key => &$item) {
+            $itemId = $item['id'];
+            if ($this->cacheService->isImageInCache($itemId)) {
+                $item['itemImage'] = Constants::DIR_ICONS_CACHE . $itemId . '.webp';
+            } else {
+                $nonCachedItems[$itemId] = $key;
+            }
         }
+        unset($item);
+
+        if (!empty($nonCachedItems)) {
+            $nonCachedIds = array_keys($nonCachedItems);
+            $fetchedImages = $this->apiService->getItemImages($nonCachedIds);
+            foreach ($fetchedImages as $itemId => $imgUrl) {
+                if ($imgUrl) {
+                    $this->cacheService->saveImageToCache($imgUrl, $itemId);
+                } else {
+                    $imgUrl = Constants::DIR_ICONS_PLACEHOLDER;
+                }
+                $key = $nonCachedItems[$itemId];
+                $data[$key]['itemImage'] = $imgUrl;
+            }
+        }
+
+        return $data;
     }
 }
