@@ -38,19 +38,14 @@ class ItemMapper
 
         return $item;
     }
-    public function addPriceHistoryInfo(Item $item, string $marketInfo): Item
+    public function addPriceHistoryInfo(Item $item, array $marketInfo): Item
     {
-        $prices = explode('-', $marketInfo);
-
-        $prices = array_map('intval', $prices);
-
-        $priceHistory = [];
 
         for ($tage = 1; $tage <= 90; $tage += 1) {
             $index = 90 - $tage;
 
-            if (isset($prices[$index])) {
-                $priceHistory["vor_{$tage}"] = $prices[$index];
+            if (isset($marketInfo[$index])) {
+                $priceHistory["vor_{$tage}"] = $marketInfo[$index];
             }
         }
 

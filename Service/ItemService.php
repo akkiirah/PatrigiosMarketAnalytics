@@ -152,20 +152,25 @@ class ItemService
 
     public function addPriceHistoryToItems(array $items): array
     {
-        foreach ($items as $key => $item) {
+        $itemIds = [];
+        foreach ($items as $item) {
             $itemIds[] = $item->getItemId();
         }
 
         $marketData = $this->apiService->fetchMultipleItemPriceHistory($itemIds);
 
-        foreach ($items as $key => $item) {
-            $itemMarketData = $marketData[$key]['resultMsg'];
+        $newItems = [];
+        foreach ($items as $item) {
+            $itemId = $item->getItemId();
+            // Sicherstellen, dass es zu diesem Item Daten gibt
+            $itemMarketData = isset($marketData[$itemId]) ? $marketData[$itemId] : [];
             $newItems[] = $this->itemMapper->addPriceHistoryInfo($item, $itemMarketData);
             $this->savePriceHistory($item);
         }
 
         return $newItems;
     }
+
 
     public function saveItemInDatabase(Item $item): void
     {

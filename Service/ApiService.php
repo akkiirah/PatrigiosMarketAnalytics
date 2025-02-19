@@ -69,9 +69,54 @@ class ApiService
     }
     public function fetchMultipleItemPriceHistory(array $itemIds): ?array
     {
-        $priceInfo = $this->apiMarketDataRepository->fetchMultipleItemPriceData($itemIds);
+        $priceInfo = [];
+        $missingItemIds = [];
+
+        // Lokale Daten abfragen
+        foreach ($itemIds as $itemId) {
+            $localData = $this->priceHistoryRepository->getPriceHistoryForItem($itemId);
+
+            if (!empty($localData) && is_array($localData)) {
+                // Für jeden Datensatz den Preis speichern
+                foreach ($localData as $record) {
+                    if (isset($record['price'])) {
+                        $priceInfo[$itemId][] = $record['price'];
+                    }
+                }
+            } else {
+                // Falls keine Daten vorhanden sind, Item-ID merken
+                $missingItemIds[] = $itemId;
+            }
+        }
+
+        // Fehlende Items per API abfragen
+        if (!empty($missingItemIds)) {
+            $apiData = $this->apiMarketDataRepository->fetchMultipleItemPriceData($missingItemIds);
+
+            // Falls nur ein Item zurückkommt, könnte die API ein einzelnes Array zurückgeben,
+            // also prüfen wir auf den Keys 'resultCode' und 'resultMsg'
+            if (isset($apiData['resultCode']) && isset($apiData['resultMsg'])) {
+                // Da nur ein Item fehlt, ordnen wir das Ergebnis dem ersten (und einzigen) fehlenden Item zu
+                $apiData = [$missingItemIds[0] => $apiData];
+            }
+
+            // Jetzt verarbeiten wir die API-Daten
+            foreach ($apiData as $itemId => $data) {
+                if (isset($data['resultMsg'])) {
+                    // Den String in einzelne Preise aufteilen (angenommen, '-' ist der Trenner)
+                    $prices = explode('-', $data['resultMsg']);
+                    // Optional: Umwandeln in Integer, falls gewünscht
+                    $prices = array_map('intval', $prices);
+                    $priceInfo[$itemId] = $prices;
+                }
+            }
+        }
+
         return $priceInfo;
     }
+
+
+
     public function fetchMissingIdsInPriceHistory(): ?array
     {
         $missingIds = $this->priceHistoryRepository->getMissingIds();
