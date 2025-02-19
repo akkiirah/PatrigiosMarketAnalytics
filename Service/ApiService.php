@@ -91,16 +91,21 @@ class ApiService
         $rawData = $this->apiMarketDataRepository->fetchMultipleItemMarketData($itemIds);
         $marketInfo = [];
 
+
+
         // Falls $rawData ein einzelnes Item ist, wrappe es in ein Array
         if (!empty($rawData) && isset($rawData['id'])) {
             $rawData = [$rawData];
         }
 
         if (!empty($rawData)) {
-            // Falls es sich um ein Array von Arrays handelt, direkt iterieren
-            foreach ($rawData as $item) {
+
+            foreach ($rawData as $key => $item) {
+
                 if (isset($item['id'])) {
                     $marketInfo[$item['id']] = $item;
+                } else if (isset($item[0]['id'])) {
+                    $marketInfo[$item[0]['id']] = $item[0];
                 }
             }
         }
