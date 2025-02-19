@@ -3,6 +3,7 @@ import { initItemsList, distributeItems, refreshData, showPriceHistory } from '.
 import { setupPagination, setupAmount } from './pagination.js';
 import { generateHomeLink } from './homeLink.js';
 import { debounce } from './utils.js';
+import { initChart } from './charted.js';
 
 export function initApp() {
     document.addEventListener('DOMContentLoaded', () => {
@@ -17,10 +18,14 @@ export function initApp() {
             setupAmount();
         }
 
+        if (itemsContainer && itemsContainer.classList.contains('detail')) {
+            initChart();
+        }
+
         if (itemsContainer && itemsContainer.classList.contains('start')) {
             distributeItems(itemsWrap);
             window.addEventListener('resize', debounce(() => distributeItems(itemsWrap), 100));
-            refreshData(5, itemsWrap);
+            refreshData(500, itemsWrap);
             showPriceHistory();
         }
 

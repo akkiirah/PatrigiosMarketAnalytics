@@ -1,4 +1,6 @@
-<div class="item-wrap" data-item-id="{$item->getItemId()}" data-item-name="{$item->getItemName()}" data-item-base="{$item->getItemBasePrice()}" data-item-last="{$item->getItemLastSalePrice()}" data-item-last-time="{$item->getItemLastSaleTime()}" data-item-stock="{$item->getItemCurrentStock()}">
+<a href="?controller=Item&action=detail&params=&#123id:{$item->getItemId()}&#125" class="item-wrap" data-item-id="{$item->getItemId()}" data-item-name="{$item->getItemName()}" data-item-base="{$item->getItemBasePrice()}" data-item-last="{$item->getItemLastSalePrice()}" data-item-last-time="{$item->getItemLastSaleTime()}" data-item-stock="{$item->getItemCurrentStock()}">
+    <div class="border-horizontal top"></div>
+    <div class="border-horizontal bottom"></div>
     <div class="item-head">
         <img src="{$item->getItemImage()}" alt="Item Image" />
         <h2 class="item-heading">[{$item->getItemId()}] - {$item->getItemName()}</h2>
@@ -65,4 +67,5 @@
             </span>
         </div>
     </div>
-</div>
+</a>
+ 

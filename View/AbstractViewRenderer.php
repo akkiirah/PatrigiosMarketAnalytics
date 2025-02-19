@@ -18,6 +18,12 @@ abstract class AbstractViewRenderer
         $this->latte->addFilter('number_format', function ($value, $decimals = 0, $decimalSeparator = ',', $thousandSeparator = '.') {
             return number_format($value, $decimals, $decimalSeparator, $thousandSeparator);
         });
+        $this->latte->addFilter('json_encode', function ($value) {
+            return json_encode($value, JSON_UNESCAPED_UNICODE);
+        });
+        $this->latte->addFilter('array_reverse', function ($value) {
+            return array_reverse(array_reverse($value));
+        });
         $this->latte->setTempDirectory(Constants::DIR_CACHE);
         $this->fileStart = Constants::DIR_TEMPLATES . 'start.latte';
         $this->fileList = Constants::DIR_TEMPLATES . 'list.latte';

@@ -39,9 +39,25 @@ class ItemController
 
     public function detailAction(array $params): void
     {
+        $defaultItem = [206];
 
+        $itemQuery = $this->itemService->getItemsByIds($params['id']);
 
-        $this->frontendViewhelper->renderStart();
+        if (!$itemQuery) {
+            $itemQuery = $this->itemService->getItemsByIds($defaultItem);
+        }
+
+        $item = $itemQuery;
+
+        $item = $this->itemService->addMarketInfoToItems($item);
+        $item = $this->itemService->addPriceHistoryToItems($item);
+
+        $templateParams = [
+            'item' => $item,
+            'action' => __FUNCTION__
+        ];
+
+        $this->frontendViewhelper->renderDetail($templateParams);
     }
 
     public function startAction(array $params): void

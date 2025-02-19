@@ -61,8 +61,7 @@ class ApiService
             }
         }
         if (count($items) !== count($itemIds)) {
-            $apiItems = $this->apiItemRepository->fetchItemsByIds($itemIds);
-            $items = array_merge($items, $apiItems);
+            return [];
         }
         return $items;
     }
@@ -73,10 +72,7 @@ class ApiService
     public function getAllItems(): array
     {
         $items = $this->itemRepository->getAllItems();
-        if (!empty($items)) {
-            return $items;
-        }
-        return $this->apiItemRepository->fetchAllItems();
+        return $items;
     }
 
     /**
@@ -95,28 +91,22 @@ class ApiService
         $rawData = $this->apiMarketDataRepository->fetchMultipleItemMarketData($itemIds);
         $marketInfo = [];
 
+        // Falls $rawData ein einzelnes Item ist, wrappe es in ein Array
+        if (!empty($rawData) && isset($rawData['id'])) {
+            $rawData = [$rawData];
+        }
+
         if (!empty($rawData)) {
-            if (isset($rawData[0]) && is_array($rawData[0]) && isset($rawData[0][0])) {
-                foreach ($rawData as $outerArray) {
-                    if (!is_array($outerArray)) {
-                        continue;
-                    }
-                    foreach ($outerArray as $item) {
-                        if (isset($item['id'])) {
-                            $marketInfo[$item['id']] = $item;
-                        }
-                    }
-                }
-            } else {
-                foreach ($rawData as $item) {
-                    if (isset($item['id'])) {
-                        $marketInfo[$item['id']] = $item;
-                    }
+            // Falls es sich um ein Array von Arrays handelt, direkt iterieren
+            foreach ($rawData as $item) {
+                if (isset($item['id'])) {
+                    $marketInfo[$item['id']] = $item;
                 }
             }
         }
         return $marketInfo;
     }
+
 
     /**
      * Ruft Preishistorie-Daten für eine Liste von Item-IDs ab.
@@ -128,16 +118,19 @@ class ApiService
 
         foreach ($itemIds as $itemId) {
             $localData = $this->priceHistoryRepository->getPriceHistoryForItem($itemId);
+
             if (!empty($localData)) {
                 foreach ($localData as $record) {
                     if (isset($record['price'])) {
-                        $priceInfo[$itemId][] = $record['price'];
+                        $priceInfo[$itemId][$record['historyDate']] = $record['price'];
                     }
                 }
             } else {
                 $missingItemIds[] = $itemId;
             }
         }
+
+
 
         if (!empty($missingItemIds)) {
             $apiData = $this->apiMarketDataRepository->fetchMultipleItemPriceData($missingItemIds);
@@ -147,7 +140,7 @@ class ApiService
             foreach ($apiData as $itemId => $data) {
                 if (isset($data['resultMsg'])) {
                     $prices = array_map('intval', explode('-', $data['resultMsg']));
-                    $priceInfo[$itemId] = $prices;
+                    $priceInfo[$missingItemIds[$itemId]] = $prices;
                 }
             }
         }

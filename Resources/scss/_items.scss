@@ -5,10 +5,15 @@
 }
 
 .item-wrap {
+    position: relative;
+    display: block;
     flex: 1 1 100%;
     box-sizing: border-box;
     background-color: $clr-crust;
     padding: e_clamp(20rem, 120rem, .5rem, 1.5rem);
+    color: $clr-text;
+    text-decoration: none;
+    border: .125rem solid transparent;
 
     @include respond_from(64rem) {
         flex: 1 1 calc(50% - 1rem);
@@ -16,6 +21,60 @@
 
     @include respond_from(93.75rem) {
         flex: 1 1 calc(33.33% - 1rem);
+    }
+
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        width: .125rem;
+        height: 0;
+        background-color: $clr-lavender;
+        transition: height 0.45s ease;
+    }
+
+    &::before {
+        left: 0;
+        top: 0;
+    }
+
+    &::after {
+        right: 0;
+        top: 0;
+    }
+
+    .border-horizontal {
+        position: absolute;
+        height: .125rem;
+        width: 0;
+        background-color: $clr-lavender;
+        transition: width 0.3s ease 0.15s;
+    }
+
+    .border-horizontal.top {
+        top: 0;
+        left: 0;
+    }
+
+    .border-horizontal.bottom {
+        bottom: 0;
+        right: 0;
+    }
+}
+
+a.item-wrap {
+
+    &:hover,
+    &:focus-visible {
+
+        &::before,
+        &::after {
+            height: 100%;
+        }
+
+        .border-horizontal {
+            width: 100%;
+        }
     }
 }
 
@@ -126,6 +185,14 @@
     }
 }
 
+
+#itemsContainer.detail {
+    .items-wrap {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+}
 
 #itemsContainer.list {
     .items-wrap {

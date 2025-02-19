@@ -1,0 +1,59 @@
+<div class="item-wrap" data-item-id="{$item->getItemId()}" data-item-name="{$item->getItemName()}" data-item-base="{$item->getItemBasePrice()}" data-item-last="{$item->getItemLastSalePrice()}" data-item-last-time="{$item->getItemLastSaleTime()}" data-item-stock="{$item->getItemCurrentStock()}">
+    <div class="item-head">
+        <img src="{$item->getItemImage()}" alt="Item Image" />
+        <h2 class="item-heading">[{$item->getItemId()}] - {$item->getItemName()}</h2>
+    </div>
+    <div class="item-body-wrap">
+        <div class="item-body">
+            <span class="item-info-desc item-baseprice-desc">Basispreis: </span>
+            <span class="item-info-value item-baseprice-value">
+                <div class="item-baseprice-button-wrap">
+                    <p>
+                        {$item->getItemBasePrice()|number_format(0, ',', '.')} 
+                    </p>
+                </div>
+            </span>
+            {if $item->getItemLastSalePrice() != 0}
+                <span class="item-info-desc item-last-desc">Zuletzt: </span>
+                <span class="item-info-value item-last-value">
+                    <p n:class="$item->getItemLastSalePrice() > $item->getItemBasePrice() ? 'stonks' : ($item->getItemLastSalePrice() < $item->getItemBasePrice() ? 'stinks' : null)">
+                        {$item->getItemLastSalePrice()|number_format(0, ',', '.')}
+                    </p>
+                    <p class="item-last-time">{$item->getItemLastSaleTime()}</p>
+                </span>
+            {else}
+                <span class="item-info-desc item-last-desc">Zuletzt: </span>
+                <span class="item-info-value item-last-value">Datenfehler?</span>
+            {/if}
+            <span class="item-info-desc item-stock-desc">Vorrat: </span>
+            <span class="item-info-value item-stock-value">
+                {$item->getItemCurrentStock()|number_format(0, ',', '.')}
+            </span>
+        </div>
+        <div class="item-body">
+            {if $item->getItemHardCapMin() != 0}
+                <span class="item-info-desc item-minprice-desc">Minpreis: </span>
+                <span class="item-info-value item-minprice-value">
+                    {$item->getItemHardCapMin()|number_format(0, ',', '.')}
+                </span>
+            {/if}
+            {if $item->getItemHardCapMax() != 0}
+                <span class="item-info-desc item-maxprice-desc">Maxpreis: </span>
+                <span class="item-info-value item-maxprice-desc">
+                    {$item->getItemHardCapMax()|number_format(0, ',', '.')}
+                </span>
+            {/if}
+            <span class="item-info-etc item-cat-desc">Kategorie: </span>
+            <span class="item-info-value item-cat-value">
+                {$item->getItemCategory()->getMainCategoryName()}/{$item->getItemCategory()->getSubCategoryName()}
+            </span>
+        </div>
+    </div>
+</div>
+
+<canvas id="preisChart" width="400" height="200"></canvas>
+<p id="priceHistory" style="display:none;">{$item->getItemPriceHistoryDates()|json_encode}</p>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.0.1/dist/chartjs-plugin-zoom.min.js"></script>

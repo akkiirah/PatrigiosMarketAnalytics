@@ -10,6 +10,8 @@ export function distributeItems(itemsWrap) {
     else maxColumns = 3;
 
     const items = Array.from(itemsWrap.querySelectorAll('.item-wrap'));
+    console.log(items);
+
     itemsWrap.innerHTML = '';
 
     const columns = Array.from({ length: maxColumns }, () => {
@@ -83,13 +85,18 @@ export function refreshData(waitInSecs) {
 
 export function showPriceHistory() {
     document.addEventListener("click", (event) => {
-        const target = event.target;
-        if (target && target.matches('#priceButton')) {
-            target.classList.toggle('expanded');
-            const priceWrap = target.parentElement.nextElementSibling;
+        // Suche in der Event-Pfad-Kette nach dem Element mit der ID priceButton
+        const button = event.target.closest('#priceButton');
+        if (button) {
+            event.preventDefault(); // Verhindert das Navigieren des übergeordneten Links
+            event.stopPropagation(); // Verhindert das Weiterreichen des Events
+
+            button.classList.toggle('expanded');
+            const priceWrap = button.parentElement.nextElementSibling;
             if (priceWrap) {
                 priceWrap.classList.toggle('expanded');
             }
         }
     });
 }
+

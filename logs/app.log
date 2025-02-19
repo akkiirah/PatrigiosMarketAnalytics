@@ -1,7 +1,44 @@
-[2025-02-19 12:22:22] [INFO] [/var/www/html/web/Service/ApiService.php:128][info] test 
-[2025-02-19 12:22:28] [INFO] [/var/www/html/web/Service/ApiService.php:128][info] test 
-[2025-02-19 12:22:31] [INFO] [/var/www/html/web/Service/ApiService.php:128][info] test 
-[2025-02-19 12:22:36] [INFO] [/var/www/html/web/Service/ApiService.php:128][info] test 
-[2025-02-19 12:22:38] [INFO] [/var/www/html/web/Service/ApiService.php:128][info] test 
-[2025-02-19 12:22:40] [INFO] [/var/www/html/web/Service/ApiService.php:128][info] test 
-[2025-02-19 12:22:45] [INFO] [/var/www/html/web/Service/ApiService.php:128][info] test 
+[2025-02-19 15:14:20] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined array key 0 in /var/www/html/web/Cache/templates/templates-partials-_item-start.latte--f8949a5826.php on line 49 
+[2025-02-19 15:14:20] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined array key 0 in /var/www/html/web/Cache/templates/templates-partials-_item-start.latte--f8949a5826.php on line 49 
+[2025-02-19 15:14:20] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined array key 0 in /var/www/html/web/Cache/templates/templates-partials-_item-start.latte--f8949a5826.php on line 49 
+[2025-02-19 15:14:20] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined array key 0 in /var/www/html/web/Cache/templates/templates-partials-_item-start.latte--f8949a5826.php on line 49 
+[2025-02-19 15:14:20] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined array key 0 in /var/www/html/web/Cache/templates/templates-partials-_item-start.latte--f8949a5826.php on line 49 
+[2025-02-19 15:14:20] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined array key 0 in /var/www/html/web/Cache/templates/templates-partials-_item-start.latte--f8949a5826.php on line 49 
+[2025-02-19 15:14:20] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined array key 0 in /var/www/html/web/Cache/templates/templates-partials-_item-start.latte--f8949a5826.php on line 49 
+[2025-02-19 15:14:20] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined array key 0 in /var/www/html/web/Cache/templates/templates-partials-_item-start.latte--f8949a5826.php on line 49 
+[2025-02-19 15:14:20] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined array key 0 in /var/www/html/web/Cache/templates/templates-partials-_item-start.latte--f8949a5826.php on line 49 
+[2025-02-19 15:14:20] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined array key 0 in /var/www/html/web/Cache/templates/templates-partials-_item-start.latte--f8949a5826.php on line 49 
+[2025-02-19 15:14:20] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined array key 0 in /var/www/html/web/Cache/templates/templates-partials-_item-start.latte--f8949a5826.php on line 49 
+[2025-02-19 15:14:20] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined array key 0 in /var/www/html/web/Cache/templates/templates-partials-_item-start.latte--f8949a5826.php on line 49 
+[2025-02-19 15:14:20] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined array key 0 in /var/www/html/web/Cache/templates/templates-partials-_item-start.latte--f8949a5826.php on line 49 
+[2025-02-19 15:14:20] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined array key 0 in /var/www/html/web/Cache/templates/templates-partials-_item-start.latte--f8949a5826.php on line 49 
+[2025-02-19 15:14:20] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined array key 0 in /var/www/html/web/Cache/templates/templates-partials-_item-start.latte--f8949a5826.php on line 49 
+[2025-02-19 15:14:20] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined array key 0 in /var/www/html/web/Cache/templates/templates-partials-_item-start.latte--f8949a5826.php on line 49 
+[2025-02-19 15:22:10] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined variable $priceHistory in /var/www/html/web/Model/ItemMapper.php on line 54 
+[2025-02-19 15:22:10] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:21][error] Model\Item::setItemPriceHistory(): Argument #1 ($itemPriceHistory) must be of type array, null given, called in /var/www/html/web/Model/ItemMapper.php on line 54 {"exception":{}}
+[2025-02-19 15:22:11] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined variable $priceHistory in /var/www/html/web/Model/ItemMapper.php on line 54 
+[2025-02-19 15:22:11] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:21][error] Model\Item::setItemPriceHistory(): Argument #1 ($itemPriceHistory) must be of type array, null given, called in /var/www/html/web/Model/ItemMapper.php on line 54 {"exception":{}}
+[2025-02-19 15:22:12] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined variable $priceHistory in /var/www/html/web/Model/ItemMapper.php on line 54 
+[2025-02-19 15:22:12] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:21][error] Model\Item::setItemPriceHistory(): Argument #1 ($itemPriceHistory) must be of type array, null given, called in /var/www/html/web/Model/ItemMapper.php on line 54 {"exception":{}}
+[2025-02-19 15:22:13] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined variable $priceHistory in /var/www/html/web/Model/ItemMapper.php on line 54 
+[2025-02-19 15:22:13] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:21][error] Model\Item::setItemPriceHistory(): Argument #1 ($itemPriceHistory) must be of type array, null given, called in /var/www/html/web/Model/ItemMapper.php on line 54 {"exception":{}}
+[2025-02-19 15:22:14] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined variable $priceHistory in /var/www/html/web/Model/ItemMapper.php on line 54 
+[2025-02-19 15:22:14] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:21][error] Model\Item::setItemPriceHistory(): Argument #1 ($itemPriceHistory) must be of type array, null given, called in /var/www/html/web/Model/ItemMapper.php on line 54 {"exception":{}}
+[2025-02-19 15:22:26] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined variable $priceHistory in /var/www/html/web/Model/ItemMapper.php on line 54 
+[2025-02-19 15:22:26] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:21][error] Model\Item::setItemPriceHistory(): Argument #1 ($itemPriceHistory) must be of type array, null given, called in /var/www/html/web/Model/ItemMapper.php on line 54 {"exception":{}}
+[2025-02-19 15:22:27] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined variable $priceHistory in /var/www/html/web/Model/ItemMapper.php on line 54 
+[2025-02-19 15:22:27] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:21][error] Model\Item::setItemPriceHistory(): Argument #1 ($itemPriceHistory) must be of type array, null given, called in /var/www/html/web/Model/ItemMapper.php on line 54 {"exception":{}}
+[2025-02-19 15:22:28] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined variable $priceHistory in /var/www/html/web/Model/ItemMapper.php on line 54 
+[2025-02-19 15:22:28] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:21][error] Model\Item::setItemPriceHistory(): Argument #1 ($itemPriceHistory) must be of type array, null given, called in /var/www/html/web/Model/ItemMapper.php on line 54 {"exception":{}}
+[2025-02-19 15:22:29] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined variable $priceHistory in /var/www/html/web/Model/ItemMapper.php on line 54 
+[2025-02-19 15:22:29] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:21][error] Model\Item::setItemPriceHistory(): Argument #1 ($itemPriceHistory) must be of type array, null given, called in /var/www/html/web/Model/ItemMapper.php on line 54 {"exception":{}}
+[2025-02-19 15:23:42] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined variable $priceHistory in /var/www/html/web/Model/ItemMapper.php on line 54 
+[2025-02-19 15:23:42] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:21][error] Model\Item::setItemPriceHistory(): Argument #1 ($itemPriceHistory) must be of type array, null given, called in /var/www/html/web/Model/ItemMapper.php on line 54 {"exception":{}}
+[2025-02-19 15:24:42] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined variable $priceHistory in /var/www/html/web/Model/ItemMapper.php on line 54 
+[2025-02-19 15:24:42] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:21][error] Model\Item::setItemPriceHistory(): Argument #1 ($itemPriceHistory) must be of type array, null given, called in /var/www/html/web/Model/ItemMapper.php on line 54 {"exception":{}}
+[2025-02-19 15:24:43] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined variable $priceHistory in /var/www/html/web/Model/ItemMapper.php on line 54 
+[2025-02-19 15:24:43] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:21][error] Model\Item::setItemPriceHistory(): Argument #1 ($itemPriceHistory) must be of type array, null given, called in /var/www/html/web/Model/ItemMapper.php on line 54 {"exception":{}}
+[2025-02-19 15:24:43] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined variable $priceHistory in /var/www/html/web/Model/ItemMapper.php on line 54 
+[2025-02-19 15:24:43] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:21][error] Model\Item::setItemPriceHistory(): Argument #1 ($itemPriceHistory) must be of type array, null given, called in /var/www/html/web/Model/ItemMapper.php on line 54 {"exception":{}}
+[2025-02-19 15:24:43] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined variable $priceHistory in /var/www/html/web/Model/ItemMapper.php on line 54 
+[2025-02-19 15:24:43] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:21][error] Model\Item::setItemPriceHistory(): Argument #1 ($itemPriceHistory) must be of type array, null given, called in /var/www/html/web/Model/ItemMapper.php on line 54 {"exception":{}}

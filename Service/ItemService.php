@@ -88,6 +88,7 @@ class ItemService
      */
     public function addMarketInfoToItems(array $items): array
     {
+
         $itemIds = array_map(fn(Item $item) => $item->getItemId(), $items);
         $marketData = $this->apiService->getMarketData($itemIds);
 
@@ -106,6 +107,7 @@ class ItemService
     {
         $itemIds = array_map(fn(Item $item) => $item->getItemId(), $items);
         $priceHistoryData = $this->apiService->getPriceHistoryData($itemIds);
+
 
         $newItems = [];
         foreach ($items as $item) {

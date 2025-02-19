@@ -40,16 +40,19 @@ class ItemMapper
     }
     public function addPriceHistoryInfo(Item $item, array $marketInfo): Item
     {
+        $i = 1;
 
-        for ($tage = 1; $tage <= 90; $tage += 1) {
-            $index = 90 - $tage;
+        $marketInfoReversed = array_reverse($marketInfo);
 
-            if (isset($marketInfo[$index])) {
-                $priceHistory["vor_{$tage}"] = $marketInfo[$index];
+        foreach ($marketInfoReversed as $value) {
+            if (isset($value)) {
+                $priceHistory["vor_{$i}"] = $value;
             }
+            $i++;
         }
 
         $item->setItemPriceHistory($priceHistory);
+        $item->setItemPriceHistoryDates($marketInfo);
         return $item;
     }
 

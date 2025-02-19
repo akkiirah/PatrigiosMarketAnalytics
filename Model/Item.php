@@ -16,6 +16,7 @@ class Item
     protected string $itemImage = '';
     protected ?Category $itemCategory = null;
     protected array $itemPriceHistory = [];
+    protected array $itemPriceHistoryDates = [];
 
 
     public function getItemName(): string
@@ -66,6 +67,10 @@ class Item
     {
         return $this->itemPriceHistory;
     }
+    public function getItemPriceHistoryDates(): array
+    {
+        return $this->itemPriceHistoryDates;
+    }
     public function setItemName(string $itemName): void
     {
         $this->itemName = $itemName;
@@ -113,5 +118,9 @@ class Item
     public function setItemPriceHistory(array $itemPriceHistory): void
     {
         $this->itemPriceHistory = $itemPriceHistory;
+    }
+    public function setItemPriceHistoryDates(array $itemPriceHistoryDates): void
+    {
+        $this->itemPriceHistoryDates = $itemPriceHistoryDates;
     }
 }
