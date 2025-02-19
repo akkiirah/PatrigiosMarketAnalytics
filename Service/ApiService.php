@@ -9,6 +9,7 @@ use Repository\Local\ItemRepository;
 use Repository\Local\PriceHistoryRepository;
 use Repository\Local\UserNotificationRepository;
 use Repository\Local\UserRepository;
+use Util\LoggingHelper;
 
 class ApiService
 {
@@ -18,7 +19,6 @@ class ApiService
 
     protected ItemRepository $itemRepository;
     protected PriceHistoryRepository $priceHistoryRepository;
-    // Weitere lokale Repositories, falls benötigt
     protected FavoriteItemRepository $favoriteItemRepository;
     protected UserNotificationRepository $userNotificationRepository;
     protected UserRepository $userRepository;
@@ -38,8 +38,6 @@ class ApiService
 
     /**
      * Liefert Items einer Kategorie.
-     * Zuerst wird in der lokalen Datenbank gesucht, falls keine Daten vorliegen,
-     * wird ein API-Aufruf getätigt.
      */
     public function getItemsByCategory(array $categoryData): array
     {
@@ -52,7 +50,6 @@ class ApiService
 
     /**
      * Liefert Items anhand ihrer IDs.
-     * Zunächst wird versucht, die Items aus der DB zu holen.
      */
     public function getItemsByIds(array $itemIds): array
     {
@@ -63,11 +60,8 @@ class ApiService
                 $items[] = $item;
             }
         }
-        // Falls nicht alle Items gefunden wurden, könnte ein API-Aufruf erfolgen:
         if (count($items) !== count($itemIds)) {
-            // Hier wird angenommen, dass es eine Methode zum Abruf per API gibt:
             $apiItems = $this->apiItemRepository->fetchItemsByIds($itemIds);
-            // Optional: Zusammenführen der Ergebnisse
             $items = array_merge($items, $apiItems);
         }
         return $items;
@@ -102,7 +96,6 @@ class ApiService
         $marketInfo = [];
 
         if (!empty($rawData)) {
-            // Unterstützung verschiedener Datenstrukturen
             if (isset($rawData[0]) && is_array($rawData[0]) && isset($rawData[0][0])) {
                 foreach ($rawData as $outerArray) {
                     if (!is_array($outerArray)) {
@@ -127,7 +120,6 @@ class ApiService
 
     /**
      * Ruft Preishistorie-Daten für eine Liste von Item-IDs ab.
-     * Zuerst wird in der DB gesucht; falls nicht vorhanden, erfolgt ein API-Aufruf.
      */
     public function getPriceHistoryData(array $itemIds): array
     {
@@ -149,13 +141,11 @@ class ApiService
 
         if (!empty($missingItemIds)) {
             $apiData = $this->apiMarketDataRepository->fetchMultipleItemPriceData($missingItemIds);
-            // Falls API-Daten als einzelnes Array zurückkommen, anpassen:
             if (isset($apiData['resultCode'], $apiData['resultMsg'])) {
                 $apiData = [$missingItemIds[0] => $apiData];
             }
             foreach ($apiData as $itemId => $data) {
                 if (isset($data['resultMsg'])) {
-                    // Annahme: '-' als Trenner zwischen den Preisen
                     $prices = array_map('intval', explode('-', $data['resultMsg']));
                     $priceInfo[$itemId] = $prices;
                 }
@@ -183,6 +173,10 @@ class ApiService
             if (isset($ex->errorInfo[1]) && $ex->errorInfo[1] === 1062) {
                 $this->itemRepository->updateItem($itemData);
             } else {
+                LoggingHelper::error("Fehler beim Speichern des Items in der DB", [
+                    'itemData' => $itemData,
+                    'exception' => $ex
+                ]);
                 throw $ex;
             }
         }
@@ -196,7 +190,6 @@ class ApiService
         $priceHistory = $item->getItemPriceHistory();
 
         foreach ($priceHistory as $key => $price) {
-            // Beispiel: Schlüssel "vor_7" → 7 Tage zurück
             $daysAgo = (int) str_replace('vor_', '', $key);
             $historyDate = date('Y-m-d', strtotime("-{$daysAgo} days"));
 

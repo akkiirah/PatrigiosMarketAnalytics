@@ -11,13 +11,18 @@ class ComposerStaticInit28ae56f3f44230acd2ded0312e4f802e
         array (
             'View\\' => 5,
         ),
+        'U' => 
+        array (
+            'Util\\' => 5,
+        ),
         'S' => 
         array (
             'Service\\' => 8,
         ),
         'R' => 
         array (
-            'Resources\\' => 10,
+            'Resources\\Local\\' => 16,
+            'Resources\\API\\' => 14,
             'Repository\\' => 11,
         ),
         'M' => 
@@ -44,13 +49,21 @@ class ComposerStaticInit28ae56f3f44230acd2ded0312e4f802e
         array (
             0 => __DIR__ . '/../..' . '/View',
         ),
+        'Util\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/Util',
+        ),
         'Service\\' => 
         array (
             0 => __DIR__ . '/../..' . '/Service',
         ),
-        'Resources\\' => 
+        'Resources\\Local\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/Resources',
+            0 => __DIR__ . '/../..' . '/Resources/Local',
+        ),
+        'Resources\\API\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/Resources/API',
         ),
         'Repository\\' => 
         array (

@@ -37,6 +37,13 @@ class ItemController
         $this->frontendViewhelper->renderList($templateParams);
     }
 
+    public function detailAction(array $params): void
+    {
+
+
+        $this->frontendViewhelper->renderStart();
+    }
+
     public function startAction(array $params): void
     {
         $itemIds = [9218, 9220, 9303, 9305, 9463, 9464, 9609, 9610];
@@ -55,7 +62,7 @@ class ItemController
 
     public function importAction(array $params): void
     {
-        $successful = $this->itemService->updateMissingIdsInPriceHistory();
+        $successful = $this->itemService->updateMissingPriceHistory();
         $msg = $successful ? '<p>Import abgeschlossen. Seite wird in 70 Sekunden neu geladen.</p>' : '<p>Seite wird in 70 Sekunden neu geladen.</p>';
 
         echo '<!DOCTYPE html>
