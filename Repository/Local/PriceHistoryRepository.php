@@ -8,7 +8,7 @@ class PriceHistoryRepository extends AbstractLocalRepository
     {
         $sql = "SELECT * FROM item_price_history 
                 WHERE itemId = :itemId 
-                ORDER BY historyDate DESC";
+                ORDER BY historyDate ASC";
         return $this->queryAll($sql, ['itemId' => $itemId]);
     }
 

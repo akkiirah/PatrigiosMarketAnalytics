@@ -57,22 +57,46 @@ class ApiService
         $itemImage = $this->apiAssetRepository->fetchMultipleItemImageUrls($itemIds);
         return $itemImage;
     }
-    public function fetchItemData(int $itemId): ?array
-    {
-        $marketInfo = $this->apiMarketDataRepository->fetchItemMarketData($itemId);
-        return $marketInfo;
-    }
+
     public function fetchMultipleItemData(array $itemIds): ?array
     {
-        $marketInfo = $this->apiMarketDataRepository->fetchMultipleItemMarketData($itemIds);
+        $rawData = $this->apiMarketDataRepository->fetchMultipleItemMarketData($itemIds);
+
+        if (empty($rawData)) {
+            error_log('fetchMultipleItemData: Keine Daten von fetchMultipleItemMarketData erhalten.');
+            return [];
+        }
+
+        if (isset($rawData[0]) && is_array($rawData[0]) && isset($rawData[0][0])) {
+            $marketInfo = [];
+            foreach ($rawData as $outerArray) {
+                if (!is_array($outerArray)) {
+                    continue;
+                }
+                foreach ($outerArray as $item) {
+                    if (isset($item['id'])) {
+                        $marketInfo[$item['id']] = $item;
+                    }
+                }
+            }
+        } else {
+            $marketInfo = [];
+            foreach ($rawData as $item) {
+                if (isset($item['id'])) {
+                    $marketInfo[$item['id']] = $item;
+                }
+            }
+        }
+
         return $marketInfo;
     }
+
+
     public function fetchMultipleItemPriceHistory(array $itemIds): ?array
     {
         $priceInfo = [];
         $missingItemIds = [];
 
-        // Lokale Daten abfragen
         foreach ($itemIds as $itemId) {
             $localData = $this->priceHistoryRepository->getPriceHistoryForItem($itemId);
 
@@ -89,28 +113,28 @@ class ApiService
             }
         }
 
-        // Fehlende Items per API abfragen
+        // Fehlende Items per API abfragen 
         if (!empty($missingItemIds)) {
             $apiData = $this->apiMarketDataRepository->fetchMultipleItemPriceData($missingItemIds);
 
-            // Falls nur ein Item zurückkommt, könnte die API ein einzelnes Array zurückgeben,
-            // also prüfen wir auf den Keys 'resultCode' und 'resultMsg'
             if (isset($apiData['resultCode']) && isset($apiData['resultMsg'])) {
-                // Da nur ein Item fehlt, ordnen wir das Ergebnis dem ersten (und einzigen) fehlenden Item zu
                 $apiData = [$missingItemIds[0] => $apiData];
             }
 
-            // Jetzt verarbeiten wir die API-Daten
+
+
             foreach ($apiData as $itemId => $data) {
                 if (isset($data['resultMsg'])) {
                     // Den String in einzelne Preise aufteilen (angenommen, '-' ist der Trenner)
                     $prices = explode('-', $data['resultMsg']);
                     // Optional: Umwandeln in Integer, falls gewünscht
                     $prices = array_map('intval', $prices);
-                    $priceInfo[$itemId] = $prices;
+                    $priceInfo[$missingItemIds[$itemId]] = $prices;
+
                 }
             }
         }
+
 
         return $priceInfo;
     }
@@ -139,6 +163,16 @@ class ApiService
     public function getAllItems(): array
     {
         $items = $this->itemRepository->getAllItems();
+        return $items;
+    }
+
+    public function getItemsFromID(array $itemIds): array
+    {
+        $items = [];
+        foreach ($itemIds as $key => $itemId) {
+            $items[] = $this->itemRepository->getItemById($itemId);
+        }
+
         return $items;
     }
 

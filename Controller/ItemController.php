@@ -39,25 +39,10 @@ class ItemController
 
     public function startAction(array $params): void
     {
-        $categoryData = [
-            ['mainCategory' => 35, 'subCategory' => 4],
-            ['mainCategory' => 30, 'subCategory' => 1]
-        ];
+        $itemIds = [9218, 9220, 9303, 9305, 9463, 9464, 9609, 9610];
 
-        $itemNames = [
-            'Valencia Meal',
-            'King of Jungle Hamburg',
-            'Teff Sandwich',
-            'Black Stone',
-            'Sharp Black Crystal Shard',
-            'Black Gem Fragment',
-            'Black Gem',
-            'Memory Fragment',
-            'Caphras Stone',
-            'Essence of Dawn'
-        ];
-
-        $allItems = $this->fetchAndPrepareItems($categoryData, $itemNames);
+        $allItems = $this->itemService->getItemsFromID($itemIds);
+        $allItems = $this->itemService->addMarketInfoToItems($allItems);
         $allItems = $this->itemService->addPriceHistoryToItems($allItems);
 
         $templateParams = [
@@ -102,9 +87,4 @@ class ItemController
         return $defaultCategoryData;
     }
 
-    protected function fetchAndPrepareItems(array $categoryData, ?array $itemNames = null): array
-    {
-        $allItems = $this->itemService->getItemsFromCategory($categoryData, $itemNames);
-        return $this->itemService->addMarketInfoToItems($allItems);
-    }
 }

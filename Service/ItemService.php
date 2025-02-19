@@ -20,15 +20,53 @@ class ItemService
         $this->cacheService = new CacheService();
     }
 
-    public function getItemsFromCategory(array $categoryData, array $itemNames = []): array
+    public function getItemsFromCategory(array $categoryData): array
     {
         $items = $this->getAllItemsFromCategory($categoryData);
+        return $items;
+    }
 
-        if ($itemNames) {
-            return $this->getSpecificItemsFromCategory($items, $itemNames);
-        } else {
-            return $items;
+    public function getItemsFromID(array $itemIds): array
+    {
+        $itemsArr = $this->apiService->getItemsFromID($itemIds);
+
+        foreach ($itemsArr as $key => &$item) {
+            $itemId = $item['id'];
+
+            if ($this->cacheService->isImageInCache($itemId)) {
+
+                $item['itemImage'] = Constants::DIR_ICONS_CACHE . $itemId . '.webp';
+            } else {
+
+                $nonCachedItems[$itemId] = $key;
+            }
         }
+        unset($item);
+
+        if (!empty($nonCachedItems)) {
+            $nonCachedIds = array_keys($nonCachedItems);
+
+            $fetchedImages = $this->apiService->fetchItemsImages($nonCachedIds);
+
+            foreach ($fetchedImages as $itemId => $imgUrl) {
+                if ($imgUrl) {
+                    $this->cacheService->saveImageToCache($imgUrl, $itemId);
+                } else {
+                    $imgUrl = Constants::DIR_ICONS_PLACEHOLDER;
+                }
+
+                $key = $nonCachedItems[$itemId];
+                $data[$key]['itemImage'] = $imgUrl;
+            }
+        }
+
+        $items = [];
+        foreach ($itemsArr as $item) {
+            $itemObj = $this->itemMapper->createItemFromArray($item);
+            $items[$itemObj->getItemId()] = $itemObj;
+        }
+
+        return $items;
     }
 
     public function getAllItems(): array
@@ -82,9 +120,12 @@ class ItemService
 
         $marketData = $this->apiService->fetchMultipleItemData($itemIds);
 
-        foreach ($items as $key => $item) {
+        foreach ($items as $item) {
+            $itemId = $item->getItemId();
 
-            $newItems[] = $this->itemMapper->addMarketInfo($item, $marketData[$key]);
+            $marketInfoForItem = $marketData[$itemId] ?? null;
+
+            $newItems[] = $this->itemMapper->addMarketInfo($item, $marketInfoForItem);
         }
 
         return $newItems;
@@ -158,6 +199,8 @@ class ItemService
         }
 
         $marketData = $this->apiService->fetchMultipleItemPriceHistory($itemIds);
+
+
 
         $newItems = [];
         foreach ($items as $item) {
