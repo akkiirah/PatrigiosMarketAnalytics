@@ -1,3 +1,5 @@
+
+
 export function initChart() {
     const priceHistory = JSON.parse(document.getElementById('priceHistory').textContent);
 
@@ -6,6 +8,12 @@ export function initChart() {
     // Erstelle Arrays für Labels und Daten
     const labels = Object.keys(priceHistory); // Extrahiert die Datumswerte
     const prices = Object.values(priceHistory); // Extrahiert die Preiswerte
+
+    const itemMin = document.querySelector('.item-wrap').getAttribute('data-item-minprice');
+    const itemMax = document.querySelector('.item-wrap').getAttribute('data-item-maxprice');
+    const itemMinNum = parseInt(itemMin, 10);
+    const itemMaxNum = parseInt(itemMax, 10);
+
 
     // Farben für Anstieg und Fall
     const lineColor = prices[prices.length - 1] > prices[0] ? '#a6e3a1' : '#f38ba8'; // Anstieg = #a6e3a1, Fall = #f38ba8
@@ -27,7 +35,7 @@ export function initChart() {
                 pointBackgroundColor: fillColor,
                 pointBorderColor: fillColor,
                 pointRadius: 3,
-                pointHoverRadius: 5,
+                pointHoverRadius: 12,
                 pointStyle: 'circle'
             }]
         },
@@ -41,18 +49,46 @@ export function initChart() {
                     ticks: {
                         callback: function (value, index) {
                             // Zeige nur jedes 30. Label an
-                            if (index % 4 === 0) {
+                            if (index % 1 === 0) {
                                 return this.getLabelForValue(value);
                             } else {
                                 return ''; // Blende alle anderen Labels aus
                             }
                         }
+                    },
+                    grid: {
+                        display: true,
+                        color: 'rgba(200, 200, 200, 0.1)'
                     }
                 },
                 y: {
                     title: {
                         display: true,
                         text: 'Preis'
+                    },
+                    min: itemMinNum,
+                    max: itemMaxNum,
+                    grid: {
+                        display: true,
+                        color: 'rgba(200, 200, 200, 0.1)'
+                    }
+                }
+
+            },
+            plugins: {
+                zoom: {
+                    limits: {
+                        y: { min: itemMinNum, max: itemMaxNum }
+                    },
+                    pan: {
+                        enabled: true,
+                        mode: 'xy',
+                        modifierKey: null
+                    },
+                    zoom: {
+                        wheel: { enabled: true },
+                        pinch: { enabled: true },
+                        mode: 'xy'
                     }
                 }
             }

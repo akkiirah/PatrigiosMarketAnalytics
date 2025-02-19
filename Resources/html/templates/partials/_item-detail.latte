@@ -1,4 +1,4 @@
-<div class="item-wrap" data-item-id="{$item->getItemId()}" data-item-name="{$item->getItemName()}" data-item-base="{$item->getItemBasePrice()}" data-item-last="{$item->getItemLastSalePrice()}" data-item-last-time="{$item->getItemLastSaleTime()}" data-item-stock="{$item->getItemCurrentStock()}">
+<div class="item-wrap" data-item-id="{$item->getItemId()}" data-item-name="{$item->getItemName()}" data-item-base="{$item->getItemBasePrice()}" data-item-last="{$item->getItemLastSalePrice()}" data-item-last-time="{$item->getItemLastSaleTime()}" data-item-stock="{$item->getItemCurrentStock()}" data-item-minprice="{$item->getItemHardCapMin()}" data-item-maxprice="{$item->getItemHardCapMax()}">
     <div class="item-head">
         <img src="{$item->getItemImage()}" alt="Item Image" />
         <h2 class="item-heading">[{$item->getItemId()}] - {$item->getItemName()}</h2>
@@ -53,7 +53,3 @@
 
 <canvas id="preisChart" width="400" height="200"></canvas>
 <p id="priceHistory" style="display:none;">{$item->getItemPriceHistoryDates()|json_encode}</p>
-
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.0.1/dist/chartjs-plugin-zoom.min.js"></script>

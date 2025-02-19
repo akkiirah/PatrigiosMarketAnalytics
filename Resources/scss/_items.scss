@@ -187,6 +187,10 @@ a.item-wrap {
 
 
 #itemsContainer.detail {
+    #preisChart {
+        touch-action: none;
+    }
+
     .items-wrap {
         flex-direction: column;
         gap: 2rem;
