@@ -135,8 +135,6 @@ class ApiService
             }
         }
 
-
-
         if (!empty($missingItemIds)) {
             $apiData = $this->apiMarketDataRepository->fetchMultipleItemPriceData($missingItemIds);
             if (isset($apiData['resultCode'], $apiData['resultMsg'])) {
@@ -145,10 +143,15 @@ class ApiService
             foreach ($apiData as $itemId => $data) {
                 if (isset($data['resultMsg'])) {
                     $prices = array_map('intval', explode('-', $data['resultMsg']));
-                    $priceInfo[$missingItemIds[$itemId]] = $prices;
+                    if (isset($priceInfo[$missingItemIds[$itemId]])) {
+                        $priceInfo[$missingItemIds[$itemId]] = $prices;
+                    } else {
+                        $priceInfo[$missingItemIds[0]] = $prices;
+                    }
                 }
             }
         }
+
         return $priceInfo;
     }
 

@@ -108,7 +108,6 @@ class ItemService
         $itemIds = array_map(fn(Item $item) => $item->getItemId(), $items);
         $priceHistoryData = $this->apiService->getPriceHistoryData($itemIds);
 
-
         $newItems = [];
         foreach ($items as $item) {
             $itemId = $item->getItemId();
