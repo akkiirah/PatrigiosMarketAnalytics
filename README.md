@@ -16,11 +16,11 @@ Ein Web-Projekt zur Speicherung und Analyse von Items, inklusive Preisentwicklun
   - [ ] Sicherheitsmaßnahmen (Token, CSRF-Schutz, etc.)  
 
 ### **📂 Datenbank & API**  
-- [ ] **CHECKEN OB MULTICURL ÜBERHAUPT NOTWENDIG IST WEIL [HIER](https://documenter.getpostman.com/view/4028519/TzK2bEVg#1c15b03d-a58b-4c0b-859c-5da9f74d6679) "If multiple ids are given..."**  
-- [ ] **Items in Datenbank speichern** (alle Daten außer Preisangaben)  
-- [ ] **Alle Items von der API abrufen und speichern**  
-  - [ ] Vorher Datenbank leeren, um eine frische Datenbasis zu haben  
-- [ ] **Preise pro Item anhand der ID abrufen und speichern**  
+- [X] **CHECKEN OB MULTICURL ÜBERHAUPT NOTWENDIG IST WEIL [HIER](https://documenter.getpostman.com/view/4028519/TzK2bEVg#1c15b03d-a58b-4c0b-859c-5da9f74d6679) "If multiple ids are given..."**  
+- [X] **Items in Datenbank speichern** (alle Daten außer Preisangaben)  
+- [X] **Alle Items von der API abrufen und speichern**  
+  ~~- [ ] Vorher Datenbank leeren, um eine frische Datenbasis zu haben~~
+- [X] **Preise pro Item anhand der ID abrufen und speichern**  
 - [ ] **Höchsten Vorbestellpreis und niedrigsten Verkäuferpreis speichern**  
 - [X] **Bilder speichern** (als Text in der DB oder als Datei im Cache-Verzeichnis zur Ladezeit-Optimierung)  
 - [X] **ApiDataRepository überarbeiten**  
@@ -29,7 +29,7 @@ Ein Web-Projekt zur Speicherung und Analyse von Items, inklusive Preisentwicklun
 ### **📊 Preisberechnung & Anzeige**  
 - [ ] Dropdown für Preisübersicht:  
   - [X] **Auf der Startseite**  
-  - [ ] **Auf Detailseiten**  
+  ~~- [] Auf Detailseiten~~  
 - [ ] **Täglichen Item-Throughput ermitteln**  
   - [ ] Wie viele Items werden täglich eingestellt?  
   - [ ] Wie viele Items werden täglich verkauft?  
@@ -56,8 +56,8 @@ Ein Web-Projekt zur Speicherung und Analyse von Items, inklusive Preisentwicklun
   - [ ] **Popup/Banner zur Auswahl der Kriterien für Benachrichtigungen (Preis, Verfügbarkeit, etc.)**  
 
 ### **📈 Detailseite mit Graphen**  
-- [ ] **Item-Detailseite erstellen**  
-  - [ ] Preisentwicklung grafisch darstellen  
+- [X] **Item-Detailseite erstellen**  
+  - [X] Preisentwicklung grafisch darstellen  
 
 ### **🔄 Automatische Updates & AJAX**  
 - [X] **API alle paar Sekunden abrufen**  
