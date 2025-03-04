@@ -261,10 +261,12 @@ a.item-wrap {
     margin-left: .25rem;
     transition: scale 250ms ease;
     width: 2rem;
+    aspect-ratio: 1/1;
+
 
     #itemsContainer.start & {
         margin-left: auto;
-        width: 1.25rem;
+        padding: 1rem;
     }
 
 
