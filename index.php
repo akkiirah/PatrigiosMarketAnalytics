@@ -1,6 +1,7 @@
 <?php
-
 require 'vendor/autoload.php';
+session_start();
+
 
 use Engine\Routing;
 use Util\ErrorHandler;

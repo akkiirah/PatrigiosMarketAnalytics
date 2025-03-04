@@ -37,6 +37,9 @@ final class Template_eb7cce7ce0 extends Latte\Runtime\Template
 		echo '] - ';
 		echo LR\Filters::escapeHtmlText($item->getItemName()) /* line 6 */;
 		echo '</h2>
+        <span class="item-pin" id="item-pin-';
+		echo LR\Filters::escapeHtmlAttr($item->getItemId()) /* line 7 */;
+		echo '"></span>
         <div class="item-values">
             <span class="item-info-desc item-baseprice-desc">Basispreis: </span>
             <span class="item-info-desc item-baseprice-desc">Letzter Preis: </span>
@@ -44,34 +47,34 @@ final class Template_eb7cce7ce0 extends Latte\Runtime\Template
             <span class="item-info-desc item-baseprice-desc">Vorrat: </span>
             <span class="item-info-value item-baseprice-value">
                 ';
-		echo LR\Filters::escapeHtmlText(($this->filters->number_format)($item->getItemBasePrice(), 0, ',', '.')) /* line 13 */;
+		echo LR\Filters::escapeHtmlText(($this->filters->number_format)($item->getItemBasePrice(), 0, ',', '.')) /* line 14 */;
 		echo '
             </span>
 ';
-		if ($item->getItemLastSalePrice() != 0) /* line 15 */ {
+		if ($item->getItemLastSalePrice() != 0) /* line 16 */ {
 			echo '                <span class="item-info-value item-last-value">
                     <p';
-			echo ($ʟ_tmp = array_filter([$item->getItemLastSalePrice() > $item->getItemBasePrice() ? 'stonks' : ($item->getItemLastSalePrice() < $item->getItemBasePrice() ? 'stinks' : null)])) ? ' class="' . LR\Filters::escapeHtmlAttr(implode(" ", array_unique($ʟ_tmp))) . '"' : "" /* line 17 */;
+			echo ($ʟ_tmp = array_filter([$item->getItemLastSalePrice() > $item->getItemBasePrice() ? 'stonks' : ($item->getItemLastSalePrice() < $item->getItemBasePrice() ? 'stinks' : null)])) ? ' class="' . LR\Filters::escapeHtmlAttr(implode(" ", array_unique($ʟ_tmp))) . '"' : "" /* line 18 */;
 			echo '>
                         ';
-			echo LR\Filters::escapeHtmlText(($this->filters->number_format)($item->getItemLastSalePrice(), 0, ',', '.')) /* line 18 */;
+			echo LR\Filters::escapeHtmlText(($this->filters->number_format)($item->getItemLastSalePrice(), 0, ',', '.')) /* line 19 */;
 			echo '
                     </p>
                 </span>
                 <span class="item-info-value item-last-time-value">
                     ';
-			echo LR\Filters::escapeHtmlText($item->getItemLastSaleTime()) /* line 22 */;
+			echo LR\Filters::escapeHtmlText($item->getItemLastSaleTime()) /* line 23 */;
 			echo '
                 </span>
 ';
-		} else /* line 24 */ {
+		} else /* line 25 */ {
 			echo '                <span class="item-info-value item-last-value">-</span>
                 <span class="item-info-value item-last-time-value">-</span>
 ';
 		}
 		echo '            <span class="item-info-value item-stock-value">
                 ';
-		echo LR\Filters::escapeHtmlText(($this->filters->number_format)($item->getItemCurrentStock(), 0, ',', '.')) /* line 29 */;
+		echo LR\Filters::escapeHtmlText(($this->filters->number_format)($item->getItemCurrentStock(), 0, ',', '.')) /* line 30 */;
 		echo '
             </span>
         </div>

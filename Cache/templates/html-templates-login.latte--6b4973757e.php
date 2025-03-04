@@ -50,7 +50,7 @@ final class Template_6b4973757e extends Latte\Runtime\Template
 		extract($ʟ_args);
 		unset($ʟ_args);
 
-		echo '    <form action="/php/actions/signIn.php" method="post" class="input-login">
+		echo '    <form id="loginForm" method="post" class="input-login">
         <div class="left-wrap">
             <div class="notice-wrap">
                 <span class="notice">Login to Your Account</span>

@@ -237,7 +237,8 @@ a.logo-wrap {
     }
 }
 
-.login-btn {
+.login-btn,
+.logout-btn {
     position: relative;
     display: block;
     background-color: transparent;
@@ -265,5 +266,27 @@ a.logo-wrap {
     &:focus-visible {
         cursor: pointer;
         scale: 1.1;
+    }
+}
+
+.user-wrap {
+    display: flex;
+    align-items: center;
+    margin-left: 2.25rem;
+
+    .logout-btn {
+        height: 1.25rem;
+        margin-left: .5rem;
+    }
+
+    .username {
+        font-size: $font-size-1l;
+    }
+}
+
+.logout-btn {
+
+    &::after {
+        background-image: url(/Resources/assets/icons/logout.png);
     }
 }

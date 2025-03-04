@@ -4,6 +4,7 @@ import { setupPagination, setupAmount } from './pagination.js';
 import { generateHomeLink } from './homeLink.js';
 import { debounce } from './utils.js';
 import { initChart } from './charted.js';
+import { loginRegister } from './user.js';
 
 export function initApp() {
     document.addEventListener('DOMContentLoaded', () => {
@@ -21,6 +22,10 @@ export function initApp() {
 
         if (itemsContainer && itemsContainer.classList.contains('detail')) {
             initChart();
+        }
+
+        if (document.querySelector('.input-login') || document.querySelector('.input-register')) {
+            loginRegister();
         }
 
         if (itemsContainer && itemsContainer.classList.contains('start')) {

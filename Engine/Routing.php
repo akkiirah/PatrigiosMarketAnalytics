@@ -3,6 +3,7 @@
 namespace Engine;
 
 use Controller\ItemController;
+use Model\User;
 
 class Routing
 {
@@ -14,28 +15,26 @@ class Routing
     {
         $this->controller = isset($_GET['controller']) ? $_GET['controller'] : 'Item';
         $this->action = isset($_GET['action']) ? $_GET['action'] : 'Start';
-        $this->params = isset($_GET['params']) ? $this->parseParams($_GET['params']) : [];
+        $this->params = ($_SERVER['REQUEST_METHOD'] === 'POST')
+            ? $_POST
+            : (isset($_GET['params']) ? $this->parseParams($_GET['params']) : []);
     }
 
     public function route()
     {
-        $controller = 'Controller\\' . $this->controller . 'Controller';
-        $action = $this->action . 'Action';
+        $controllerClass = 'Controller\\' . $this->controller . 'Controller';
+        $actionMethod = $this->action . 'Action';
 
-        $params = [];
-        if (isset($_GET['params'])) {
-            $params = $this->parseParams($_GET['params']);
-        }
+        if (class_exists($controllerClass)) {
+            if (method_exists($controllerClass, $actionMethod)) {
+                $controllerInstance = new $controllerClass();
+                $controllerInstance->$actionMethod($this->params);
 
-        if (class_exists($controller)) {
-            if (method_exists($controller, $action)) {
-                $controllerInstance = new $controller();
-                $controllerInstance->$action($params);
             } else {
-                echo 'Hoppla, Methode ' . $action . ' existiert nicht';
+                echo 'Hoppla, Methode ' . $actionMethod . ' existiert nicht';
             }
         } else {
-            echo 'Hoppla, Controller ' . $controller . ' existiert nicht';
+            echo 'Hoppla, Controller ' . $controllerClass . ' existiert nicht';
         }
     }
 

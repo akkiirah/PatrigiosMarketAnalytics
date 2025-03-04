@@ -33,7 +33,7 @@ class ItemController
         $paginationData['items'] = $this->itemService->addMarketInfoToItems($paginationData['items']);
         $paginationData['items'] = $this->itemService->addPriceHistoryToItems($paginationData['items']);
 
-        $templateParams = array_merge(['action' => __FUNCTION__], $paginationData);
+        $templateParams = array_merge(['action' => __FUNCTION__, 'user' => $_SESSION['user'] ?? null,], $paginationData);
         $this->frontendViewhelper->renderList($templateParams);
     }
 
@@ -54,6 +54,7 @@ class ItemController
 
         $templateParams = [
             'item' => $item,
+            'user' => $_SESSION['user'] ?? null,
             'action' => __FUNCTION__
         ];
 
@@ -62,18 +63,26 @@ class ItemController
 
     public function startAction(array $params): void
     {
-        $itemIds = [9218, 9220, 9303, 9305, 9463, 9464, 9609, 9610];
+        if (isset($_SESSION['user'])) {
+            $user = $_SESSION['user'];
+            $itemIds = [9218, 9220, 9303, 9305, 9463, 9464, 9609, 9610];
 
-        $allItems = $this->itemService->getItemsByIds($itemIds);
-        $allItems = $this->itemService->addMarketInfoToItems($allItems);
-        $allItems = $this->itemService->addPriceHistoryToItems($allItems);
+            $allItems = $this->itemService->getItemsByIds($itemIds);
+            $allItems = $this->itemService->addMarketInfoToItems($allItems);
+            $allItems = $this->itemService->addPriceHistoryToItems($allItems);
 
-        $templateParams = [
-            'items' => $allItems,
-            'action' => __FUNCTION__
-        ];
+            $templateParams = [
+                'items' => $allItems,
+                'user' => $_SESSION['user'] ?? null,
+                'action' => __FUNCTION__
+            ];
 
-        $this->frontendViewhelper->renderStart($templateParams);
+            $this->frontendViewhelper->renderStart($templateParams);
+        } else {
+
+            header('Location: /?controller=User&action=login');
+            exit;
+        }
     }
 
     public function importAction(array $params): void

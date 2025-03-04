@@ -8,14 +8,15 @@
 			<nav class="menu" id="menu">
 				<button id="menu-categories-button"><span>Categories</span></button>
 			</nav>
-			<!-- 
-			{if $loggedIn}
-				<span>{}</span>
+			{if $user}
+				<div class="user-wrap">
+					<span class="username">{$user->getUserName()}</span>	
+					<a href="?controller=User&action=logout" class="logout-btn"></a>
+				</div>
+
 				{else}
 				<a href="?controller=User&action=login" class="login-btn"></a>
 			{/if} 
-			-->
-			<a href="?controller=User&action=login" class="login-btn"></a>
 		</div>
 	</header>
 	<div id="menu-categories-content" class="max-width-layout"></div>

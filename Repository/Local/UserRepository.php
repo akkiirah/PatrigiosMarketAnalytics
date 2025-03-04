@@ -18,8 +18,8 @@ class UserRepository extends AbstractLocalRepository
 
     public function insertUser(array $data): ?int
     {
-        $sql = "INSERT INTO user (username, password) 
-                VALUES (:username, :password)";
+        $sql = "INSERT INTO user (username, password, email) 
+                VALUES (:username, :password, :email)";
         return $this->insert($sql, $data);
     }
 

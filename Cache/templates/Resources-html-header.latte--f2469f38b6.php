@@ -37,18 +37,21 @@ final class Template_f2469f38b6 extends Latte\Runtime\Template
 			<nav class="menu" id="menu">
 				<button id="menu-categories-button"><span>Categories</span></button>
 			</nav>
-			<!-- 
 ';
-		if ($loggedIn) /* line 12 */ {
-			echo '				<span>{}</span>
+		if ($user) /* line 11 */ {
+			echo '				<div class="user-wrap">
+					<span class="username">';
+			echo LR\Filters::escapeHtmlText($user->getUserName()) /* line 13 */;
+			echo '</span>	
+					<a href="?controller=User&action=logout" class="logout-btn"></a>
+				</div>
+
 ';
-		} else /* line 14 */ {
+		} else /* line 17 */ {
 			echo '				<a href="?controller=User&action=login" class="login-btn"></a>
 ';
 		}
-		echo '			-->
-			<a href="?controller=User&action=login" class="login-btn"></a>
-		</div>
+		echo '		</div>
 	</header>
 	<div id="menu-categories-content" class="max-width-layout"></div>
 	<div class="menu-overlay"></div>

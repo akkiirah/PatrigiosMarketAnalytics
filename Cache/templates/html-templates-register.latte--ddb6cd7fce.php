@@ -50,7 +50,7 @@ final class Template_ddb6cd7fce extends Latte\Runtime\Template
 		extract($ʟ_args);
 		unset($ʟ_args);
 
-		echo '    <form action="/php/actions/signUp.php" method="post" class="input-register">
+		echo '    <form id="loginForm" method="post" class="input-register">
         <div class="left-wrap">
             <div class="notice-wrap">
                 <span class="notice">Create a new Account</span>
@@ -63,7 +63,7 @@ final class Template_ddb6cd7fce extends Latte\Runtime\Template
                 placeholder="e.g. xXdAnKwEaBooXx" 
                 required>
 
-                <input 
+            <input 
                 type="email" 
                 name="email" 
                 class="email-input input" 

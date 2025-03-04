@@ -57,7 +57,9 @@ final class Template_75fa26b43c extends Latte\Runtime\Template
 
 		echo '    <div class="heading">
         <div class="title">
-            <h1>Homepage</h1>
+            <h1>Hello <span class="highlight">';
+		echo LR\Filters::escapeHtmlText($user->getUserName()) /* line 10 */;
+		echo '</span></h1>
             <h2>Favorite Items</h2>
         </div>
     </div>
