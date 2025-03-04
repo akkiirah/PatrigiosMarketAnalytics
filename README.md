@@ -5,14 +5,14 @@ Ein Web-Projekt zur Speicherung und Analyse von Items, inklusive Preisentwicklun
 ## 📝 To-Do-Liste  
 
 ### **🛠️ Authentifizierung & User-Sessions**  
-- [ ] **Login- & Session-System einrichten**  
-  - [ ] Nutzer können sich einloggen & bleiben eingeloggt  
-  - [ ] Gespeicherte Daten (z. B. angeheftete Items) sind user-spezifisch  
-- [ ] **Registrierung ermöglichen (falls notwendig)**  
-  - [ ] Nutzer können sich neu registrieren  
-  - [ ] Hashing der Passwörter (bcrypt o. Ä.)  
-- [ ] **Session-Handling für eingeloggte User**  
-  - [ ] Bei Logout werden Sessions gelöscht  
+- [X] **Login- & Session-System einrichten**  
+  - [X] Nutzer können sich einloggen & bleiben eingeloggt  
+  - [X] Gespeicherte Daten (z. B. angeheftete Items) sind user-spezifisch  
+- [X] **Registrierung ermöglichen (falls notwendig)**  
+  - [X] Nutzer können sich neu registrieren  
+  - [X] Hashing der Passwörter (bcrypt o. Ä.)  
+- [X] **Session-Handling für eingeloggte User**  
+  - [X] Bei Logout werden Sessions gelöscht  
   - [ ] Sicherheitsmaßnahmen (Token, CSRF-Schutz, etc.)  
 
 ### **📂 Datenbank & API**  
