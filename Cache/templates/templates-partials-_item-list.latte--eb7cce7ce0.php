@@ -37,9 +37,7 @@ final class Template_eb7cce7ce0 extends Latte\Runtime\Template
 		echo '] - ';
 		echo LR\Filters::escapeHtmlText($item->getItemName()) /* line 6 */;
 		echo '</h2>
-        <span class="item-pin" id="item-pin-';
-		echo LR\Filters::escapeHtmlAttr($item->getItemId()) /* line 7 */;
-		echo '"></span>
+
         <div class="item-values">
             <span class="item-info-desc item-baseprice-desc">Basispreis: </span>
             <span class="item-info-desc item-baseprice-desc">Letzter Preis: </span>
@@ -78,7 +76,14 @@ final class Template_eb7cce7ce0 extends Latte\Runtime\Template
 		echo '
             </span>
         </div>
-    </div> 
+';
+		if ($user) /* line 33 */ {
+			echo '            <button class="item-pin" id="item-pin-';
+			echo LR\Filters::escapeHtmlAttr($item->getItemId()) /* line 34 */;
+			echo '"></button>
+';
+		}
+		echo '    </div> 
 </a>
 ';
 	}

@@ -30,6 +30,8 @@
                 {$item->getItemCurrentStock()|number_format(0, ',', '.')}
             </span>
         </div>
-        <span class="item-pin" id="item-pin-{$item->getItemId()}"></span>
+        {if $user}
+            <button class="item-pin" id="item-pin-{$item->getItemId()}"></button>
+        {/if}
     </div> 
 </a>

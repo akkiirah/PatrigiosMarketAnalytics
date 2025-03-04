@@ -5,6 +5,7 @@ import { generateHomeLink } from './homeLink.js';
 import { debounce } from './utils.js';
 import { initChart } from './charted.js';
 import { loginRegister } from './user.js';
+import { toggleFavoriteItem } from './favorites.js';
 
 export function initApp() {
     document.addEventListener('DOMContentLoaded', () => {
@@ -18,6 +19,7 @@ export function initApp() {
             initItemsList(itemsWrap);
             setupPagination();
             setupAmount();
+            toggleFavoriteItem();
         }
 
         if (itemsContainer && itemsContainer.classList.contains('detail')) {
@@ -33,6 +35,7 @@ export function initApp() {
             window.addEventListener('resize', debounce(() => distributeItems(itemsWrap), 100));
             refreshData(500, itemsWrap);
             showPriceHistory();
+            toggleFavoriteItem();
         }
 
         Notification.requestPermission();

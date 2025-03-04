@@ -251,3 +251,45 @@ a.item-wrap {
         }
     }
 }
+
+.item-pin {
+    position: relative;
+    display: block;
+    background-color: transparent;
+    border: none;
+    padding-block: .5rem;
+    margin-left: .25rem;
+    transition: scale 250ms ease;
+    width: 2rem;
+
+    #itemsContainer.start & {
+        margin-left: auto;
+        width: 1.25rem;
+    }
+
+
+    &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background-image: url(/Resources/assets/icons/pin.png);
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    &.active {
+        &::after {
+            background-image: url(/Resources/assets/icons/pin-active.png);
+        }
+    }
+
+    &:hover,
+    &:focus-visible {
+        cursor: pointer;
+        scale: 1.1;
+    }
+}

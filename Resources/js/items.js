@@ -39,7 +39,7 @@ export function initItemsList(itemsWrap) {
 export function refreshData(waitInSecs) {
     setTimeout(() => {
         const expandedItems = [];
-        document.querySelectorAll('#priceButton.expanded').forEach(btn => {
+        document.querySelectorAll('.price-button.expanded').forEach(btn => {
             const id = btn.getAttribute('data-id');
             if (id) {
                 expandedItems.push(id);
@@ -65,7 +65,7 @@ export function refreshData(waitInSecs) {
                 observeToNotificate();
 
                 expandedItems.forEach(id => {
-                    const btn = document.querySelector(`#priceButton[data-id="${id}"]`);
+                    const btn = document.querySelector(`.price-button[data-id="${id}"]`);
                     if (btn) {
                         btn.classList.add('expanded');
                         const priceWrap = btn.parentElement.nextElementSibling;
@@ -86,7 +86,7 @@ export function refreshData(waitInSecs) {
 export function showPriceHistory() {
     document.addEventListener("click", (event) => {
         // Suche in der Event-Pfad-Kette nach dem Element mit der ID priceButton
-        const button = event.target.closest('#priceButton');
+        const button = event.target.closest('.price-button');
         if (button) {
             event.preventDefault(); // Verhindert das Navigieren des übergeordneten Links
             event.stopPropagation(); // Verhindert das Weiterreichen des Events

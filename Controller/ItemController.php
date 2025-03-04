@@ -3,6 +3,7 @@
 namespace Controller;
 
 use Service\ItemService;
+use Service\FavoriteItemService;
 use View\LatteViewRenderer;
 use Service\PaginationService;
 
@@ -10,12 +11,14 @@ use Service\PaginationService;
 class ItemController
 {
     protected ?ItemService $itemService;
+    protected ?FavoriteItemService $favoriteItemService;
     protected ?LatteViewRenderer $frontendViewhelper;
     protected ?PaginationService $paginationService;
 
     public function __construct()
     {
         $this->itemService = new ItemService();
+        $this->favoriteItemService = new FavoriteItemService();
         $this->frontendViewhelper = new LatteViewRenderer();
         $this->paginationService = new PaginationService();
     }
@@ -65,25 +68,38 @@ class ItemController
     {
         if (isset($_SESSION['user'])) {
             $user = $_SESSION['user'];
-            $itemIds = [9218, 9220, 9303, 9305, 9463, 9464, 9609, 9610];
 
-            $allItems = $this->itemService->getItemsByIds($itemIds);
-            $allItems = $this->itemService->addMarketInfoToItems($allItems);
-            $allItems = $this->itemService->addPriceHistoryToItems($allItems);
+            $favorites = $this->favoriteItemService->getFavoritesForUser($user->getUserId());
 
-            $templateParams = [
-                'items' => $allItems,
-                'user' => $_SESSION['user'] ?? null,
-                'action' => __FUNCTION__
-            ];
+            if ($favorites) {
+
+                $allItems = $this->itemService->getItemsByIds($favorites);
+                $allItems = $this->itemService->addMarketInfoToItems($allItems);
+                $allItems = $this->itemService->addPriceHistoryToItems($allItems);
+
+                $templateParams = [
+                    'items' => $allItems,
+                    'user' => $_SESSION['user'] ?? null,
+                    'action' => __FUNCTION__
+                ];
+            } else {
+                $templateParams = [
+                    'items' => null,
+                    'user' => $_SESSION['user'] ?? null,
+                    'action' => __FUNCTION__
+                ];
+            }
+
+
+
 
             $this->frontendViewhelper->renderStart($templateParams);
         } else {
-
             header('Location: /?controller=User&action=login');
             exit;
         }
     }
+
 
     public function importAction(array $params): void
     {
@@ -117,6 +133,33 @@ class ItemController
             return [['mainCategory' => $mainCategory, 'subCategory' => $subCategory]];
         }
         return $defaultCategoryData;
+    }
+
+    public function toggleFavoriteAction(array $params): void
+    {
+        // Setze den Header möglichst früh, um sicherzustellen, dass keine anderen Inhalte gesendet werden.
+        header('Content-Type: application/json');
+
+        // Prüfe, ob der Benutzer angemeldet ist
+        if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
+            echo json_encode(['success' => false, 'message' => 'Nicht angemeldet']);
+            exit;
+        }
+        $user = $_SESSION['user'];
+        $userId = $user->getUserId();
+
+        // Hole die item_id aus den POST-Daten
+        $itemId = isset($params['item_id']) ? (int) $params['item_id'] : 0;
+        if ($itemId === 0) {
+            echo json_encode(['success' => false, 'message' => 'Ungültige Item-ID']);
+            exit;
+        }
+
+        $result = $this->favoriteItemService->toggleFavorite($userId, $itemId);
+
+        echo json_encode($result);
+
+        exit;
     }
 
 }

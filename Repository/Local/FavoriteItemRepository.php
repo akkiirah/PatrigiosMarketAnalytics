@@ -22,4 +22,9 @@ class FavoriteItemRepository extends AbstractLocalRepository
         $sql = "DELETE FROM user_favorite_item WHERE id = :id";
         return $this->delete($sql, ['id' => $id]);
     }
+    public function getFavoriteForUserAndItem(int $userId, int $itemId): ?array
+    {
+        $sql = "SELECT * FROM user_favorite_item WHERE user_id = :user_id AND item_id = :item_id";
+        return $this->query($sql, ['user_id' => $userId, 'item_id' => $itemId]);
+    }
 }

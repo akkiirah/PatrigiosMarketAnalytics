@@ -4,6 +4,7 @@
     <div class="item-head">
         <img src="{$item->getItemImage()}" alt="Item Image" />
         <h2 class="item-heading">[{$item->getItemId()}] - {$item->getItemName()}</h2>
+        <button class="item-pin active" id="item-pin-{$item->getItemId()}"></button>
     </div>
     <div class="item-body-wrap">
         <div class="item-body">
@@ -14,7 +15,7 @@
                         {$item->getItemBasePrice()|number_format(0, ',', '.')} 
                     </p>
                     
-                    <button class="button price-button" id="priceButton" data-id="{$key+1}"></button>
+                    <button class="button price-button" id="priceButton-{$item->getItemId()}" data-id="{$key+1}"></button>
                 </div>
                 {if $item->getItemPriceHistory() != []}
                     <div class="item-info-value item-pricehistory-wrap">
