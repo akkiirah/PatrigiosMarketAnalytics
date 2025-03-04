@@ -24,4 +24,17 @@ class LatteViewRenderer extends AbstractViewRenderer
 
         $output = $this->latte->renderToString($this->fileDetail, $params);
     }
+
+    public function renderLogin(array $params): void
+    {
+        $this->latte->render($this->fileLogin, $params);
+
+        $output = $this->latte->renderToString($this->fileLogin, $params);
+    }
+    public function renderRegister(array $params): void
+    {
+        $this->latte->render($this->fileRegister, $params);
+
+        $output = $this->latte->renderToString($this->fileRegister, $params);
+    }
 }

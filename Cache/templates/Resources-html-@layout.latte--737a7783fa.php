@@ -48,6 +48,8 @@ final class Template_737a7783fa extends Latte\Runtime\Template
 		$this->createTemplate('footer.latte', $this->params, 'include')->renderToContentType('html') /* line 21 */;
 		echo '            </div>
 		</footer>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.2.1"></script>
         <script type="module" src="/Resources/js/main.js"></script>
 	</body>
 </html>';

@@ -1,5 +1,4 @@
-.button,
-a.button {
+.input {
     padding-block: e_clamp(20rem, 108rem, .5rem, 1.25rem);
     padding-inline: e_clamp(20rem, 108rem, .75rem, 1.5rem);
     border: none;
@@ -8,7 +7,6 @@ a.button {
     color: $clr-yellow;
     font-size: $font-size-base;
     font-weight: 600;
-    text-decoration: none;
 
     transition: color 250ms ease, opacity 250ms ease;
 

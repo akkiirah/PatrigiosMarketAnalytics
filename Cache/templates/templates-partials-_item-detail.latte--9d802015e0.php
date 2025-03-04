@@ -25,6 +25,10 @@ final class Template_9d802015e0 extends Latte\Runtime\Template
 		echo LR\Filters::escapeHtmlAttr($item->getItemLastSaleTime()) /* line 1 */;
 		echo '" data-item-stock="';
 		echo LR\Filters::escapeHtmlAttr($item->getItemCurrentStock()) /* line 1 */;
+		echo '" data-item-minprice="';
+		echo LR\Filters::escapeHtmlAttr($item->getItemHardCapMin()) /* line 1 */;
+		echo '" data-item-maxprice="';
+		echo LR\Filters::escapeHtmlAttr($item->getItemHardCapMax()) /* line 1 */;
 		echo '">
     <div class="item-head">
         <img src="';
@@ -111,11 +115,6 @@ final class Template_9d802015e0 extends Latte\Runtime\Template
 <canvas id="preisChart" width="400" height="200"></canvas>
 <p id="priceHistory" style="display:none;">';
 		echo LR\Filters::escapeHtmlText(($this->filters->json_encode)($item->getItemPriceHistoryDates())) /* line 55 */;
-		echo '</p>
-
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.0.1/dist/chartjs-plugin-zoom.min.js"></script>
-';
+		echo '</p>';
 	}
 }

@@ -11,6 +11,8 @@ abstract class AbstractViewRenderer
     protected string $fileStart = '';
     protected string $fileList = '';
     protected string $fileDetail = '';
+    protected string $fileLogin = '';
+    protected string $fileRegister = '';
 
     public function __construct()
     {
@@ -28,5 +30,7 @@ abstract class AbstractViewRenderer
         $this->fileStart = Constants::DIR_TEMPLATES . 'start.latte';
         $this->fileList = Constants::DIR_TEMPLATES . 'list.latte';
         $this->fileDetail = Constants::DIR_TEMPLATES . 'detail.latte';
+        $this->fileLogin = Constants::DIR_TEMPLATES . 'login.latte';
+        $this->fileRegister = Constants::DIR_TEMPLATES . 'register.latte';
     }
 }

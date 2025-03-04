@@ -24,6 +24,10 @@ final class Template_f2469f38b6 extends Latte\Runtime\Template
 	/** {block header} on line 1 */
 	public function blockHeader(array $ʟ_args): void
 	{
+		extract($this->params);
+		extract($ʟ_args);
+		unset($ʟ_args);
+
 		echo '	<header class="header-wrap">
 		<div class="max-width-layout">
 			<div class="logo-wrap">
@@ -33,6 +37,17 @@ final class Template_f2469f38b6 extends Latte\Runtime\Template
 			<nav class="menu" id="menu">
 				<button id="menu-categories-button"><span>Categories</span></button>
 			</nav>
+			<!-- 
+';
+		if ($loggedIn) /* line 12 */ {
+			echo '				<span>{}</span>
+';
+		} else /* line 14 */ {
+			echo '				<a href="?controller=User&action=login" class="login-btn"></a>
+';
+		}
+		echo '			-->
+			<a href="?controller=User&action=login" class="login-btn"></a>
 		</div>
 	</header>
 	<div id="menu-categories-content" class="max-width-layout"></div>

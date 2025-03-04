@@ -125,7 +125,6 @@ class ApiService
             $localData = $this->priceHistoryRepository->getPriceHistoryForItem($itemId);
 
             if (!empty($localData)) {
-                echo 'LOKAL';
                 foreach ($localData as $record) {
                     if (isset($record['price'])) {
                         $priceInfo[$itemId][$record['historyDate']] = $record['price'];
@@ -139,7 +138,6 @@ class ApiService
 
 
         if (!empty($missingItemIds)) {
-            echo 'API';
             $apiData = $this->apiMarketDataRepository->fetchMultipleItemPriceData($missingItemIds);
             if (isset($apiData['resultCode'], $apiData['resultMsg'])) {
                 $apiData = [$missingItemIds[0] => $apiData];

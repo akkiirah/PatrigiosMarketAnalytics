@@ -236,3 +236,34 @@ a.logo-wrap {
         backdrop-filter: blur(.5rem);
     }
 }
+
+.login-btn {
+    position: relative;
+    display: block;
+    background-color: transparent;
+    border: none;
+    padding-block: .5rem;
+    margin-left: 1rem;
+    transition: scale 250ms ease;
+    width: 1.5rem;
+
+
+    &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background-image: url(/Resources/assets/icons/login.png);
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    &:hover,
+    &:focus-visible {
+        cursor: pointer;
+        scale: 1.1;
+    }
+}

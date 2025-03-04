@@ -12,6 +12,7 @@ export function initApp() {
 
         loadCategories();
 
+
         if (itemsContainer && itemsContainer.classList.contains('list')) {
             initItemsList(itemsWrap);
             setupPagination();

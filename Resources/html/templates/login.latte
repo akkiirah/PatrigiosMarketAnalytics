@@ -1,0 +1,49 @@
+{extends '../@layout.latte'}
+
+{block title}
+    Login
+{/block}
+
+{block content}   
+    <form action="/php/actions/signIn.php" method="post" class="input-login">
+        <div class="left-wrap">
+            <div class="notice-wrap">
+                <span class="notice">Login to Your Account</span>
+                <p class="notice-text">using your credentials</p>
+            </div>
+
+            <input 
+                type="text" 
+                name="username" 
+                class="username-input input" 
+                placeholder="e.g. xXdAnKwEaBooXx" 
+                required>
+            
+            <input 
+                type="password" 
+                name="password" 
+                class="password-input input" 
+                placeholder="e.g. password12345" 
+                required>
+            
+            <button type="submit" class="send-button button" title="Login" name="submitlogin">Sign In</button>
+
+            {if isset($msg)}
+                <span>{$msg}</span>
+            {/if}
+        </div>
+        <div class="right-wrap">
+            <div class="notice-wrap">
+                <span class="notice">New Here?</span>
+                <p class="notice-text">Sign Up and gain access to new features!<br/>Get started with <span>Patrigios Market Analytics</span> today!</p>
+            </div>
+            <a href="?controller=User&action=register" class="switch-button button">
+                Sign Up
+            </a>
+        </div>
+    </form>
+{/block}
+
+{block footer}
+    {include 'footer.latte'}
+{/block}
