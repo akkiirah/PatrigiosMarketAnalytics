@@ -259,7 +259,7 @@ a.item-wrap {
     border: none;
     padding-block: .5rem;
     margin-left: .25rem;
-    transition: scale 250ms ease;
+    transition: scale 250ms ease, rotate 250ms ease;
     width: 2rem;
     aspect-ratio: 1/1;
 
@@ -292,6 +292,7 @@ a.item-wrap {
     &:hover,
     &:focus-visible {
         cursor: pointer;
-        scale: 1.1;
+        scale: 1.2;
+        rotate: -45deg;
     }
 }
