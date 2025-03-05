@@ -18,9 +18,17 @@
     </div>
     <div id="itemsContainer" class="start">
         <div class="items-wrap">
+        {if $items and count($items)}
             {foreach $items as $key => $item}
                 {include 'partials/_item-start.latte' item => $item, key => $key}
             {/foreach}
+        {else}
+            {if $user}
+                <h2 class="highlight">No favorites saved.</h2>
+            {else}
+                <h2 class="highlight">No items found. Probably rate limited.</h2>
+            {/if}
+        {/if}
         </div>
     </div>
 {/block}

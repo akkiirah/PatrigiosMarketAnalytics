@@ -22,7 +22,7 @@ final class Template_75fa26b43c extends Latte\Runtime\Template
 		echo "\n";
 		$this->renderBlock('content', get_defined_vars()) /* line 7 */;
 		echo "\n";
-		$this->renderBlock('footer', get_defined_vars()) /* line 28 */;
+		$this->renderBlock('footer', get_defined_vars()) /* line 36 */;
 	}
 
 
@@ -31,7 +31,7 @@ final class Template_75fa26b43c extends Latte\Runtime\Template
 		extract($this->params);
 
 		if (!$this->getReferringTemplate() || $this->getReferenceType() === 'extends') {
-			foreach (array_intersect_key(['key' => '21', 'item' => '21'], $this->params) as $ʟ_v => $ʟ_l) {
+			foreach (array_intersect_key(['key' => '22', 'item' => '22'], $this->params) as $ʟ_v => $ʟ_l) {
 				trigger_error("Variable \$$ʟ_v overwritten in foreach on line $ʟ_l");
 			}
 		}
@@ -74,23 +74,33 @@ final class Template_75fa26b43c extends Latte\Runtime\Template
     <div id="itemsContainer" class="start">
         <div class="items-wrap">
 ';
-		foreach ($items as $key => $item) /* line 21 */ {
-			$this->createTemplate('partials/_item-start.latte', ['item' => $item, 'key' => $key] + $this->params, 'include')->renderToContentType('html') /* line 22 */;
-		}
+		if ($items and count($items)) /* line 21 */ {
+			foreach ($items as $key => $item) /* line 22 */ {
+				$this->createTemplate('partials/_item-start.latte', ['item' => $item, 'key' => $key] + $this->params, 'include')->renderToContentType('html') /* line 23 */;
+			}
 
+		} else /* line 25 */ {
+			if ($user) /* line 26 */ {
+				echo '                <h2 class="highlight">No favorites saved.</h2>
+';
+			} else /* line 28 */ {
+				echo '                <h2 class="highlight">No items found. Probably rate limited.</h2>
+';
+			}
+		}
 		echo '        </div>
     </div>
 ';
 	}
 
 
-	/** {block footer} on line 28 */
+	/** {block footer} on line 36 */
 	public function blockFooter(array $ʟ_args): void
 	{
 		extract($this->params);
 		extract($ʟ_args);
 		unset($ʟ_args);
 
-		$this->createTemplate('partials/footer.latte', $this->params, 'include')->renderToContentType('html') /* line 29 */;
+		$this->createTemplate('partials/footer.latte', $this->params, 'include')->renderToContentType('html') /* line 37 */;
 	}
 }

@@ -10,7 +10,10 @@ export function distributeItems(itemsWrap) {
     else maxColumns = 3;
 
     const items = Array.from(itemsWrap.querySelectorAll('.item-wrap'));
-    console.log(items);
+
+    if (items.length === 0) {
+        return;
+    }
 
     itemsWrap.innerHTML = '';
 
