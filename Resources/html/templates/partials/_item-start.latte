@@ -4,7 +4,9 @@
     <div class="item-head">
         <img src="{$item->getItemImage()}" alt="Item Image" />
         <h2 class="item-heading">[{$item->getItemId()}] - {$item->getItemName()}</h2>
-        <button class="item-pin active" id="item-pin-{$item->getItemId()}"></button>
+        {if $user}
+            <button class="item-pin active" id="item-pin-{$item->getItemId()}"></button>
+        {/if}
     </div>
     <div class="item-body-wrap">
         <div class="item-body">

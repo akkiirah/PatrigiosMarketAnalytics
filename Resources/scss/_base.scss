@@ -33,6 +33,18 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+
+    &::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: .25rem;
+        width: var(--progress, 0%);
+        background-color: $clr-sapphire;
+        z-index: 9999;
+        transition: width 100ms ease;
+    }
 }
 
 header,

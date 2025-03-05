@@ -36,7 +36,24 @@ export function initItemsList(itemsWrap) {
     }, 250);
 }
 
+function startProgressBar(waitTime) {
+    const startTime = Date.now();
+    function update() {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min((elapsed / waitTime) * 100, 100);
+        document.body.style.setProperty('--progress', progress + '%');
+        if (progress < 100) {
+            requestAnimationFrame(update);
+        }
+    }
+    update();
+}
+
 export function refreshData(waitInSecs) {
+    const waitTime = waitInSecs * 1000;
+
+    startProgressBar(waitTime);
+
     setTimeout(() => {
         const expandedItems = [];
         document.querySelectorAll('.price-button.expanded').forEach(btn => {
@@ -75,11 +92,13 @@ export function refreshData(waitInSecs) {
                     }
                 });
 
+                document.body.style.setProperty('--progress', '0%');
+
                 refreshData(waitInSecs);
                 window.addEventListener('resize', debounce(() => distributeItems(newItemsWrap), 100));
             })
             .catch(error => console.error('Fehler beim Laden der neuen Seite:', error));
-    }, 1000 * waitInSecs);
+    }, waitTime);
 }
 
 

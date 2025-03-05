@@ -33,7 +33,7 @@ export function initApp() {
         if (itemsContainer && itemsContainer.classList.contains('start')) {
             distributeItems(itemsWrap);
             window.addEventListener('resize', debounce(() => distributeItems(itemsWrap), 100));
-            refreshData(20, itemsWrap);
+            refreshData(10, itemsWrap);
             showPriceHistory();
             toggleFavoriteItem();
         }

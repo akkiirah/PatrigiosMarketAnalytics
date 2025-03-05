@@ -109,7 +109,9 @@ class ItemService
         $newItems = [];
         foreach ($items as $item) {
             $itemId = $item->getItemId();
-            $newItems[] = $this->itemMapper->addMarketInfo($item, $marketData[$itemId] ?? null);
+            if (isset($marketData[$itemId]) && $marketData[$itemId]) {
+                $newItems[] = $this->itemMapper->addMarketInfo($item, $marketData[$itemId]);
+            }
         }
         return $newItems;
     }
