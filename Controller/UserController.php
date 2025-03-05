@@ -22,7 +22,7 @@ class UserController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user = $this->userService->loginUser($params);
-
+            $error = '';
             var_dump($user);
 
             if ($user) {
@@ -48,6 +48,7 @@ class UserController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user = $this->userService->registerUser($params);
+            $error = '';
 
             if ($user) {
                 session_regenerate_id(true); // Verhindert Session-Fixation

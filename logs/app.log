@@ -1,1 +1,1 @@
-[2025-02-19 15:14:20] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined array key 0 in /var/www/html/web/Cache/templates/templates-partials-_item-start.latte--f8949a5826.php on line 49 
+[2025-02-19 15:14:20] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined array key 0 in /var/www/html/web/Cache/templates/templates-partials-_item-start.latte--f8949a5826.php on line 49 [2025-03-05 15:43:56] [ERROR] [/var/www/html/web/Util/ErrorHandler.php:31][error] Undefined variable $error in /var/www/html/web/Controller/UserController.php on line 39 
