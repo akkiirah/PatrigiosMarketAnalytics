@@ -65,6 +65,12 @@ class ApiService
         }
         return $items;
     }
+    public function getRandomItems(): array
+    {
+        $items = $this->itemRepository->getRandomItems();
+
+        return $items;
+    }
 
     /**
      * Liefert alle Items.

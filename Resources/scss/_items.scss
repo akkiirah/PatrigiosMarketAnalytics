@@ -101,6 +101,11 @@ a.item-wrap {
     padding-bottom: e_clamp(20rem, 120rem, .5rem, 1rem);
     margin-bottom: e_clamp(20rem, 120rem, .5rem, 2rem);
     border-bottom: .125rem solid $clr-yellow;
+
+    img {
+        height: 2.75rem;
+        width: 2.75rem;
+    }
 }
 
 .item-body {

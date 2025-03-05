@@ -22,7 +22,7 @@ final class Template_75fa26b43c extends Latte\Runtime\Template
 		echo "\n";
 		$this->renderBlock('content', get_defined_vars()) /* line 7 */;
 		echo "\n";
-		$this->renderBlock('footer', get_defined_vars()) /* line 23 */;
+		$this->renderBlock('footer', get_defined_vars()) /* line 28 */;
 	}
 
 
@@ -31,7 +31,7 @@ final class Template_75fa26b43c extends Latte\Runtime\Template
 		extract($this->params);
 
 		if (!$this->getReferringTemplate() || $this->getReferenceType() === 'extends') {
-			foreach (array_intersect_key(['key' => '16', 'item' => '16'], $this->params) as $ʟ_v => $ʟ_l) {
+			foreach (array_intersect_key(['key' => '21', 'item' => '21'], $this->params) as $ʟ_v => $ʟ_l) {
 				trigger_error("Variable \$$ʟ_v overwritten in foreach on line $ʟ_l");
 			}
 		}
@@ -57,17 +57,25 @@ final class Template_75fa26b43c extends Latte\Runtime\Template
 
 		echo '    <div class="heading">
         <div class="title">
-            <h1>Hello <span class="highlight">';
-		echo LR\Filters::escapeHtmlText($user->getUserName()) /* line 10 */;
-		echo '</span></h1>
+';
+		if ($user) /* line 10 */ {
+			echo '            <h1>Hello <span class="highlight">';
+			echo LR\Filters::escapeHtmlText($user->getUserName()) /* line 11 */;
+			echo '</span></h1>
             <h2>Favorite Items</h2>
-        </div>
+';
+		} else /* line 13 */ {
+			echo '            <h1>Homepage</span></h1>
+            <h2>Random Items (log in to customize pinned items)</h2>
+';
+		}
+		echo '        </div>
     </div>
     <div id="itemsContainer" class="start">
         <div class="items-wrap">
 ';
-		foreach ($items as $key => $item) /* line 16 */ {
-			$this->createTemplate('partials/_item-start.latte', ['item' => $item, 'key' => $key] + $this->params, 'include')->renderToContentType('html') /* line 17 */;
+		foreach ($items as $key => $item) /* line 21 */ {
+			$this->createTemplate('partials/_item-start.latte', ['item' => $item, 'key' => $key] + $this->params, 'include')->renderToContentType('html') /* line 22 */;
 		}
 
 		echo '        </div>
@@ -76,13 +84,13 @@ final class Template_75fa26b43c extends Latte\Runtime\Template
 	}
 
 
-	/** {block footer} on line 23 */
+	/** {block footer} on line 28 */
 	public function blockFooter(array $ʟ_args): void
 	{
 		extract($this->params);
 		extract($ʟ_args);
 		unset($ʟ_args);
 
-		$this->createTemplate('partials/footer.latte', $this->params, 'include')->renderToContentType('html') /* line 24 */;
+		$this->createTemplate('partials/footer.latte', $this->params, 'include')->renderToContentType('html') /* line 29 */;
 	}
 }

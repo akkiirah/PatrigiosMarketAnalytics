@@ -91,13 +91,19 @@ class ItemController
             }
 
 
-
-
-            $this->frontendViewhelper->renderStart($templateParams);
         } else {
-            header('Location: /?controller=User&action=login');
-            exit;
+            $allItems = $this->itemService->getRandomItems();
+            $allItems = $this->itemService->addMarketInfoToItems($allItems);
+            $allItems = $this->itemService->addPriceHistoryToItems($allItems);
+
+            $templateParams = [
+                'items' => $allItems,
+                'user' => null,
+                'action' => __FUNCTION__
+            ];
         }
+
+        $this->frontendViewhelper->renderStart($templateParams);
     }
 
 

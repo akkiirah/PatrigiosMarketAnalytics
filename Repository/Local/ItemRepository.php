@@ -9,6 +9,11 @@ class ItemRepository extends AbstractLocalRepository
         $sql = "SELECT * FROM item WHERE id = :id";
         return $this->query($sql, ['id' => $id]);
     }
+    public function getRandomItems(): ?array
+    {
+        $sql = "SELECT * FROM item ORDER BY RAND() LIMIT 12";
+        return $this->queryAll($sql);
+    }
 
     public function getItemsByCategoryData(array $data): ?array
     {

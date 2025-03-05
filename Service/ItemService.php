@@ -67,6 +67,20 @@ class ItemService
         return $items;
     }
 
+    public function getRandomItems(): array
+    {
+        $rawData = $this->apiService->getRandomItems();
+
+        $rawData = $this->processItemImages($rawData);
+
+        $items = [];
+        foreach ($rawData as $rawItem) {
+            $item = $this->itemMapper->createItemFromArray($rawItem);
+            $items[$item->getItemId()] = $item;
+        }
+        return $items;
+    }
+
     /**
      * Liefert alle Items.
      */

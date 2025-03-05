@@ -7,8 +7,13 @@
 {block content}
     <div class="heading">
         <div class="title">
+            {if $user}
             <h1>Hello <span class="highlight">{$user->getUserName()}</span></h1>
             <h2>Favorite Items</h2>
+            {else}
+            <h1>Homepage</span></h1>
+            <h2>Random Items (log in to customize pinned items)</h2>
+            {/if} 
         </div>
     </div>
     <div id="itemsContainer" class="start">
